@@ -1,5 +1,3 @@
-const { clamp } = require("framer-motion")
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

@@ -1,29 +1,29 @@
-'use client';
+"use client"
 
-import { SocialIcon } from 'react-social-icons';
-import ButtonAuth from '../button/ButtonAuth';
-import { UserIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { SocialIcon } from "react-social-icons"
+import ButtonAuth from "../Button/ButtonAuth"
+import { UserIcon } from "@heroicons/react/24/solid"
+import { useState } from "react"
 
-type Props = {};
+type Props = {}
 
 const providers = [
   {
-    name: 'Google',
-    url: 'http://localhost:5000/api/v1/auth/google',
+    name: "Google",
+    url: "http://localhost:5000/api/v1/auth/google",
   },
   {
-    name: 'Facebook',
-    url: 'http://localhost:5000/api/v1/auth/facebook',
+    name: "Facebook",
+    url: "http://localhost:5000/api/v1/auth/facebook",
   },
   {
-    name: 'Github',
-    url: 'http://localhost:5000/api/v1/auth/github',
+    name: "Github",
+    url: "http://localhost:5000/api/v1/auth/github",
   },
-];
+]
 
 const LoginForm = (props: Props) => {
-  const [activeAuthForm, setActiveAuthForm] = useState<boolean>(false);
+  const [activeAuthForm, setActiveAuthForm] = useState<boolean>(false)
   return !activeAuthForm ? (
     <div className="mt-8 space-y-4">
       <ButtonAuth
@@ -50,7 +50,7 @@ const LoginForm = (props: Props) => {
     </div>
   ) : (
     <div>hello</div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import Button from "../common/button/Button"
+import Button from "../common/Button/Button"
 
 type Props = {}
 

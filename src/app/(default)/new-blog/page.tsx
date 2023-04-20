@@ -1,14 +1,27 @@
-import Editor from '@/components/layouts/Editor';
-import dynamic from 'next/dynamic';
+"use client"
+import Editor from "@/components/layouts/Editor"
+import { motion } from "framer-motion"
 
-type Props = {};
+type Props = {}
 
 const page = (props: Props) => {
   return (
-    <div className="flex-1">
+    <section className="flex-1 space-y-6 p-10">
+      <h1 className="text-2xl relative bg-gradient-to-b from-pink-700 to-red-400 bg-clip-text pb-4 font-bold text-transparent">
+        {"<Viết Blog />"}
+        <motion.span
+          initial={{ width: 0 }}
+          animate={{ width: "50%" }}
+          transition={{
+            duration: 0.7,
+            type: "spring",
+          }}
+          className="absolute bottom-0 left-0 h-1 rounded-full bg-gradient-to-r from-pink-700 to-red-400"
+        ></motion.span>
+      </h1>
       <Editor />
-    </div>
-  );
-};
+    </section>
+  )
+}
 
-export default page;
+export default page

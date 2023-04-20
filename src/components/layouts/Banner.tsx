@@ -15,7 +15,7 @@ import { EnvelopeIcon, CodeBracketIcon } from "@heroicons/react/24/solid"
 
 import { useEffect, useState } from "react"
 import clsx from "clsx"
-import Button from "../common/button/Button"
+import Button from "../common/Button/Button"
 
 type Props = {}
 const desc =

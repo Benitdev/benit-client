@@ -6,7 +6,7 @@
 
 @layer base {
   html {
-    @apply font-openSans;
+    @apply font-inter;
   }
   button:disabled {
     @apply cursor-not-allowed opacity-50;
