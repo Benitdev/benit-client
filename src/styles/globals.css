@@ -110,6 +110,14 @@
     right: 0;
     width: 100%;
   }
+  /* customize mui  */
+  .MuiPaper-root {
+    @apply !bg-slate-900 !text-slate-200 shadow-xl;
+  }
+}
+
+.MuiListItemIcon-root {
+  @apply !text-slate-200;
 }
 
 @keyframes glow-visibility {

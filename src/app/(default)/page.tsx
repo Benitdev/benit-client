@@ -1,6 +1,6 @@
-import Banner from "@/components/layouts/Banner"
-import CourseList from "@/components/layouts/CourseList"
-import PostList from "@/components/layouts/PostList"
+import Banner from "@/components/ui/Banner"
+import CourseList from "@/components/ui/CourseList"
+import PostList from "@/components/ui/PostList"
 
 import type { Metadata } from "next"
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Welcome to Benit",
 }
 
-export default function Page() {
+export default function HomePage() {
   return (
     <main className="minx-h-screen flex-1 overflow-hidden">
       <Banner />

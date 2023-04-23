@@ -7,11 +7,11 @@ type Props = {}
 
 const Header = (props: Props) => {
   return (
-    <header className="stick top-0 z-[999] flex h-[90px] items-center gap-4 pr-4">
+    <header className="sticky top-0 z-[999] flex h-[90px] items-center gap-4 bg-slate-900 pr-4">
       <div className="flex w-[260px] shrink-0 items-center justify-between pl-5">
         <SmallLogo />
-        <button className="rounded-xl bg-pink-700/50 p-1">
-          <IconMenu2 className="text-pink-700" />
+        <button className="group rounded-xl bg-pink-700/10 p-1 hover:bg-pink-700">
+          <IconMenu2 className="text-pink-800 group-hover:text-slate-200" />
         </button>
       </div>
       <div className="flex flex-1 items-center justify-between p-5">

@@ -6,6 +6,7 @@ type Props = {
   scale?: boolean
   small?: boolean
   children: React.ReactNode
+  onClick?: () => void
 }
 
 const Button = ({
@@ -14,6 +15,7 @@ const Button = ({
   classStroke,
   small,
   children,
+  onClick,
 }: Props) => {
   return (
     <button
@@ -26,6 +28,7 @@ const Button = ({
           "hover:scale-110": scale,
         }
       )}
+      onClick={onClick}
     >
       {children}
       <svg className="glow-container">

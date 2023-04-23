@@ -15,15 +15,14 @@ import { EnvelopeIcon, CodeBracketIcon } from "@heroicons/react/24/solid"
 
 import { useEffect, useState } from "react"
 import clsx from "clsx"
-import Button from "../common/Button/Button"
+import Button from "../common/Button"
 
-type Props = {}
 const desc =
   "Nơi học tập, chia sẻ kiến thức về lập trình, công nghệ, xây dựng UI Website."
 
 const slides = [HtmlIcon, CssIcon, JsIcon, ReactIcon, AngularIcon, VueIcon]
 
-const Banner = (props: Props) => {
+const Banner = () => {
   const [slideActive, setSlideActive] = useState<number>(0)
   useEffect(() => {
     setTimeout(() => {

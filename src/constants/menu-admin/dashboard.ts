@@ -1,8 +1,5 @@
 // assets
-import { IconDashboard } from "@tabler/icons-react"
-
-// constant
-const icons = { IconDashboard }
+import { IconLayoutDashboard } from "@tabler/icons-react"
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -16,7 +13,7 @@ const dashboard = {
       title: "Dashboard",
       type: "item",
       url: "/admin",
-      icon: icons.IconDashboard,
+      icon: IconLayoutDashboard,
       breadcrumbs: false,
     },
   ],

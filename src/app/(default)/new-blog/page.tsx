@@ -1,10 +1,10 @@
 "use client"
-import Editor from "@/components/layouts/Editor"
+import Editor from "@/components/ui/Editor"
 import { motion } from "framer-motion"
 
 type Props = {}
 
-const page = (props: Props) => {
+const NewBlog = (props: Props) => {
   return (
     <section className="flex-1 space-y-6 p-10">
       <h1 className="text-2xl relative bg-gradient-to-b from-pink-700 to-red-400 bg-clip-text pb-4 font-bold text-transparent">
@@ -24,4 +24,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default NewBlog

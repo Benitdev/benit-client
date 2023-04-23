@@ -1,13 +1,13 @@
-import Header from '@/components/layouts/Header';
-import Sidebar from '@/components/layouts/Sidebar';
-import authApi from '@/apis/server-side/auth.api';
+import Header from "@/components/ui/Header"
+import Sidebar from "@/components/ui/Sidebar"
+import authApi from "@/api/server-side/auth.api"
 
 export default async function DefaultLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const user = await authApi.getUser().catch(() => {});
+  const user = await authApi.getUser().catch(() => {})
 
   return (
     <>
@@ -17,5 +17,5 @@ export default async function DefaultLayout({
         {children}
       </div>
     </>
-  );
+  )
 }

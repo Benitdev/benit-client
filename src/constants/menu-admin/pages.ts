@@ -1,5 +1,12 @@
 // assets
-import { IconKey, IconDashboard, IconUserCircle } from "@tabler/icons-react"
+import {
+  IconKey,
+  IconNotebook,
+  IconUserCircle,
+  IconCategory2,
+  IconArticle,
+  IconCode,
+} from "@tabler/icons-react"
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
@@ -22,7 +29,7 @@ const pages = {
       title: "Course Category",
       type: "item",
       url: "/admin/course-category",
-      icon: IconDashboard,
+      icon: IconCategory2,
       breadcrumbs: false,
     },
     {
@@ -30,7 +37,7 @@ const pages = {
       title: "Course",
       type: "item",
       url: "/admin/course",
-      icon: IconDashboard,
+      icon: IconNotebook,
       breadcrumbs: false,
     },
     {
@@ -38,7 +45,7 @@ const pages = {
       title: "Blog Category",
       type: "item",
       url: "/admin/blog-category",
-      icon: IconDashboard,
+      icon: IconCategory2,
       breadcrumbs: false,
     },
     {
@@ -46,7 +53,24 @@ const pages = {
       title: "Blog",
       type: "item",
       url: "/admin/blog",
-      icon: IconDashboard,
+      icon: IconArticle,
+      breadcrumbs: false,
+    },
+
+    {
+      id: "7",
+      title: "Code Category",
+      type: "item",
+      url: "/admin/code-category",
+      icon: IconCategory2,
+      breadcrumbs: false,
+    },
+    {
+      id: "6",
+      title: "Code Template",
+      type: "item",
+      url: "/admin/code",
+      icon: IconCode,
       breadcrumbs: false,
     },
   ],

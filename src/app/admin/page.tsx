@@ -1,7 +1,7 @@
 type Props = {}
 
-const page = (props: Props) => {
-  return <div>page</div>
+const DashBoard = (props: Props) => {
+  return <div>DashBoard</div>
 }
 
-export default page
+export default DashBoard

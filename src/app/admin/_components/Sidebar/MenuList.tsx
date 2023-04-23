@@ -1,5 +1,5 @@
+"use client"
 import menuItems from "@/constants/menu-admin"
-import { Typography } from "@mui/material"
 
 import NavGroup from "./NavGroup"
 

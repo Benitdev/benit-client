@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html className={`${inter.variable} ${openSans.variable}`}>
-      <body className="overflow-y-scroll bg-slate-900 text-base">
+      <body className="bg-slate-900 text-base">
         <div id="root">{children}</div>
       </body>
     </html>

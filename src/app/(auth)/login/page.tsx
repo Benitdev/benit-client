@@ -2,12 +2,12 @@ import Link from "next/link"
 
 import Heading from "@/components/common/Heading"
 import SmallLogo from "@/components/common/Logo/SmallLogo"
-import Particles from "@/components/layouts/Particles"
+import Particles from "@/components/ui/Particles"
 import LoginForm from "@/components/common/Form/LoginForm"
 
 type Props = {}
 
-const page = (props: Props) => {
+const Login = (props: Props) => {
   return (
     <div className="relative flex h-screen w-full items-center justify-center">
       <Particles />
@@ -28,4 +28,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Login
