@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import { ButtonHTMLAttributes } from "react"
 
 type Props = {
   classStroke?: string
@@ -16,7 +17,8 @@ const Button = ({
   small,
   children,
   onClick,
-}: Props) => {
+  ...props
+}: Props & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       className={clsx(
@@ -29,6 +31,7 @@ const Button = ({
         }
       )}
       onClick={onClick}
+      {...props}
     >
       {children}
       <svg className="glow-container">

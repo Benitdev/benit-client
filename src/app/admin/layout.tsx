@@ -2,6 +2,7 @@ import authApi from "@/api/server-side/auth.api"
 import Sidebar from "./_components/Sidebar"
 import Header from "./_components/Header"
 import ReactQueryProvider from "@/contexts/ReactQueryProvider"
+import ToastContainer from "./_components/Toast/ToastContainer"
 
 export const metadata = {
   title: {
@@ -29,6 +30,7 @@ export default async function AdminLayout({
           </section>
         </div>
       </ReactQueryProvider>
+      <ToastContainer />
     </div>
   )
 }

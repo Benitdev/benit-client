@@ -1,38 +1,63 @@
 import { ForwardedRef, forwardRef } from "react"
 
-import { IconPlus, IconX } from "@tabler/icons-react"
+import { IconEdit, IconPlus, IconX } from "@tabler/icons-react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "react-toastify"
 
 import Button from "@/components/common/Button"
+import courseCateApi from "@/api/client-side/courseCateApi"
+import { TAction, TCourseCate } from "@/types"
 
 const schema = yup
   .object({
     title: yup.string().required(),
-    brand: yup.number().positive().integer().required(),
+    description: yup.string().required(),
   })
   .required()
 
 type Props = {
-  handleClose: () => void
+  toggleForm: () => void
+  action: TAction
+  selectedRow: TCourseCate | {}
 }
 type FormData = yup.InferType<typeof schema>
 
-const CourseForm = forwardRef(function CourseForm(
-  { handleClose }: Props,
+const CourseCateForm = forwardRef(function CourseForm(
+  { toggleForm, action, selectedRow }: Props,
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: selectedRow,
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn:
+      action === TAction.Add
+        ? courseCateApi.addCourseCate
+        : courseCateApi.updateCourseCate,
+    onSuccess: (data) => {
+      toggleForm()
+      toast.success(data.message)
+      reset()
+      queryClient.invalidateQueries(["course-categories"])
+    },
+    onError: (error) => {
+      toast.error(error as string)
+    },
+  })
+
+  const onSubmit = (data: FormData) => {
+    mutation.mutate(data)
   }
 
   return (
@@ -44,7 +69,7 @@ const CourseForm = forwardRef(function CourseForm(
         Add Course
         <button
           className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
-          onClick={handleClose}
+          onClick={toggleForm}
         >
           <IconX />
         </button>
@@ -70,59 +95,7 @@ const CourseForm = forwardRef(function CourseForm(
               {errors.title?.message}
             </small>
           </div>
-          <div>
-            <label
-              htmlFor="brand"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
-            >
-              Brand
-            </label>
-            <input
-              {...register("brand")}
-              type="text"
-              id="brand"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600 focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="Product brand"
-              required
-            />
-            <small className="font-bold capitalize text-pink-600">
-              {errors.brand?.message}
-            </small>
-          </div>
-          <div>
-            <label
-              htmlFor="price"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
-            >
-              Price
-            </label>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600 focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="$2999"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="category"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
-            >
-              Category
-            </label>
-            <select
-              id="category"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-            >
-              <option>Select category</option>
-              <option value="TV">TV/Monitors</option>
-              <option value="PC">PC</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
-            </select>
-          </div>
+
           <div className="sm:col-span-2">
             <label
               htmlFor="description"
@@ -131,6 +104,7 @@ const CourseForm = forwardRef(function CourseForm(
               Description
             </label>
             <textarea
+              {...register("description")}
               id="description"
               rows={4}
               className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
@@ -139,18 +113,27 @@ const CourseForm = forwardRef(function CourseForm(
           </div>
         </div>
         <Button
-          className="bg-pink-700"
+          className="mx-auto mt-8 bg-pink-700"
           classStroke="stroke-pink-600"
           small
           type="submit"
-          // onClick={() => setIsOpenForm(true)}
+          disabled={mutation.isLoading}
         >
-          <IconPlus />
-          <span>Add new course</span>
+          {action === TAction.Add ? (
+            <>
+              <IconPlus />
+              <span>Add new course</span>
+            </>
+          ) : (
+            <>
+              <IconEdit />
+              <span>Edit course</span>
+            </>
+          )}
         </Button>
       </form>
     </div>
   )
 })
 
-export default CourseForm
+export default CourseCateForm
