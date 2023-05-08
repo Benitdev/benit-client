@@ -3,25 +3,26 @@ import { useState, useMemo } from "react"
 
 import Button from "@/components/common/Button"
 import { Modal } from "@mui/material"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import type {
   GridColDef,
   GridColumnHeaderParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid"
-import { toast } from "react-toastify"
 
 import Table from "../../_components/Table/Table"
-import CourseCateForm from "./CourseCateForm"
+import AccountForm from "./AccountForm"
 import dayjs from "dayjs"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCategory } from "@/hooks/useCategory"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import categoryApi from "@/api/client-side/categoryApi"
+import { toast } from "react-toastify"
+import { useAccount } from "@/hooks"
 
 type Props = {}
 
-const CourseCatePage = ({}: Props) => {
+const AccountPage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
@@ -30,23 +31,33 @@ const CourseCatePage = ({}: Props) => {
     () => [
       { field: "_id", headerName: "ID", width: 90 },
       {
-        field: "title",
-        headerName: "Tiêu đề",
+        field: "fullName",
+        headerName: "Họ và tên",
         flex: 0.5,
       },
       {
-        field: "slug",
-        headerName: "Slug",
+        field: "email",
+        headerName: "Email",
         flex: 1,
       },
       {
-        field: "Mô tả",
-        headerName: "Description",
-        flex: 1,
+        field: "role",
+        headerName: "Vai trò",
+        flex: 0.5,
+      },
+      {
+        field: "status",
+        headerName: "Trạng thái",
+        flex: 0.5,
+        renderCell: (params) => (
+          <span className="rounded-xl bg-green-500 px-4 py-2 font-bold capitalize text-slate-900">
+            {params.row.status}
+          </span>
+        ),
       },
       {
         field: "createdAt",
-        headerName: "Ngày tạo",
+        headerName: "Create At",
         sortable: false,
         flex: 1,
         valueGetter: (params: GridValueGetterParams) =>
@@ -54,7 +65,7 @@ const CourseCatePage = ({}: Props) => {
       },
       {
         field: "action",
-        headerName: "",
+        headerName: "Action",
         flex: 1,
         align: "center",
         headerAlign: "center",
@@ -89,13 +100,13 @@ const CourseCatePage = ({}: Props) => {
     ],
     []
   )
-  const { data, isLoading } = useCategory("course-categories", "course")
-
   const queryClient = useQueryClient()
+
+  const { data, isLoading } = useAccount()
   const deleteMutation = useMutation({
     mutationFn: categoryApi.delete,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["course-categories", "course"])
+      queryClient.invalidateQueries(["blog-categories"])
       toast.success(data.message)
       setIsOpenForm(false)
     },
@@ -108,7 +119,7 @@ const CourseCatePage = ({}: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between border-b border-slate-100/20 px-10 py-6">
-        <h1 className="text-heading tracking-wider">Danh mục khoá học</h1>
+        <h1 className="text-heading">Tài khoản</h1>
         <Button
           className="bg-pink-700"
           classStroke="stroke-pink-600"
@@ -119,14 +130,14 @@ const CourseCatePage = ({}: Props) => {
             setIsOpenForm(true)
           }}
         >
-          Thêm danh mục khoá học
+          Thêm tài khoản
         </Button>
       </div>
       <div className="mt-5 px-10">
         <Table
           columns={columns}
           rows={data ?? []}
-          pageSize={10}
+          pageSize={8}
           isLoading={isLoading}
         />
       </div>
@@ -137,7 +148,7 @@ const CourseCatePage = ({}: Props) => {
         aria-describedby="modal-modal-description"
       >
         {action !== TAction.Delete ? (
-          <CourseCateForm
+          <AccountForm
             toggleForm={handleClose}
             action={action}
             selectedRow={selectedRow ?? {}}
@@ -146,8 +157,8 @@ const CourseCatePage = ({}: Props) => {
           <DeleteForm
             toggleForm={handleClose}
             selectedRowId={selectedRow?._id as string}
-            type="danh mục khoá học"
             handleDelete={deleteMutation.mutate}
+            type="Course"
           />
         )}
       </Modal>
@@ -155,4 +166,4 @@ const CourseCatePage = ({}: Props) => {
   )
 }
 
-export default CourseCatePage
+export default AccountPage

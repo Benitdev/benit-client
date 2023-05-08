@@ -1,62 +1,147 @@
-import { ForwardedRef, forwardRef } from "react"
+import { ForwardedRef, forwardRef, useState } from "react"
 
-import { IconPlus, IconX } from "@tabler/icons-react"
-import { useForm } from "react-hook-form"
+import { IconEdit, IconMinus, IconPlus, IconX } from "@tabler/icons-react"
+import { useForm, useFieldArray } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
 import Button from "@/components/common/Button"
+import { TAction } from "@/types"
+import { useCategory } from "@/hooks"
+import Select from "@/components/common/Select"
+import { COURSE_TYPE } from "@/constants/options"
+import LessonForm from "./LessonForm"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import courseApi from "@/api/client-side/courseApi"
+import { toast } from "react-toastify"
+import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
+import Image from "next/image"
 
 const schema = yup
   .object({
-    title: yup.string().required(),
-    brand: yup.number().positive().integer().required(),
+    title: yup.string().required("Title là bắt buộc!"),
+    categoryID: yup.string().required(),
+    type: yup.string().required(),
+    goals: yup.array().of(yup.string().required()),
+    courserChapters: yup.array().of(
+      yup.object({
+        index: yup.string().required(),
+        title: yup.string().required("Tiêu đề chương là bắt buộc!"),
+        description: yup.string(),
+        lesson: yup.array().of(
+          yup.object({
+            title: yup.string().required("Tiêu đề bài học là bắt buộc!"),
+            videoID: yup.string().required(),
+          })
+        ),
+      })
+    ),
+    description: yup.string().required("Mô tả khoá học là bắt buộc!"),
   })
   .required()
 
 type Props = {
-  handleClose: () => void
+  toggleForm: () => void
+  action: TAction
+  selectedRow: any | {}
 }
 type FormData = yup.InferType<typeof schema>
 
 const CourseForm = forwardRef(function CourseForm(
-  { handleClose }: Props,
+  { action, selectedRow, toggleForm }: Props,
   ref: ForwardedRef<HTMLDivElement>
 ) {
+  const [openLessonModal, setOpenLessonModal] = useState<boolean>(false)
+  const [imagePath, setImagePath] = useState<string>(
+    action === TAction.Edit ? selectedRow.image : ""
+  )
   const {
     register,
     handleSubmit,
+    control,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues:
+      action === TAction.Edit
+        ? { ...selectedRow, categoryID: selectedRow.categoryID._id }
+        : {},
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const {
+    fields: goalsFields,
+    append: appendGoal,
+    remove: removeGoal,
+  } = useFieldArray({
+    control,
+    name: "goals" as never,
+  })
+
+  const {
+    fields: chaptersFields,
+    append: appendChapter,
+    remove: removeChapter,
+  } = useFieldArray({
+    control,
+    name: "courserChapters" as never,
+  })
+
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn:
+      action === TAction.Add ? courseApi.addCourse : courseApi.updateCourse,
+    onSuccess: (data) => {
+      toggleForm()
+      toast.success(data.message)
+      reset()
+      queryClient.invalidateQueries(["courses"])
+    },
+    onError: (error: any) => {
+      toast.error(error.data.message as string)
+    },
+  })
+  const onSubmit = (data: FormData) => {
+    mutation.mutate({ ...data, image: imagePath })
   }
+
+  const { data: categories } = useCategory("code-categories", "course")
+
+  const uploadMutation = useMutation({
+    mutationFn: courseApi.uploadImage,
+    onSuccess: (data) => {
+      setImagePath(data.imagePath)
+    },
+    onError: (error: any) => {
+      toast.error(error.data.message as string)
+    },
+  })
 
   return (
     <div
       ref={ref}
-      className="absolute left-1/2 top-[40%] min-h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-slate-900 px-10 pb-10 pt-5 shadow-xl"
+      className="absolute left-1/2 top-1/2 min-h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-slate-900 px-10 pb-10 pt-5 shadow-xl"
     >
       <h2 className="relative mb-5 border-b border-gray-200/20 py-3 text-xl font-bold text-slate-200">
-        Add Course
+        {action === TAction.Add ? "Thêm" : "Sửa"} khoá học
         <button
           className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
-          onClick={handleClose}
+          onClick={toggleForm}
         >
           <IconX />
         </button>
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="scrollbar-style max-h-[700px] overflow-y-auto pr-1"
+      >
         <div className="mb-4 grid gap-4 sm:grid-cols-2 [&_input:valid]:border-pink-500 [&_input]:outline-none [&_textarea]:outline-none">
           <div className="col-span-2">
             <label
               htmlFor="title"
               className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
             >
-              Name
+              Tên khoá học
             </label>
             <input
               {...register("title")}
@@ -64,66 +149,155 @@ const CourseForm = forwardRef(function CourseForm(
               id="title"
               className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Type product name"
-              required
             />
-            <small className="font-bold capitalize text-pink-600">
+            <small className="font-bold text-pink-600">
               {errors.title?.message}
             </small>
           </div>
           <div>
             <label
-              htmlFor="brand"
+              htmlFor="type"
               className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
             >
-              Brand
+              Loại
             </label>
-            <input
-              {...register("brand")}
-              type="text"
-              id="brand"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600 focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="Product brand"
+            <Select
+              label="type"
+              register={register}
               required
-            />
-            <small className="font-bold capitalize text-pink-600">
-              {errors.brand?.message}
-            </small>
-          </div>
-          <div>
-            <label
-              htmlFor="price"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
-            >
-              Price
-            </label>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600 focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="$2999"
-              required
+              options={COURSE_TYPE}
             />
           </div>
           <div>
             <label
-              htmlFor="category"
+              htmlFor="categoryID"
               className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
             >
-              Category
+              Danh mục
             </label>
-            <select
-              id="category"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-            >
-              <option>Select category</option>
-              <option value="TV">TV/Monitors</option>
-              <option value="PC">PC</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
-            </select>
+            <Select
+              label="categoryID"
+              register={register}
+              required
+              options={categories?.map((category) => ({
+                value: category._id,
+                label: category.title,
+              }))}
+            />
           </div>
-          <div className="sm:col-span-2">
+          <div className="col-span-2">
+            <label
+              htmlFor="title"
+              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+            >
+              Mục tiêu khoá học
+            </label>
+            <div className="space-y-2">
+              {goalsFields.map((field, index) => (
+                <div key={field.id} className="relative">
+                  <input
+                    {...register(`goals.${index}`)}
+                    type="text"
+                    className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                    placeholder="Đạt được gì sau khoá học?"
+                  />
+                  <small className="font-bold text-pink-600">
+                    {errors.goals?.message}
+                  </small>
+                  <button
+                    onClick={() => removeGoal(index)}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-pink-700 p-1"
+                    type="button"
+                  >
+                    <IconMinus className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => appendGoal("")}
+              className="mx-auto mt-2 block rounded-full bg-pink-700 p-1"
+              type="button"
+            >
+              <IconPlus />
+            </button>
+          </div>
+          <div className="col-span-2">
+            <label
+              htmlFor="title"
+              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+            >
+              Danh sách chương
+            </label>
+            <div className="space-y-2">
+              {chaptersFields.map((field, index) => (
+                <div key={field.id} className="space-y-1">
+                  <div className="text-xs relative mb-2 block font-medium text-gray-900 dark:text-slate-400">
+                    <span>Chương {index + 1}</span>
+                    <button
+                      className="ml-4"
+                      onClick={() => setOpenLessonModal(true)}
+                      type="button"
+                    >
+                      Xem danh sách bài học
+                    </button>
+                    {openLessonModal && (
+                      <LessonForm
+                        control={control}
+                        index={index}
+                        chapter={`Chương ${index + 1}`}
+                        register={register}
+                        errors={errors}
+                        setOpenLessonModal={setOpenLessonModal}
+                      />
+                    )}
+                    <button
+                      onClick={() => removeChapter(index)}
+                      className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-pink-700 p-1 text-slate-900"
+                      type="button"
+                    >
+                      <IconMinus className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <div className="relative">
+                    <input
+                      {...register(`courserChapters.${index}.index`)}
+                      value={index + 1}
+                      hidden
+                    />
+                    <input
+                      {...register(`courserChapters.${index}.title`)}
+                      type="text"
+                      className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                      placeholder="Tiêu đề chương"
+                    />
+                    <small className="font-bold text-pink-600">
+                      {errors.courserChapters?.message}
+                    </small>
+                  </div>
+                  <div className="relative">
+                    <textarea
+                      {...register(`courserChapters.${index}.description`)}
+                      rows={3}
+                      className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                      placeholder="Write code template description here"
+                    ></textarea>
+                    <small className="font-bold text-pink-600">
+                      {errors.courserChapters?.message}
+                    </small>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => appendChapter({ title: "", description: "" })}
+              className="mx-auto mt-2 block rounded-full bg-pink-700 p-1"
+              type="button"
+            >
+              <IconPlus />
+            </button>
+          </div>
+          <div className="col-span-2">
             <label
               htmlFor="description"
               className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
@@ -131,22 +305,63 @@ const CourseForm = forwardRef(function CourseForm(
               Description
             </label>
             <textarea
+              {...register("description")}
               id="description"
-              rows={4}
+              rows={3}
               className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="Write product description here"
+              placeholder="Viết mô tả khoá học tại đây"
             ></textarea>
+            <small className="font-bold capitalize text-pink-600">
+              {errors.title?.message}
+            </small>
+          </div>
+          <div className="col-span-2">
+            <label
+              htmlFor="description"
+              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+            >
+              Ảnh bìa khoá học
+            </label>
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              className="font-bold text-pink-700"
+              onChange={(e) =>
+                uploadMutation.mutate(e.target.files?.[0] as File)
+              }
+            />
+            {uploadMutation.isLoading && !uploadMutation.isIdle && (
+              <ImageSkeleton />
+            )}
+            {!uploadMutation.isLoading && imagePath && (
+              <Image
+                src={imagePath}
+                height={240}
+                width={350}
+                alt=""
+                className="mx-auto mt-2 object-cover"
+              />
+            )}
           </div>
         </div>
         <Button
-          className="bg-pink-700"
+          className="mx-auto bg-pink-700"
           classStroke="stroke-pink-600"
           small
           type="submit"
-          // onClick={() => setIsOpenForm(true)}
+          // disabled={mutation.isLoading}
         >
-          <IconPlus />
-          <span>Add new course</span>
+          {action === TAction.Add ? (
+            <>
+              <IconPlus />
+              <span className="leading-none">Thêm khoá học</span>
+            </>
+          ) : (
+            <>
+              <IconEdit />
+              <span className="leading-none">Sửa khoá học</span>
+            </>
+          )}
         </Button>
       </form>
     </div>

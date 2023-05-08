@@ -13,7 +13,7 @@ const NavItem = ({ item, segment }: Props) => {
     <Link
       href={item.url}
       className={clsx(
-        "relative flex h-[48px] items-center gap-4 rounded-xl px-4",
+        "relative flex h-[48px] items-center gap-4 rounded-xl px-4 hover:bg-pink-700/30 hover:font-bold hover:text-pink-600",
         {
           "bg-pink-700/30 font-bold text-pink-600":
             segment === item.url.slice(7),

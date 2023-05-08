@@ -12,13 +12,12 @@ import {
 
 const pages = {
   id: "pages",
-  title: "Pages",
-  caption: "Pages Caption",
+  title: "Quản lí",
   type: "group",
   children: [
     {
       id: "1",
-      title: "Account",
+      title: "Tài khoản",
       type: "item",
       url: "/admin/account",
       icon: IconUserCircle,
@@ -26,7 +25,7 @@ const pages = {
     },
     {
       id: "2",
-      title: "Course Category",
+      title: "Danh mục khoá học",
       type: "item",
       url: "/admin/course-category",
       icon: IconCategory2,
@@ -34,7 +33,7 @@ const pages = {
     },
     {
       id: "3",
-      title: "Course",
+      title: "Khoá học",
       type: "item",
       url: "/admin/course",
       icon: IconNotebook,
@@ -42,7 +41,7 @@ const pages = {
     },
     {
       id: "4",
-      title: "Blog Category",
+      title: "Danh mục bài viết",
       type: "item",
       url: "/admin/blog-category",
       icon: IconCategory2,
@@ -50,7 +49,7 @@ const pages = {
     },
     {
       id: "4",
-      title: "Blog",
+      title: "Bài viết",
       type: "item",
       url: "/admin/blog",
       icon: IconArticle,
@@ -59,7 +58,7 @@ const pages = {
 
     {
       id: "7",
-      title: "Code Category",
+      title: "Danh mục Template",
       type: "item",
       url: "/admin/code-category",
       icon: IconCategory2,
@@ -67,7 +66,7 @@ const pages = {
     },
     {
       id: "6",
-      title: "Code Template",
+      title: "Template",
       type: "item",
       url: "/admin/code",
       icon: IconCode,

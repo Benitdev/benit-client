@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation"
+
 import authApi from "@/api/server-side/auth.api"
 import Sidebar from "./_components/Sidebar"
 import Header from "./_components/Header"
@@ -18,15 +20,18 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const user = await authApi.getUser().catch(() => {})
+  if (!user) notFound()
 
   return (
     <div className="relative h-screen text-slate-200">
-      <Header />
+      <Header user={user} />
       <ReactQueryProvider>
         <div className="flex">
           <Sidebar />
           <section className="scrollbar-style h-[calc(100vh-90px)] flex-1 overflow-y-auto overflow-x-hidden rounded-tl-2xl bg-black/40 p-5">
-            <div className="min-h-full rounded-xl bg-slate-900">{children}</div>
+            <div className="min-h-full rounded-xl bg-slate-900 pb-10">
+              {children}
+            </div>
           </section>
         </div>
       </ReactQueryProvider>

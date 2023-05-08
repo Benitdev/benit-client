@@ -3,25 +3,25 @@ import { useState, useMemo } from "react"
 
 import Button from "@/components/common/Button"
 import { Modal } from "@mui/material"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import type {
   GridColDef,
   GridColumnHeaderParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid"
-import { toast } from "react-toastify"
 
 import Table from "../../_components/Table/Table"
-import CourseCateForm from "./CourseCateForm"
+import BlogCateForm from "./BlogCateForm"
 import dayjs from "dayjs"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCategory } from "@/hooks/useCategory"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import categoryApi from "@/api/client-side/categoryApi"
+import { toast } from "react-toastify"
 
 type Props = {}
 
-const CourseCatePage = ({}: Props) => {
+const BlogCatePage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
@@ -31,7 +31,7 @@ const CourseCatePage = ({}: Props) => {
       { field: "_id", headerName: "ID", width: 90 },
       {
         field: "title",
-        headerName: "Tiêu đề",
+        headerName: "Title",
         flex: 0.5,
       },
       {
@@ -40,13 +40,13 @@ const CourseCatePage = ({}: Props) => {
         flex: 1,
       },
       {
-        field: "Mô tả",
+        field: "description",
         headerName: "Description",
         flex: 1,
       },
       {
         field: "createdAt",
-        headerName: "Ngày tạo",
+        headerName: "Create At",
         sortable: false,
         flex: 1,
         valueGetter: (params: GridValueGetterParams) =>
@@ -54,14 +54,14 @@ const CourseCatePage = ({}: Props) => {
       },
       {
         field: "action",
-        headerName: "",
+        headerName: "Action",
         flex: 1,
         align: "center",
         headerAlign: "center",
         renderCell: (params) => (
           <div className="flex items-center gap-4">
             <button className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150">
-              Xem
+              View
             </button>
             <button
               className="rounded-lg bg-yellow-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
@@ -71,7 +71,7 @@ const CourseCatePage = ({}: Props) => {
                 setIsOpenForm(true)
               }}
             >
-              Sửa
+              Edit
             </button>
             <button
               className="rounded-lg bg-red-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
@@ -81,7 +81,7 @@ const CourseCatePage = ({}: Props) => {
                 setIsOpenForm(true)
               }}
             >
-              Xoá
+              Delete
             </button>
           </div>
         ),
@@ -89,13 +89,13 @@ const CourseCatePage = ({}: Props) => {
     ],
     []
   )
-  const { data, isLoading } = useCategory("course-categories", "course")
-
   const queryClient = useQueryClient()
+
+  const { data, isLoading } = useCategory("blog-categories", "blog")
   const deleteMutation = useMutation({
     mutationFn: categoryApi.delete,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["course-categories", "course"])
+      queryClient.invalidateQueries(["blog-categories"])
       toast.success(data.message)
       setIsOpenForm(false)
     },
@@ -108,7 +108,7 @@ const CourseCatePage = ({}: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between border-b border-slate-100/20 px-10 py-6">
-        <h1 className="text-heading tracking-wider">Danh mục khoá học</h1>
+        <h1 className="text-heading">Danh mục bài viết</h1>
         <Button
           className="bg-pink-700"
           classStroke="stroke-pink-600"
@@ -119,14 +119,14 @@ const CourseCatePage = ({}: Props) => {
             setIsOpenForm(true)
           }}
         >
-          Thêm danh mục khoá học
+          Thêm danh mục bài viết
         </Button>
       </div>
       <div className="mt-5 px-10">
         <Table
           columns={columns}
           rows={data ?? []}
-          pageSize={10}
+          pageSize={8}
           isLoading={isLoading}
         />
       </div>
@@ -137,7 +137,7 @@ const CourseCatePage = ({}: Props) => {
         aria-describedby="modal-modal-description"
       >
         {action !== TAction.Delete ? (
-          <CourseCateForm
+          <BlogCateForm
             toggleForm={handleClose}
             action={action}
             selectedRow={selectedRow ?? {}}
@@ -146,8 +146,8 @@ const CourseCatePage = ({}: Props) => {
           <DeleteForm
             toggleForm={handleClose}
             selectedRowId={selectedRow?._id as string}
-            type="danh mục khoá học"
             handleDelete={deleteMutation.mutate}
+            type="Course"
           />
         )}
       </Modal>
@@ -155,4 +155,4 @@ const CourseCatePage = ({}: Props) => {
   )
 }
 
-export default CourseCatePage
+export default BlogCatePage

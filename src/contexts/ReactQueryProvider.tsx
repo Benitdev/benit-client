@@ -7,8 +7,10 @@ type Props = {
 
 const queryClient = new QueryClient()
 
-export default function ReactQueryProvider({ children }: Props) {
+const ReactQueryProvider = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
+
+export default ReactQueryProvider

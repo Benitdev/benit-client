@@ -1,3 +1,4 @@
+import authApi from "@/api/server-side/auth.api"
 import "@/styles/globals.css"
 
 import { Inter, Open_Sans } from "next/font/google"
@@ -13,13 +14,15 @@ const openSans = Open_Sans({
   subsets: ["vietnamese"],
   display: "swap",
 })
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const user = await authApi.getUser().catch(() => false)
+
   return (
-    <html className={`${inter.variable} ${openSans.variable}`}>
+    <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
       <body className="bg-slate-900 text-base">
         <div id="root">{children}</div>
       </body>

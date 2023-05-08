@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
     remotePatterns: [
       {
@@ -12,6 +9,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "scontent.fdad3-6.fna.fbcdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
   },

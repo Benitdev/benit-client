@@ -2,6 +2,8 @@
 import { ToastContainer as Toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-export default function ToastContainer() {
+const ToastContainer = () => {
   return <Toast />
 }
+
+export default ToastContainer

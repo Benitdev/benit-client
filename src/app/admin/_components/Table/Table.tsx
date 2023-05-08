@@ -1,22 +1,32 @@
 "use client"
 
-import { TCourseCate } from "@/types"
+import { TCategory } from "@/types"
+import { LinearProgress } from "@mui/material"
 import {
   DataGrid,
   GridColDef,
   GridColumnHeaderParams,
+  GridValidRowModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid"
 
 type Props = {
   columns: GridColDef[]
-  rows: TCourseCate[]
+  rows: GridValidRowModel[]
   pageSize?: number
+  autoRowHeight?: boolean
+  isLoading: boolean
 }
 
-export default function Table({ columns, rows, pageSize = 5 }: Props) {
+export default function Table({
+  columns,
+  rows,
+  pageSize = 5,
+  autoRowHeight = false,
+  isLoading,
+}: Props) {
   return (
-    <div className="max-h-[800px] w-full">
+    <div className="w-full">
       <DataGrid
         sx={{
           border: "none",
@@ -62,6 +72,11 @@ export default function Table({ columns, rows, pageSize = 5 }: Props) {
         pageSizeOptions={[5, 10, 20]}
         checkboxSelection
         disableRowSelectionOnClick
+        {...(autoRowHeight ? { getRowHeight: () => "auto" } : {})}
+        loading={isLoading}
+        slots={{
+          loadingOverlay: LinearProgress,
+        }}
       />
     </div>
   )

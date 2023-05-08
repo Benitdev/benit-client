@@ -3,25 +3,26 @@ import { useState, useMemo } from "react"
 
 import Button from "@/components/common/Button"
 import { Modal } from "@mui/material"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import type {
   GridColDef,
   GridColumnHeaderParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
+import dayjs from "dayjs"
 
 import Table from "../../_components/Table/Table"
-import CourseCateForm from "./CourseCateForm"
-import dayjs from "dayjs"
+import CodeCateForm from "./CodeTemplateForm"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
-import { useCategory } from "@/hooks/useCategory"
-import categoryApi from "@/api/client-side/categoryApi"
+import { useCodeTemplate } from "@/hooks"
+import CodePreview from "@/components/ui/CodePreview"
+import codeTemplateApi from "@/api/client-side/codeTemplateApi"
 
 type Props = {}
 
-const CourseCatePage = ({}: Props) => {
+const CodeTemplatePage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
@@ -35,14 +36,26 @@ const CourseCatePage = ({}: Props) => {
         flex: 0.5,
       },
       {
-        field: "slug",
-        headerName: "Slug",
+        field: "description",
+        headerName: "Mô tả",
         flex: 1,
       },
       {
-        field: "Mô tả",
-        headerName: "Description",
+        field: "Preview",
+        headerName: "Preview",
+        sortable: false,
         flex: 1,
+        renderCell: (params) => (
+          <div className="h-[150px] py-4">
+            <div className="h-full border border-slate-200/10 bg-slate-900/40">
+              <CodePreview
+                htmlCode={params.row.htmlCode}
+                cssCode={params.row.cssCode}
+                jsCode={params.row.jsCode}
+              />
+            </div>
+          </div>
+        ),
       },
       {
         field: "createdAt",
@@ -51,6 +64,17 @@ const CourseCatePage = ({}: Props) => {
         flex: 1,
         valueGetter: (params: GridValueGetterParams) =>
           dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
+      },
+      {
+        field: "status",
+        headerName: "Trạng thái",
+        sortable: false,
+        flex: 1,
+        renderCell: (params) => (
+          <span className="rounded-xl bg-green-500 px-4 py-2 font-bold capitalize text-slate-900">
+            {params.row.status}
+          </span>
+        ),
       },
       {
         field: "action",
@@ -89,13 +113,13 @@ const CourseCatePage = ({}: Props) => {
     ],
     []
   )
-  const { data, isLoading } = useCategory("course-categories", "course")
+  const { data, isLoading } = useCodeTemplate()
 
   const queryClient = useQueryClient()
   const deleteMutation = useMutation({
-    mutationFn: categoryApi.delete,
+    mutationFn: codeTemplateApi.deleteTemplate,
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["course-categories", "course"])
+      queryClient.invalidateQueries(["code-template"])
       toast.success(data.message)
       setIsOpenForm(false)
     },
@@ -108,7 +132,7 @@ const CourseCatePage = ({}: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between border-b border-slate-100/20 px-10 py-6">
-        <h1 className="text-heading tracking-wider">Danh mục khoá học</h1>
+        <h1 className="text-heading tracking-wider">Code Template</h1>
         <Button
           className="bg-pink-700"
           classStroke="stroke-pink-600"
@@ -119,14 +143,15 @@ const CourseCatePage = ({}: Props) => {
             setIsOpenForm(true)
           }}
         >
-          Thêm danh mục khoá học
+          Add Template Code
         </Button>
       </div>
       <div className="mt-5 px-10">
         <Table
           columns={columns}
           rows={data ?? []}
-          pageSize={10}
+          pageSize={8}
+          autoRowHeight
           isLoading={isLoading}
         />
       </div>
@@ -137,7 +162,7 @@ const CourseCatePage = ({}: Props) => {
         aria-describedby="modal-modal-description"
       >
         {action !== TAction.Delete ? (
-          <CourseCateForm
+          <CodeCateForm
             toggleForm={handleClose}
             action={action}
             selectedRow={selectedRow ?? {}}
@@ -146,8 +171,8 @@ const CourseCatePage = ({}: Props) => {
           <DeleteForm
             toggleForm={handleClose}
             selectedRowId={selectedRow?._id as string}
-            type="danh mục khoá học"
             handleDelete={deleteMutation.mutate}
+            type="Code Template"
           />
         )}
       </Modal>
@@ -155,4 +180,4 @@ const CourseCatePage = ({}: Props) => {
   )
 }
 
-export default CourseCatePage
+export default CodeTemplatePage

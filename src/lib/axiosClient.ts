@@ -5,13 +5,15 @@ const baseUrl = "http://localhost:5000/api/v1"
 const getToken = () => Cookies.get("x-auth-cookies")
 const axiosClient = axios.create({
   baseURL: baseUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
 })
 
 axiosClient.interceptors.request.use((config: any) => {
   return {
     ...config,
     headers: {
-      "Content-Type": "application/json",
       authorization: `Bearer ${getToken()}`,
     },
   }

@@ -25,7 +25,7 @@ type Props = {
 }
 type FormData = yup.InferType<typeof schema>
 
-const CourseCateForm = forwardRef(function CourseForm(
+const BlogCateForm = forwardRef(function CourseForm(
   { toggleForm, action, selectedRow }: Props,
   ref: ForwardedRef<HTMLDivElement>
 ) {
@@ -49,7 +49,7 @@ const CourseCateForm = forwardRef(function CourseForm(
       toggleForm()
       toast.success(data.message)
       reset()
-      queryClient.invalidateQueries(["course-categories"])
+      queryClient.invalidateQueries(["blog-categories"])
     },
     onError: (error) => {
       toast.error(error as string)
@@ -57,7 +57,7 @@ const CourseCateForm = forwardRef(function CourseForm(
   })
 
   const onSubmit = (data: FormData) => {
-    mutation.mutate({ data, type: "course" })
+    mutation.mutate({ data, type: "blog" })
   }
 
   return (
@@ -66,7 +66,7 @@ const CourseCateForm = forwardRef(function CourseForm(
       className="absolute left-1/2 top-[40%] min-h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-slate-900 px-10 pb-10 pt-5 shadow-xl"
     >
       <h2 className="relative mb-5 border-b border-gray-200/20 py-3 text-xl font-bold text-slate-200">
-        Add Course
+        Template Category
         <button
           className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
           onClick={toggleForm}
@@ -122,12 +122,12 @@ const CourseCateForm = forwardRef(function CourseForm(
           {action === TAction.Add ? (
             <>
               <IconPlus />
-              <span>Add new course</span>
+              <span>Add template category</span>
             </>
           ) : (
             <>
               <IconEdit />
-              <span>Edit course</span>
+              <span>Edit template category</span>
             </>
           )}
         </Button>
@@ -136,4 +136,4 @@ const CourseCateForm = forwardRef(function CourseForm(
   )
 })
 
-export default CourseCateForm
+export default BlogCateForm
