@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/client-side/categoryApi"
+import categoryApi from "@/api/categoryApi"
 import { TAction, TCategory } from "@/types"
 
 const schema = yup
@@ -66,9 +66,9 @@ const CourseCateForm = forwardRef(function CourseForm(
       className="absolute left-1/2 top-[40%] min-h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-slate-900 px-10 pb-10 pt-5 shadow-xl"
     >
       <h2 className="relative mb-5 border-b border-gray-200/20 py-3 text-xl font-bold text-slate-200">
-        Add Course
+        Danh mục khoá học
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
+          className="absolute -right-8 top-0 -translate-y-1/2 hover:text-red-500"
           onClick={toggleForm}
         >
           <IconX />
@@ -79,16 +79,16 @@ const CourseCateForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="title"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
-              Name
+              Tên danh mục
             </label>
             <input
               {...register("title")}
               type="text"
               id="title"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="Type product name"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              placeholder="Điền tên danh mục khoá học"
               required
             />
             <small className="font-bold capitalize text-pink-600">
@@ -99,16 +99,16 @@ const CourseCateForm = forwardRef(function CourseForm(
           <div className="sm:col-span-2">
             <label
               htmlFor="description"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
-              Description
+              Mô tả
             </label>
             <textarea
               {...register("description")}
               id="description"
               rows={4}
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="Write product description here"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              placeholder="Điền mô tả của danh mục khoá học"
             ></textarea>
           </div>
         </div>
@@ -122,12 +122,12 @@ const CourseCateForm = forwardRef(function CourseForm(
           {action === TAction.Add ? (
             <>
               <IconPlus />
-              <span>Add new course</span>
+              <span>Thêm danh mục khoá học</span>
             </>
           ) : (
             <>
               <IconEdit />
-              <span>Edit course</span>
+              <span>Sửa danh mục khoá học</span>
             </>
           )}
         </Button>

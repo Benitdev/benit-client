@@ -18,7 +18,7 @@ import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCodeTemplate } from "@/hooks"
 import CodePreview from "@/components/ui/CodePreview"
-import codeTemplateApi from "@/api/client-side/codeTemplateApi"
+import codeTemplateApi from "@/api/codeTemplateApi"
 
 type Props = {}
 

@@ -1,8 +1,17 @@
 import axios from "axios"
 import Cookies from "js-cookie"
+import { cookies } from "next/headers"
 
 const baseUrl = "http://localhost:5000/api/v1"
-const getToken = () => Cookies.get("x-auth-cookies")
+const getToken = () => {
+  try {
+    const token =
+      Cookies.get("x-auth-cookies") ?? cookies().get("x-auth-cookies")?.value
+    return token
+  } catch (e) {
+    return null
+  }
+}
 const axiosClient = axios.create({
   baseURL: baseUrl,
   headers: {
@@ -25,10 +34,7 @@ axiosClient.interceptors.response.use(
     return response.data
   },
   (err) => {
-    if (!err.response) {
-      return alert(err)
-    }
-    throw err.response
+    throw err
   }
 )
 

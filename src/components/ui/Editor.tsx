@@ -1,12 +1,15 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 
 import "@/styles/customCkeditor.css"
 
-type Props = {}
+type Props = {
+  data?: string
+  setContent: Dispatch<SetStateAction<string>>
+}
 
-const Editor = (props: Props) => {
+const Editor = ({ data, setContent }: Props) => {
   const editorRef = useRef<any>()
   const [editorLoaded, setEditorLoaded] = useState<boolean>(false)
   const { CKEditor, ClassicEditor } = editorRef.current || {}
@@ -21,7 +24,15 @@ const Editor = (props: Props) => {
     <>
       {editorLoaded ? (
         <div className="ck-body-wrapper">
-          <CKEditor className="wrap-ckeditor mt-3" editor={ClassicEditor} />
+          <CKEditor
+            data={data}
+            className="wrap-ckeditor mt-3"
+            editor={ClassicEditor}
+            onChange={(_: any, editor: any) => {
+              const data = editor.getData()
+              setContent(data)
+            }}
+          />
         </div>
       ) : (
         "loading..."

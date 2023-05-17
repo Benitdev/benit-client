@@ -74,6 +74,7 @@ export default function Table({
         disableRowSelectionOnClick
         {...(autoRowHeight ? { getRowHeight: () => "auto" } : {})}
         loading={isLoading}
+        autoHeight
         slots={{
           loadingOverlay: LinearProgress,
         }}

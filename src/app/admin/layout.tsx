@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation"
 
-import authApi from "@/api/server-side/auth.api"
 import Sidebar from "./_components/Sidebar"
 import Header from "./_components/Header"
 import ReactQueryProvider from "@/contexts/ReactQueryProvider"
 import ToastContainer from "./_components/Toast/ToastContainer"
+import authApi from "@/api/authApi"
 
 export const metadata = {
   title: {

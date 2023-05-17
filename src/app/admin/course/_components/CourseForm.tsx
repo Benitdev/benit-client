@@ -12,7 +12,7 @@ import Select from "@/components/common/Select"
 import { COURSE_TYPE } from "@/constants/options"
 import LessonForm from "./LessonForm"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import courseApi from "@/api/client-side/courseApi"
+import courseApi from "@/api/courseApi"
 import { toast } from "react-toastify"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
 import Image from "next/image"
@@ -125,7 +125,7 @@ const CourseForm = forwardRef(function CourseForm(
       <h2 className="relative mb-5 border-b border-gray-200/20 py-3 text-xl font-bold text-slate-200">
         {action === TAction.Add ? "Thêm" : "Sửa"} khoá học
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
+          className="absolute -right-8 top-0 -translate-y-1/2 hover:text-red-500"
           onClick={toggleForm}
         >
           <IconX />

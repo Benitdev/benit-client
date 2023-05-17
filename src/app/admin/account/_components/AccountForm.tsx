@@ -8,14 +8,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/client-side/categoryApi"
+import categoryApi from "@/api/categoryApi"
 import { TAction, TCategory } from "@/types"
 import Select from "@/components/common/Select"
 import { ROLE_OPTIONS, STATUS_OPTIONS } from "@/constants/options"
-import courseApi from "@/api/client-side/courseApi"
+import courseApi from "@/api/courseApi"
 import Image from "next/image"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
-import accountApi from "@/api/client-side/accountApi"
+import accountApi from "@/api/accountApi"
 
 const schema = yup
   .object({
@@ -93,7 +93,7 @@ const AccountForm = forwardRef(function CourseForm(
       <h2 className="relative mb-5 border-b border-gray-200/20 py-3 text-xl font-bold text-slate-200">
         Thông tin tài khoản
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
+          className="absolute -right-8 top-0 -translate-y-1/2 hover:text-red-500"
           onClick={toggleForm}
         >
           <IconX />

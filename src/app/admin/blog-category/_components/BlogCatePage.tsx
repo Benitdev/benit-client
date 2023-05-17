@@ -16,7 +16,7 @@ import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCategory } from "@/hooks/useCategory"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import categoryApi from "@/api/client-side/categoryApi"
+import categoryApi from "@/api/categoryApi"
 import { toast } from "react-toastify"
 
 type Props = {}
@@ -28,41 +28,43 @@ const BlogCatePage = ({}: Props) => {
 
   const columns: GridColDef[] = useMemo(
     () => [
-      { field: "_id", headerName: "ID", width: 90 },
+      { field: "_id", headerName: "ID", width: 100 },
       {
         field: "title",
-        headerName: "Title",
+        headerName: "Tiêu đề",
         flex: 0.5,
+        minWidth: 150,
       },
       {
         field: "slug",
         headerName: "Slug",
         flex: 1,
+        minWidth: 150,
       },
       {
         field: "description",
-        headerName: "Description",
+        headerName: "Mô tả",
         flex: 1,
+        minWidth: 250,
       },
       {
         field: "createdAt",
-        headerName: "Create At",
+        headerName: "Ngày tạo",
         sortable: false,
         flex: 1,
+        minWidth: 200,
         valueGetter: (params: GridValueGetterParams) =>
           dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
       },
       {
         field: "action",
-        headerName: "Action",
+        headerName: "",
         flex: 1,
+        minWidth: 200,
         align: "center",
         headerAlign: "center",
         renderCell: (params) => (
           <div className="flex items-center gap-4">
-            <button className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150">
-              View
-            </button>
             <button
               className="rounded-lg bg-yellow-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
               onClick={() => {
@@ -71,7 +73,7 @@ const BlogCatePage = ({}: Props) => {
                 setIsOpenForm(true)
               }}
             >
-              Edit
+              Sửa
             </button>
             <button
               className="rounded-lg bg-red-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
@@ -81,7 +83,7 @@ const BlogCatePage = ({}: Props) => {
                 setIsOpenForm(true)
               }}
             >
-              Delete
+              Xoá
             </button>
           </div>
         ),

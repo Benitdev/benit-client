@@ -30,3 +30,14 @@ export const STATUS_OPTIONS = [
     value: "banned",
   },
 ]
+
+export const POST_STATUS_OPTIONS = [
+  {
+    label: "Phê duyệt",
+    value: "approved",
+  },
+  {
+    label: "Từ chối",
+    value: "rejects",
+  },
+]

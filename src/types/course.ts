@@ -3,6 +3,7 @@ export type TCourse = {
   title: string
   slug: string
   description: string
+  goals: string[]
   image: string
   tags: string[]
   feature: string

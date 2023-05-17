@@ -1,7 +1,7 @@
 import AccountPage from "./_components/AccountPage"
 
 export const metadata = {
-  title: "Course Category",
+  title: "Account",
 }
 
 export default function CodeCategory() {

@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image"
 import { useMemo, useState } from "react"
 
 import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid"
@@ -22,34 +23,61 @@ const CoursePage = ({}: Props) => {
 
   const columns: GridColDef[] = useMemo(
     () => [
-      { field: "_id", headerName: "ID", width: 90 },
+      { field: "_id", headerName: "ID", width: 100 },
       {
         field: "title",
         headerName: "Tiêu đề",
         flex: 0.5,
+        minWidth: 150,
       },
       {
         field: "category",
         headerName: "Danh mục",
         flex: 0.5,
+        minWidth: 150,
         valueGetter: (params: GridValueGetterParams) =>
           params.row.categoryID.title,
       },
       {
         field: "slug",
         headerName: "Slug",
+
         flex: 1,
+        minWidth: 150,
+      },
+      {
+        field: "image",
+        headerName: "Ảnh bìa",
+        flex: 1,
+        minWidth: 200,
+        renderCell: (params) => (
+          <div className="relative my-2 h-[150px] w-full py-2">
+            {params.row.image && (
+              <Image
+                src={params.row.image}
+                alt=""
+                fill
+                className="object-cover"
+              />
+            )}
+          </div>
+        ),
       },
       {
         field: "description",
         headerName: "Mô tả",
         flex: 1,
+        minWidth: 200,
+        renderCell: (params) => (
+          <p className="line-clamp-3 break-all">{params.row.description}</p>
+        ),
       },
       {
         field: "createdAt",
         headerName: "Ngày tạo",
         sortable: false,
         flex: 1,
+        minWidth: 150,
         valueGetter: (params: GridValueGetterParams) =>
           dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
       },
@@ -57,6 +85,7 @@ const CoursePage = ({}: Props) => {
         field: "action",
         headerName: "",
         flex: 1,
+        minWidth: 200,
         align: "center",
         headerAlign: "center",
         renderCell: (params) => (
@@ -116,6 +145,7 @@ const CoursePage = ({}: Props) => {
           rows={data ?? []}
           pageSize={10}
           isLoading={isLoading}
+          autoRowHeight
         />
       </div>
       <Modal

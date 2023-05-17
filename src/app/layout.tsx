@@ -1,4 +1,3 @@
-import authApi from "@/api/server-side/auth.api"
 import "@/styles/globals.css"
 
 import { Inter, Open_Sans } from "next/font/google"
@@ -19,8 +18,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const user = await authApi.getUser().catch(() => false)
-
   return (
     <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
       <body className="bg-slate-900 text-base">

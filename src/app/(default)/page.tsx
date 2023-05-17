@@ -13,6 +13,7 @@ export default function HomePage() {
   return (
     <main className="minx-h-screen flex-1 overflow-hidden">
       <Banner />
+      {/* @ts-expect-error Async Server Component */}
       <CourseList />
       <PostList />
     </main>

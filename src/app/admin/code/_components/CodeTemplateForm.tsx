@@ -9,14 +9,14 @@ import { toast } from "react-toastify"
 import { motion } from "framer-motion"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/client-side/categoryApi"
+import categoryApi from "@/api/categoryApi"
 import { TAction, TCategory } from "@/types"
 import CodeEditorBlock from "@/components/ui/CodeBlock"
 import CodeCard from "@/components/ui/CodeCard"
 import CodePreview from "@/components/ui/CodePreview"
 import Select from "@/components/common/Select"
 import { useCategory } from "@/hooks/useCategory"
-import codeTemplateApi from "@/api/client-side/codeTemplateApi"
+import codeTemplateApi from "@/api/codeTemplateApi"
 
 const schema = yup
   .object({
@@ -143,7 +143,7 @@ const CodeCateForm = forwardRef(function CourseForm(
       <h2 className="relative mb-5 border-b border-gray-200/20 py-3 text-xl font-bold text-slate-200">
         Code Template
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-red-500"
+          className="absolute -right-8 top-0 -translate-y-1/2 hover:text-red-500"
           onClick={toggleForm}
         >
           <IconX />

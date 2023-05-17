@@ -25,14 +25,14 @@ const LessonForm = ({
   return (
     <div className="fixed inset-0 z-[9999] bg-slate-900 p-4 pt-0">
       <div className="scrollbar-style h-full overflow-y-auto pr-1">
-        <h1 className="sticky -top-[1px] z-10 bg-slate-900 pb-2 pt-4 text-center font-bold text-slate-200">
+        <h1 className="sticky -top-[1px] z-10 bg-slate-900 py-4 text-center text-base font-bold text-slate-200">
           <IconArrowLeft
             className="absolute cursor-pointer hover:text-pink-700"
             onClick={() => setOpenLessonModal(false)}
           />
           {chapter}
         </h1>
-        <h2>Danh sách bài học của chương</h2>
+        <h2 className="text-sm">Danh sách bài học của chương</h2>
         <div className="mt-4">
           {fields.map((field, i) => (
             <div key={field.id} className="relative mt-6">
@@ -50,7 +50,7 @@ const LessonForm = ({
                 <input
                   {...register(`courserChapters.${index}.lesson.${i}.title`)}
                   type="text"
-                  className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                   placeholder="Tiêu đề bài học"
                 />
               </div>
@@ -58,7 +58,7 @@ const LessonForm = ({
                 <input
                   {...register(`courserChapters.${index}.lesson.${i}.videoID`)}
                   type="text"
-                  className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                   placeholder="Video ID"
                 />
               </div>
