@@ -20,7 +20,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
-      <body className="bg-slate-900 text-base">
+      <body className="bg-slate-900 text-base ">
         <div id="root">{children}</div>
       </body>
     </html>
