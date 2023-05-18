@@ -27,7 +27,7 @@ const BlogPage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
-
+  console.log("ahihi")
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "_id", headerName: "ID", width: 100 },
