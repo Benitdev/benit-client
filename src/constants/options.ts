@@ -20,6 +20,21 @@ export const COURSE_TYPE = [
   },
 ]
 
+export const LEVEL_OPTIONS = [
+  {
+    label: "Cơ bản",
+    value: "cơ bản",
+  },
+  {
+    label: "Trung bình",
+    value: "trung bình",
+  },
+  {
+    label: "Nâng cao",
+    value: "nâng cao",
+  },
+]
+
 export const STATUS_OPTIONS = [
   {
     label: "Kích hoạt",

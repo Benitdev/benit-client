@@ -9,4 +9,11 @@ export type TUser = {
   provider: string
   role: string
   status: string
+  courseLearned: {
+    courseSlug: string
+    chapters: {
+      chapterID: string
+      lessons: string[]
+    }[]
+  }[]
 }

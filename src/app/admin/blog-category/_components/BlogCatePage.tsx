@@ -16,7 +16,7 @@ import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCategory } from "@/hooks/useCategory"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import categoryApi from "@/api/categoryApi"
+import categoryApi from "@/api/client-side/categoryApi"
 import { toast } from "react-toastify"
 
 type Props = {}

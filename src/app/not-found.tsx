@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 const IconBack = (
   <svg
@@ -23,13 +24,18 @@ const PageNotFound = () => {
   return (
     <div className="relative flex h-[90vh] w-full items-center justify-center">
       <button
-        className="text-sm absolute left-5 top-5 z-10 flex cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-slate-600 px-4 py-3 text-white"
+        className="absolute left-5 top-5 z-10 flex cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-slate-600 px-4 py-3 text-sm text-white"
         onClick={goBack}
       >
         {IconBack}
         Go back
       </button>
-      <img src="/images/404.png" alt="page-not-found" />
+      <Image
+        src="/images/404.png"
+        alt="page-not-found"
+        fill
+        className="object-cover"
+      />
     </div>
   )
 }

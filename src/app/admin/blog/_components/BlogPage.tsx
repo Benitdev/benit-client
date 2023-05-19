@@ -19,7 +19,7 @@ import DeleteForm from "../../_components/Form/DeleteForm"
 import { usePosts } from "@/hooks/usePosts"
 import Image from "next/image"
 import { toastErrorUtil } from "@/utils/toastErrorUtil"
-import postApi from "@/api/postApi"
+import postApi from "@/api/client-side/postApi"
 
 type Props = {}
 
@@ -27,7 +27,6 @@ const BlogPage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
-  console.log("ahihi")
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "_id", headerName: "ID", width: 100 },

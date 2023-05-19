@@ -1,6 +1,6 @@
 import Heading from "../common/Heading"
 import CourseItem from "./CourseItem"
-import courseApi from "@/api/courseApi"
+import courseApi from "@/api/client-side/courseApi"
 
 type Props = {}
 

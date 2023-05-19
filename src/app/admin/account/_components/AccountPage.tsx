@@ -15,7 +15,7 @@ import dayjs from "dayjs"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import categoryApi from "@/api/categoryApi"
+import categoryApi from "@/api/client-side/categoryApi"
 import { toast } from "react-toastify"
 import { useAccount } from "@/hooks"
 

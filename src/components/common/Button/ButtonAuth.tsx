@@ -1,6 +1,6 @@
 "use client"
 
-import authApi from "@/api/authApi"
+import authApi from "@/api/client-side/authApi"
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
 

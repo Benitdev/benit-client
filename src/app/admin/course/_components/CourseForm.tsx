@@ -9,33 +9,35 @@ import Button from "@/components/common/Button"
 import { TAction } from "@/types"
 import { useCategory } from "@/hooks"
 import Select from "@/components/common/Select"
-import { COURSE_TYPE } from "@/constants/options"
+import { COURSE_TYPE, LEVEL_OPTIONS } from "@/constants/options"
 import LessonForm from "./LessonForm"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import courseApi from "@/api/courseApi"
+import courseApi from "@/api/client-side/courseApi"
 import { toast } from "react-toastify"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
 import Image from "next/image"
 
 const schema = yup
   .object({
-    title: yup.string().required("Title là bắt buộc!"),
+    title: yup.string().required("Tên khóa học là bắt buộc!"),
     categoryID: yup.string().required(),
     type: yup.string().required(),
     goals: yup.array().of(yup.string().required()),
-    courserChapters: yup.array().of(
+    courseChapters: yup.array().of(
       yup.object({
         index: yup.string().required(),
         title: yup.string().required("Tiêu đề chương là bắt buộc!"),
         description: yup.string(),
-        lesson: yup.array().of(
+        lessons: yup.array().of(
           yup.object({
             title: yup.string().required("Tiêu đề bài học là bắt buộc!"),
             videoID: yup.string().required(),
+            duration: yup.string(),
           })
         ),
       })
     ),
+    level: yup.string().required("Trình độ khóa học là bắt buộc!"),
     description: yup.string().required("Mô tả khoá học là bắt buộc!"),
   })
   .required()
@@ -51,7 +53,7 @@ const CourseForm = forwardRef(function CourseForm(
   { action, selectedRow, toggleForm }: Props,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const [openLessonModal, setOpenLessonModal] = useState<boolean>(false)
+  const [openLessonModal, setOpenLessonModal] = useState<number | null>(null)
   const [imagePath, setImagePath] = useState<string>(
     action === TAction.Edit ? selectedRow.image : ""
   )
@@ -59,8 +61,9 @@ const CourseForm = forwardRef(function CourseForm(
     register,
     handleSubmit,
     control,
+    setValue,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues:
@@ -84,7 +87,7 @@ const CourseForm = forwardRef(function CourseForm(
     remove: removeChapter,
   } = useFieldArray({
     control,
-    name: "courserChapters" as never,
+    name: "courseChapters" as never,
   })
 
   const queryClient = useQueryClient()
@@ -102,6 +105,7 @@ const CourseForm = forwardRef(function CourseForm(
     },
   })
   const onSubmit = (data: FormData) => {
+    console.log(data)
     mutation.mutate({ ...data, image: imagePath })
   }
 
@@ -139,7 +143,7 @@ const CourseForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="title"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Tên khoá học
             </label>
@@ -147,7 +151,7 @@ const CourseForm = forwardRef(function CourseForm(
               {...register("title")}
               type="text"
               id="title"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Type product name"
             />
             <small className="font-bold text-pink-600">
@@ -157,7 +161,7 @@ const CourseForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="type"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Loại
             </label>
@@ -171,7 +175,7 @@ const CourseForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="categoryID"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Danh mục
             </label>
@@ -188,7 +192,7 @@ const CourseForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="title"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Mục tiêu khoá học
             </label>
@@ -198,7 +202,7 @@ const CourseForm = forwardRef(function CourseForm(
                   <input
                     {...register(`goals.${index}`)}
                     type="text"
-                    className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                     placeholder="Đạt được gì sau khoá học?"
                   />
                   <small className="font-bold text-pink-600">
@@ -225,26 +229,27 @@ const CourseForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="title"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Danh sách chương
             </label>
             <div className="space-y-2">
               {chaptersFields.map((field, index) => (
                 <div key={field.id} className="space-y-1">
-                  <div className="text-xs relative mb-2 block font-medium text-gray-900 dark:text-slate-400">
+                  <div className="relative mb-2 block text-xs font-medium text-gray-900 dark:text-slate-400">
                     <span>Chương {index + 1}</span>
                     <button
                       className="ml-4"
-                      onClick={() => setOpenLessonModal(true)}
+                      onClick={() => setOpenLessonModal(index)}
                       type="button"
                     >
                       Xem danh sách bài học
                     </button>
-                    {openLessonModal && (
+                    {openLessonModal === index && (
                       <LessonForm
                         control={control}
                         index={index}
+                        setValue={setValue}
                         chapter={`Chương ${index + 1}`}
                         register={register}
                         errors={errors}
@@ -261,29 +266,29 @@ const CourseForm = forwardRef(function CourseForm(
                   </div>
                   <div className="relative">
                     <input
-                      {...register(`courserChapters.${index}.index`)}
+                      {...register(`courseChapters.${index}.index`)}
                       value={index + 1}
                       hidden
                     />
                     <input
-                      {...register(`courserChapters.${index}.title`)}
+                      {...register(`courseChapters.${index}.title`)}
                       type="text"
-                      className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                       placeholder="Tiêu đề chương"
                     />
                     <small className="font-bold text-pink-600">
-                      {errors.courserChapters?.message}
+                      {errors.courseChapters?.message}
                     </small>
                   </div>
                   <div className="relative">
                     <textarea
-                      {...register(`courserChapters.${index}.description`)}
+                      {...register(`courseChapters.${index}.description`)}
                       rows={3}
-                      className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                       placeholder="Write code template description here"
                     ></textarea>
                     <small className="font-bold text-pink-600">
-                      {errors.courserChapters?.message}
+                      {errors.courseChapters?.message}
                     </small>
                   </div>
                 </div>
@@ -300,7 +305,7 @@ const CourseForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="description"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Description
             </label>
@@ -308,7 +313,7 @@ const CourseForm = forwardRef(function CourseForm(
               {...register("description")}
               id="description"
               rows={3}
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Viết mô tả khoá học tại đây"
             ></textarea>
             <small className="font-bold capitalize text-pink-600">
@@ -318,7 +323,7 @@ const CourseForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="description"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Ảnh bìa khoá học
             </label>
@@ -344,12 +349,29 @@ const CourseForm = forwardRef(function CourseForm(
             )}
           </div>
         </div>
+        <div>
+          <label
+            htmlFor="level"
+            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Trình độ
+          </label>
+          <Select
+            label="level"
+            register={register}
+            required
+            options={LEVEL_OPTIONS?.map((option) => ({
+              value: option.value,
+              label: option.label,
+            }))}
+          />
+        </div>
         <Button
-          className="mx-auto bg-pink-700"
+          className="mx-auto mt-8 bg-pink-700"
           classStroke="stroke-pink-600"
           small
           type="submit"
-          // disabled={mutation.isLoading}
+          disabled={mutation.isLoading || !isDirty}
         >
           {action === TAction.Add ? (
             <>

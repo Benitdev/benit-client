@@ -1,5 +1,6 @@
 // import { LoginForm } from 'types';
-import axiosClient from '@/lib/axiosClient';
+import axiosClient from "@/lib/axiosClient"
+import axiosServer from "@/lib/axiosServer"
 
 const authApi = {
   //   login: (body: LoginForm) => axiosClient.post('auth/login', body),
@@ -9,7 +10,7 @@ const authApi = {
         code,
       },
     }),
-  getUser: () => axiosClient.get('/user'),
+  getUser: () => axiosClient.get("/user"),
   //   register: (body: any) => axiosClient.post('auth/register', body),
   //   logout: () => axiosClient.post('auth/logout'),
   //   verifyToken: (token: string) => {
@@ -24,6 +25,6 @@ const authApi = {
   //       },
   //     );
   //   },
-};
+}
 
-export default authApi;
+export default authApi

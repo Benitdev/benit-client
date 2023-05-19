@@ -1,6 +1,14 @@
-import authApi from "@/api/authApi"
+import authApi from "@/api/server-side/authApi"
 import Header from "@/components/ui/Header"
 import Sidebar from "@/components/ui/Sidebar"
+
+export const metadata = {
+  title: {
+    default: "Welcome to Benit",
+    template: "%s | Benit",
+  },
+  description: "Welcome to Benit website! hihi",
+}
 
 export default async function DefaultLayout({
   children,

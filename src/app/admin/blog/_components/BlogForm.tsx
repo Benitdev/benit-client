@@ -11,11 +11,11 @@ import Button from "@/components/common/Button"
 import { TAction } from "@/types"
 import Select from "@/components/common/Select"
 import { POST_STATUS_OPTIONS, STATUS_OPTIONS } from "@/constants/options"
-import courseApi from "@/api/courseApi"
+import courseApi from "@/api/client-side/courseApi"
 import Image from "next/image"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
 import Editor from "@/components/ui/Editor"
-import postApi from "@/api/postApi"
+import postApi from "@/api/client-side/postApi"
 
 const schema = yup
   .object({

@@ -1,4 +1,3 @@
-// import { LoginForm } from 'types';
 import axiosClient from "@/lib/axiosClient"
 import { ResSuccess } from "@/types"
 import { TCourse } from "@/types"
@@ -20,7 +19,6 @@ const courseApi = {
   uploadImage: (file: File): Promise<any> => {
     const formData = new FormData()
     formData.append("image", file)
-    console.log(file)
     return axiosClient.post("/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",

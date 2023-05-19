@@ -5,12 +5,12 @@ import { IconLayoutDashboard } from "@tabler/icons-react"
 
 const dashboard = {
   id: "dashboard",
-  title: "Dashboard",
+  title: "Tổng Quan",
   type: "group",
   children: [
     {
       id: "default",
-      title: "Dashboard",
+      title: "Tổng quan",
       type: "item",
       url: "/admin",
       icon: IconLayoutDashboard,

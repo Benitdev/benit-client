@@ -9,14 +9,14 @@ import { toast } from "react-toastify"
 import { motion } from "framer-motion"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/categoryApi"
+import categoryApi from "@/api/client-side/categoryApi"
 import { TAction, TCategory } from "@/types"
 import CodeEditorBlock from "@/components/ui/CodeBlock"
 import CodeCard from "@/components/ui/CodeCard"
 import CodePreview from "@/components/ui/CodePreview"
 import Select from "@/components/common/Select"
 import { useCategory } from "@/hooks/useCategory"
-import codeTemplateApi from "@/api/codeTemplateApi"
+import codeTemplateApi from "@/api/client-side/codeTemplateApi"
 
 const schema = yup
   .object({
@@ -158,7 +158,7 @@ const CodeCateForm = forwardRef(function CourseForm(
             <div>
               <label
                 htmlFor="title"
-                className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Title
               </label>
@@ -166,7 +166,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                 {...register("title")}
                 type="text"
                 id="title"
-                className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                 placeholder="Type product name"
                 required
               />
@@ -177,7 +177,7 @@ const CodeCateForm = forwardRef(function CourseForm(
             <div>
               <label
                 htmlFor="categoryID"
-                className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Category
               </label>
@@ -194,7 +194,7 @@ const CodeCateForm = forwardRef(function CourseForm(
             <div className="col-span-2">
               <label
                 htmlFor="htmlCode"
-                className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 HTML
               </label>
@@ -209,7 +209,7 @@ const CodeCateForm = forwardRef(function CourseForm(
             <div className="col-span-2">
               <label
                 htmlFor="cssCode"
-                className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 CSS
               </label>
@@ -224,7 +224,7 @@ const CodeCateForm = forwardRef(function CourseForm(
             <div className="col-span-2">
               <label
                 htmlFor="jsCode"
-                className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Javascript
               </label>
@@ -239,7 +239,7 @@ const CodeCateForm = forwardRef(function CourseForm(
             <div className="col-span-2">
               <label
                 htmlFor="description"
-                className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Description
               </label>
@@ -247,7 +247,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                 {...register("description")}
                 id="description"
                 rows={3}
-                className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                 placeholder="Write code template description here"
               ></textarea>
               <small className="font-bold capitalize text-pink-600">

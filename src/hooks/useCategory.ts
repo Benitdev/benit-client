@@ -1,4 +1,4 @@
-import categoryApi from "@/api/categoryApi"
+import categoryApi from "@/api/client-side/categoryApi"
 import { useQuery } from "@tanstack/react-query"
 
 export const useCategory = (key: string, type: string) =>

@@ -17,7 +17,7 @@ import dayjs from "dayjs"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCategory } from "@/hooks/useCategory"
-import categoryApi from "@/api/categoryApi"
+import categoryApi from "@/api/client-side/categoryApi"
 
 type Props = {}
 

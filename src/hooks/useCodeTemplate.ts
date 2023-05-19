@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import codeTemplateApi from "@/api/codeTemplateApi"
+import codeTemplateApi from "@/api/client-side/codeTemplateApi"
 
 export const useCodeTemplate = () =>
   useQuery({

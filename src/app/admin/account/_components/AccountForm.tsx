@@ -8,14 +8,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/categoryApi"
-import { TAction, TCategory } from "@/types"
+import { TAction } from "@/types"
 import Select from "@/components/common/Select"
 import { ROLE_OPTIONS, STATUS_OPTIONS } from "@/constants/options"
-import courseApi from "@/api/courseApi"
+import courseApi from "@/api/client-side/courseApi"
 import Image from "next/image"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
-import accountApi from "@/api/accountApi"
+import accountApi from "@/api/client-side/accountApi"
 
 const schema = yup
   .object({
@@ -107,14 +106,14 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="title"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Tên đăng nhập
             </label>
             <input
               {...register("username")}
               type="text"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Điền tên đăng nhập"
               disabled
               required
@@ -127,14 +126,14 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="password"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Mật khẩu
             </label>
             <input
               {...register("password")}
               type="text"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Mật khẩu"
               disabled
             />
@@ -145,14 +144,14 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="email"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Email
             </label>
             <input
               {...register("email")}
               type="text"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Điền địa chỉ email"
               disabled
             />
@@ -163,14 +162,14 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="phoneNumber"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Số điện thoại
             </label>
             <input
               {...register("phoneNumber")}
               type="text"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Điền số điện thoại"
             />
             <small className="font-bold capitalize text-pink-600">
@@ -180,14 +179,14 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="fullName"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Họ và tên
             </label>
             <input
               {...register("fullName")}
               type="text"
-              className="text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Điền họ và tên"
             />
             <small className="font-bold capitalize text-pink-600">
@@ -197,7 +196,7 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="role"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Vai trò
             </label>
@@ -214,7 +213,7 @@ const AccountForm = forwardRef(function CourseForm(
           <div className="col-span-2">
             <label
               htmlFor="description"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Ảnh đại diện
             </label>
@@ -242,7 +241,7 @@ const AccountForm = forwardRef(function CourseForm(
           <div>
             <label
               htmlFor="status"
-              className="text-sm mb-2 block font-medium text-gray-900 dark:text-white"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Trạng thái
             </label>

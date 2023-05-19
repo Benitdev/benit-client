@@ -1,14 +1,42 @@
+import { Dispatch, SetStateAction, useState } from "react"
+
+import { TCourseChapter } from "@/types"
+
 type Props = {
-  item: any
+  item: TCourseChapter
+  Heading: ({
+    chapter,
+    isOpen,
+    type,
+  }: {
+    chapter: TCourseChapter
+    isOpen: boolean
+    type?: "tracker"
+  }) => JSX.Element
+  children: React.ReactNode
+  expand?: boolean
+  setExpand: Dispatch<SetStateAction<string[]>>
+  type?: "tracker"
 }
 
-const According = ({ item }: Props) => {
+const According = ({
+  item,
+  Heading,
+  expand,
+  setExpand,
+  children,
+  type,
+}: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(expand ?? false)
   return (
-    <div className="p-4">
-      <div className="flex justify-between gap-2">
-        <span>{item.name}</span>
-        <span>{item.count}</span>
-      </div>
+    <div>
+      <button
+        className="w-full rounded-lg bg-slate-800 p-4"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <Heading chapter={item} isOpen={isOpen} type={type} />
+      </button>
+      <div>{isOpen && children}</div>
     </div>
   )
 }

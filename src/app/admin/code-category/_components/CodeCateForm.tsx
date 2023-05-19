@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/categoryApi"
+import categoryApi from "@/api/client-side/categoryApi"
 import { TAction, TCategory } from "@/types"
 
 const schema = yup

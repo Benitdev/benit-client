@@ -26,7 +26,11 @@ const CourseItem = ({ course }: Props) => {
         className="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       >
         <div className="translate-y-full transition-transform duration-300 group-hover:translate-y-0">
-          <Button classStroke="stroke-slate-100" className="bg-slate-300" small>
+          <Button
+            classStroke="stroke-slate-100"
+            className="bg-slate-300 text-slate-900"
+            small
+          >
             Xem khoá học
           </Button>
         </div>

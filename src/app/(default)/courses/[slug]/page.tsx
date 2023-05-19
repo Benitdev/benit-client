@@ -1,5 +1,15 @@
-import courseApi from "@/api/courseApi"
+import Image from "next/image"
+
+import courseApi from "@/api/server-side/courseApi"
+import CourseAccording from "@/components/common/According/CourseAccording"
+import Button from "@/components/common/Button"
 import Heading from "@/components/common/Heading"
+import { IconAlarmFilled, IconAngle, IconMovie } from "@tabler/icons-react"
+import { IconBrandDrops } from "@tabler/icons-react"
+
+export const metadata = {
+  title: "Blogs",
+}
 
 type Props = {
   params: { slug: string }
@@ -7,15 +17,20 @@ type Props = {
 
 const CourseDetailPage = async ({ params: { slug } }: Props) => {
   const course = await courseApi.getCourseDetail(slug)
+
+  const lessonTotal = course?.courseChapters
+    .map((chapter) => chapter.lessons.length)
+    .reduce((prev, lessonLength) => prev + lessonLength, 0)
+
   return (
-    <div className="mt-5 flex p-2 text-slate-200 lg:p-5">
+    <div className="mt-5 flex w-full gap-4 p-2 lg:p-5">
       <div className="flex-[0.6] space-y-4">
-        <Heading>{course.title}</Heading>
+        <Heading className="capitalize">{course.title}</Heading>
         <p className="text-slate-400">{course.description}</p>
         <div className="py-4">
           <h3 className="text-large font-bold">Bạn sẽ học được gì?</h3>
           <ul className="mt-4 grid grid-cols-2 gap-4">
-            {course.goals.map((goal) => (
+            {course.goals?.map((goal) => (
               <li key={goal} className="flex gap-3">
                 <svg
                   aria-hidden="true"
@@ -39,6 +54,44 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
         </div>
         <div>
           <h3 className="text-large font-bold">Nội dung khoá học</h3>
+          <CourseAccording chapters={course.courseChapters} />
+        </div>
+      </div>
+      <div className="flex flex-[0.4] flex-col items-center gap-4 pt-8">
+        <div className="relative h-[300px] w-full overflow-hidden rounded-xl">
+          <Image src={course.image} fill alt="" className="object-cover" />
+        </div>
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold capitalize text-pink-700">
+            khóa học {course.type === "free" ? "miễn phí" : "có phí"}
+          </h3>
+          <Button
+            classStroke="stroke-pink-700"
+            className="mx-auto bg-pink-700"
+            small
+          >
+            Đăng kí học
+          </Button>
+          <ul className="space-y-3 py-2">
+            <li className="flex items-center gap-2">
+              <IconAngle className="h-6 w-6" />
+              <span>Trình độ {course.level}</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <IconMovie className="h-6 w-6" />
+              <p>
+                Tổng số <span className="font-bold">{lessonTotal}</span> bài học
+              </p>
+            </li>
+            <li className="flex items-center gap-2">
+              <IconAlarmFilled className="h-6 w-6" />
+              <span>Học mọi lúc, mọi nơi</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <IconBrandDrops className="h-6 w-6" />
+              <span>Học mọi lúc, mọi nơi</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

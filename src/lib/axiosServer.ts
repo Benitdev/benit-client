@@ -1,25 +1,25 @@
 import axios from "axios"
-import Cookies from "js-cookie"
+import { cookies } from "next/headers"
 
 const baseUrl = "http://localhost:5000/api/v1"
 
-const axiosClient = axios.create({
+const axiosServer = axios.create({
   baseURL: baseUrl,
   headers: {
     "Content-Type": "application/json",
   },
 })
 
-axiosClient.interceptors.request.use((config: any) => {
+axiosServer.interceptors.request.use((config: any) => {
   return {
     ...config,
     headers: {
-      authorization: `Bearer ${Cookies.get("x-auth-cookies")}`,
+      authorization: `Bearer ${cookies().get("x-auth-cookies")?.value}`,
     },
   }
 })
 
-axiosClient.interceptors.response.use(
+axiosServer.interceptors.response.use(
   (response) => {
     if (response.data && response.data.data) return response.data.data
     return response.data
@@ -29,4 +29,4 @@ axiosClient.interceptors.response.use(
   }
 )
 
-export default axiosClient
+export default axiosServer

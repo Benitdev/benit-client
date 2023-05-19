@@ -10,8 +10,6 @@ function getRandomColor() {
   return colors[index]
 }
 const Avatar = ({ className = "", user }: any) => {
-  console.log(user.avatar)
-
   // const color = getRandomColor()
   return (
     <div
