@@ -1,3 +1,5 @@
+import { TCourse } from "./course"
+
 export type TUser = {
   _id: string
   username: string
@@ -10,10 +12,7 @@ export type TUser = {
   role: string
   status: string
   courseLearned: {
-    courseSlug: string
-    chapters: {
-      chapterID: string
-      lessons: string[]
-    }[]
+    course: string
+    lessons: string[]
   }[]
 }

@@ -1,11 +1,16 @@
 import Image from "next/image"
+import { redirect } from "next/navigation"
+import { RedirectType } from "next/dist/client/components/redirect"
+
+import { IconBrandDrops } from "@tabler/icons-react"
 
 import courseApi from "@/api/server-side/courseApi"
 import CourseAccording from "@/components/common/According/CourseAccording"
 import Button from "@/components/common/Button"
 import Heading from "@/components/common/Heading"
 import { IconAlarmFilled, IconAngle, IconMovie } from "@tabler/icons-react"
-import { IconBrandDrops } from "@tabler/icons-react"
+import authApi from "@/api/server-side/authApi"
+import { IMAGE_DEFAULT } from "@/constants/imagePath"
 
 export const metadata = {
   title: "Blogs",
@@ -17,11 +22,27 @@ type Props = {
 
 const CourseDetailPage = async ({ params: { slug } }: Props) => {
   const course = await courseApi.getCourseDetail(slug)
-
   const lessonTotal = course?.courseChapters
     .map((chapter) => chapter.lessons.length)
     .reduce((prev, lessonLength) => prev + lessonLength, 0)
 
+  const lessonID = course?.courseChapters[0]?.lessons[0]._id
+  const courseSlug = course.slug
+
+  async function registerCourse() {
+    "use server"
+
+    try {
+      await authApi.registerCourse({
+        course: course._id,
+        lesson: lessonID,
+      })
+    } catch (e) {
+      throw e
+    }
+
+    redirect(`/learning/${courseSlug}?id=${lessonID}`, RedirectType.push)
+  }
   return (
     <div className="mt-5 flex w-full gap-4 p-2 lg:p-5">
       <div className="flex-[0.6] space-y-4">
@@ -59,19 +80,28 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
       </div>
       <div className="flex flex-[0.4] flex-col items-center gap-4 pt-8">
         <div className="relative h-[300px] w-full overflow-hidden rounded-xl">
-          <Image src={course.image} fill alt="" className="object-cover" />
+          <Image
+            src={course.image || IMAGE_DEFAULT}
+            fill
+            alt=""
+            className="object-cover"
+            sizes="33vw"
+          />
         </div>
         <div className="space-y-4">
           <h3 className="text-2xl font-bold capitalize text-pink-700">
             khóa học {course.type === "free" ? "miễn phí" : "có phí"}
           </h3>
-          <Button
-            classStroke="stroke-pink-700"
-            className="mx-auto bg-pink-700"
-            small
-          >
-            Đăng kí học
-          </Button>
+          <form action={registerCourse}>
+            <Button
+              classStroke="stroke-pink-700"
+              className="mx-auto bg-pink-700"
+              small
+              type="submit"
+            >
+              Đăng kí học
+            </Button>
+          </form>
           <ul className="space-y-3 py-2">
             <li className="flex items-center gap-2">
               <IconAngle className="h-6 w-6" />

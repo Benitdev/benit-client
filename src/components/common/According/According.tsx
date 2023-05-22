@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react"
 
+import { motion } from "framer-motion"
+
 import { TCourseChapter } from "@/types"
 
 type Props = {
@@ -31,12 +33,12 @@ const According = ({
   return (
     <div>
       <button
-        className="w-full rounded-lg bg-slate-800 p-4"
+        className="w-full rounded-lg bg-slate-800 p-4 hover:bg-slate-800/60"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <Heading chapter={item} isOpen={isOpen} type={type} />
       </button>
-      <div>{isOpen && children}</div>
+      <div className="my-2 space-y-2">{isOpen && children}</div>
     </div>
   )
 }

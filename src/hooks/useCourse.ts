@@ -4,5 +4,5 @@ import { useQuery } from "@tanstack/react-query"
 export const useCourse = () =>
   useQuery({
     queryKey: ["courses"],
-    queryFn: courseApi.getCourse,
+    queryFn: courseApi.getCourses,
   })

@@ -1,3 +1,4 @@
+import { durationToSecond } from "@/utils/durationify"
 import { slugify } from "@/utils/slugify"
 import { IconArrowLeft, IconPlus } from "@tabler/icons-react"
 import { IconMinus } from "@tabler/icons-react"
@@ -36,7 +37,7 @@ const LessonForm = ({
             onSuccess: (data: any) => {
               setValue(
                 `courseChapters.${index}.lessons.${i}.duration`,
-                data?.data?.items[0]?.contentDetails.duration
+                durationToSecond(data?.data?.items[0]?.contentDetails.duration)
               )
             },
           }

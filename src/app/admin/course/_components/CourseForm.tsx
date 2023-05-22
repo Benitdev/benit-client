@@ -71,7 +71,6 @@ const CourseForm = forwardRef(function CourseForm(
         ? { ...selectedRow, categoryID: selectedRow.categoryID._id }
         : {},
   })
-
   const {
     fields: goalsFields,
     append: appendGoal,
@@ -105,7 +104,6 @@ const CourseForm = forwardRef(function CourseForm(
     },
   })
   const onSubmit = (data: FormData) => {
-    console.log(data)
     mutation.mutate({ ...data, image: imagePath })
   }
 

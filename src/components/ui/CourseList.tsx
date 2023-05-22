@@ -1,19 +1,37 @@
 import Heading from "../common/Heading"
 import CourseItem from "./CourseItem"
 import courseApi from "@/api/client-side/courseApi"
+import authApi from "@/api/server-side/authApi"
 
 type Props = {}
 
 const CourseList = async (props: Props) => {
-  const courses = await courseApi.getCourse()
+  const courses = await courseApi.getCourses()
+  const user = await authApi.getUser().catch(() => null)
+  const isLearning = user?.courseLearned.find((course) => course.course)
   return (
     <section className="relative p-10 shadow-inner">
       <div className="min-h-[500px]">
         <Heading flag="Free">Khoá Học Miễn Phí</Heading>
         <div className="mt-8 grid grid-cols-list gap-8">
-          {courses.map((course) => (
-            <CourseItem key={course._id} course={course} />
-          ))}
+          {courses.map((course) => {
+            let isLearning = true
+            const courseLearned = user?.courseLearned.find(
+              (courseLearned) => courseLearned.course === course._id
+            )
+            if (!courseLearned) isLearning = false
+            const lessonID = courseLearned?.lessons.at(-1)
+
+            return (
+              // @ts-expect-error Async Server Component
+              <CourseItem
+                key={course._id}
+                course={course}
+                isLearning={isLearning}
+                lessonID={lessonID}
+              />
+            )
+          })}
         </div>
       </div>
       <div className="absolute left-11 top-[15%] -z-10 h-32 w-[50rem] -rotate-45 bg-pink-600/70 bg-gradient-to-tr blur-[200px]"></div>

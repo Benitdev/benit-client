@@ -18,15 +18,18 @@ export type TCourseChapter = {
   _id: string
   index: number
   title: string
-  lessons: Lesson[]
+  lessons: TLesson[]
   description: string
   createdAt: string
   updatedAt: string
 }
 
-export type Lesson = {
-  duration: string
-  title: string
-  videoID: string
+export type TLesson = {
   _id: string
+  title: string
+  slug: string
+  videoID: string
+  duration: string
+  createdAt: string
+  updateAt: string
 }

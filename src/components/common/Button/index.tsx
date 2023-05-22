@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { ButtonHTMLAttributes } from "react"
 
 type Props = {
@@ -7,7 +7,6 @@ type Props = {
   scale?: boolean
   small?: boolean
   children: React.ReactNode
-  onClick?: () => void
 }
 
 const Button = ({
@@ -16,12 +15,11 @@ const Button = ({
   classStroke,
   small,
   children,
-  onClick,
   ...props
 }: Props & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
-      className={clsx(
+      className={cn(
         "glow-effect relative flex max-w-[300px] items-center justify-center gap-2 rounded-xl  font-bold tracking-wider drop-shadow-xl transition-transform duration-200",
         className,
         {
@@ -30,7 +28,6 @@ const Button = ({
           "hover:scale-110": scale,
         }
       )}
-      onClick={onClick}
       {...props}
     >
       {children}
@@ -38,12 +35,12 @@ const Button = ({
         <rect
           pathLength="100"
           strokeLinecap="round"
-          className={clsx("glow-blur", classStroke)}
+          className={cn("glow-blur", classStroke)}
         ></rect>
         <rect
           pathLength="100"
           strokeLinecap="round"
-          className={clsx("glow-line", classStroke)}
+          className={cn("glow-line", classStroke)}
         ></rect>
       </svg>
     </button>

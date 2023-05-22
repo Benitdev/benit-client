@@ -6,7 +6,7 @@ const courseApi = {
   addCourse: (data: any): Promise<ResSuccess> =>
     axiosClient.post(`/courses`, data),
 
-  getCourse: (): Promise<TCourse[]> => axiosClient.get("/courses"),
+  getCourses: (): Promise<TCourse[]> => axiosClient.get("/courses"),
 
   getCourseDetail: (slug: string): Promise<TCourse> =>
     axiosClient.get(`/courses/${slug}`),

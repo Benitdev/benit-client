@@ -1,6 +1,6 @@
 // import { LoginForm } from 'types';
 import axiosServer from "@/lib/axiosServer"
-import { TUser } from "@/types"
+import { ResSuccess, TUser } from "@/types"
 
 const authApi = {
   //   login: (body: LoginForm) => axiosClient.post('auth/login', body),
@@ -19,6 +19,10 @@ const authApi = {
   //       },
   //     );
   //   },
+  registerCourse: (data: {
+    course: string
+    lesson: string
+  }): Promise<ResSuccess> => axiosServer.post("/user/register-course", data),
 }
 
 export default authApi

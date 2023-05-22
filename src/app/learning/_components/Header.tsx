@@ -1,5 +1,4 @@
 import SmallLogo from "@/components/common/Logo/SmallLogo"
-import Searchbar from "@/components/ui/Searchbar"
 import { IconArrowBack } from "@tabler/icons-react"
 import Link from "next/link"
 
@@ -9,7 +8,7 @@ type Props = {
 
 const Header = ({ title }: Props) => {
   return (
-    <header className="sticky top-0 z-[999] h-[60px] border-b border-slate-100/10 bg-slate-900 px-7">
+    <header className="sticky top-0 z-[999] h-[60px] border-b border-slate-100/10 bg-slate-900 px-7 shadow-md">
       <div className="mx-auto flex h-full items-center">
         <Link href="/" className="mr-10">
           <IconArrowBack className="h-5 w-5" />
@@ -18,7 +17,7 @@ const Header = ({ title }: Props) => {
           <Link href="/">
             <SmallLogo />
           </Link>
-          <h1 className="truncate text-base font-bold tracking-wider">
+          <h1 className="truncate text-base font-bold capitalize tracking-widest">
             {title}
           </h1>
         </div>
