@@ -22,27 +22,29 @@ type Props = {
 
 const CourseDetailPage = async ({ params: { slug } }: Props) => {
   const course = await courseApi.getCourseDetail(slug)
+  const user = await authApi.getUser().catch(() => null)
   const lessonTotal = course?.courseChapters
     .map((chapter) => chapter.lessons.length)
     .reduce((prev, lessonLength) => prev + lessonLength, 0)
 
   const lessonID = course?.courseChapters[0]?.lessons[0]._id
+  const courseID = course._id
   const courseSlug = course.slug
 
   async function registerCourse() {
     "use server"
-
+    if (!user) redirect("/login")
     try {
       await authApi.registerCourse({
-        course: course._id,
+        course: courseID,
         lesson: lessonID,
       })
+      redirect(`/learning/${courseSlug}?id=${lessonID}`, RedirectType.push)
     } catch (e) {
       throw e
     }
-
-    redirect(`/learning/${courseSlug}?id=${lessonID}`, RedirectType.push)
   }
+
   return (
     <div className="mt-5 flex w-full gap-4 p-2 lg:p-5">
       <div className="flex-[0.6] space-y-4">

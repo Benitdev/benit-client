@@ -22,6 +22,7 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
   const pathname = usePathname()
 
   const [expand, setExpand] = useState<string[]>([chapters[0]?._id])
+
   return (
     <div className="mt-2 space-y-4">
       {chapters.map((chapter) => (

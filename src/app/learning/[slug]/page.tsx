@@ -19,10 +19,10 @@ const LearningPage = async ({ params: { slug }, searchParams }: Props) => {
     .getLesson(searchParams.id as string)
     .catch(() => notFound())
   const course = await courseApi.getCourseDetail(slug)
+
   const isLessonExist = user?.courseLearned
     .find((courseLearn) => courseLearn.course === course._id)
     ?.lessons.find((lesson) => lesson === searchParams.id)
-
   if (!isLessonExist) notFound()
 
   return (

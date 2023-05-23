@@ -1,7 +1,9 @@
-import axios from "axios"
 import { cookies } from "next/headers"
 
-const baseUrl = "http://localhost:5000/api/v1"
+import { BASE_API_URL } from "@/configs/env"
+import axios from "axios"
+
+const baseUrl = BASE_API_URL
 
 const axiosServer = axios.create({
   baseURL: baseUrl,

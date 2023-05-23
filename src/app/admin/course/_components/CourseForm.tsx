@@ -86,7 +86,7 @@ const CourseForm = forwardRef(function CourseForm(
     remove: removeChapter,
   } = useFieldArray({
     control,
-    name: "courseChapters" as never,
+    name: "courseChapters",
   })
 
   const queryClient = useQueryClient()
@@ -293,7 +293,9 @@ const CourseForm = forwardRef(function CourseForm(
               ))}
             </div>
             <button
-              onClick={() => appendChapter({ title: "", description: "" })}
+              onClick={() =>
+                appendChapter({ title: "", description: "", index: "" })
+              }
               className="mx-auto mt-2 block rounded-full bg-pink-700 p-1"
               type="button"
             >
