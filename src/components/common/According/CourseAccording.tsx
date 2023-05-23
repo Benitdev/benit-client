@@ -1,13 +1,14 @@
 "use client"
 
-import { TCourseChapter } from "@/types"
-import According from "./According"
-import { IconAlarm, IconPlus, IconVideo } from "@tabler/icons-react"
 import { useState } from "react"
-import { IconMinus } from "@tabler/icons-react"
-import { usePathname, useSearchParams } from "next/navigation"
-import { cn } from "@/utils/cn"
 import Link from "next/link"
+import { usePathname, useSearchParams } from "next/navigation"
+
+import { IconAlarm, IconPlus, IconVideo, IconMinus } from "@tabler/icons-react"
+
+import According from "./According"
+import { TCourseChapter } from "@/types"
+import { cn } from "@/utils/cn"
 import { durationToSecond, secondToString } from "@/utils/durationify"
 
 type Props = {

@@ -1,22 +1,16 @@
 import { BASE_API_URL } from "@/configs/env"
-import axiosServer from "@/lib/axiosServer"
+import httpRequest from "@/lib/httpRequest"
 import { ResSuccess, TLesson } from "@/types"
 import { TCourse } from "@/types"
 
 const courseApi = {
-  getCourses: async (): Promise<TCourse[]> => {
-    const res = await fetch(`${BASE_API_URL}/courses`)
-    const { data } = await res.json()
-    return data
-  },
+  getCourses: async (): Promise<TCourse[]> => httpRequest(`/courses`),
 
-  getCourseDetail: async (slug: string): Promise<TCourse> => {
-    const res = await fetch(`${BASE_API_URL}/courses/${slug}`)
-    const { data } = await res.json()
-    return data
-  },
-  getLesson: (id: string): Promise<TLesson> =>
-    axiosServer.get(`/courses/lessons/${id}`),
+  getCourseDetail: async (slug: string): Promise<TCourse> =>
+    httpRequest(`/courses/${slug}`),
+
+  getLesson: async (id: string): Promise<TLesson> =>
+    httpRequest(`/courses/lessons/${id}`),
 }
 
 export default courseApi

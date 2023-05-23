@@ -1,10 +1,11 @@
 // import { LoginForm } from 'types';
 import axiosServer from "@/lib/axiosServer"
+import httpRequest from "@/lib/httpRequest"
 import { ResSuccess, TUser } from "@/types"
 
 const authApi = {
   //   login: (body: LoginForm) => axiosClient.post('auth/login', body),
-  getUser: (): Promise<TUser> => axiosServer.get("/user"),
+  getUser: (): Promise<TUser> => httpRequest("/user", true),
   //   register: (body: any) => axiosClient.post('auth/register', body),
   //   logout: () => axiosClient.post('auth/logout'),
   //   verifyToken: (token: string) => {

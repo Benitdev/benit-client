@@ -1,14 +1,14 @@
+import courseApi from "@/api/server-side/courseApi"
 import Heading from "../common/Heading"
 import CourseItem from "./CourseItem"
-import courseApi from "@/api/client-side/courseApi"
 import authApi from "@/api/server-side/authApi"
 
 type Props = {}
 
 const CourseList = async (props: Props) => {
-  const courses = await courseApi.getCourses()
-  const user = await authApi.getUser().catch(() => null)
-  const isLearning = user?.courseLearned.find((course) => course.course)
+  const coursesRes = courseApi.getCourses()
+  const userRes = authApi.getUser()
+  const [courses, user] = await Promise.all([coursesRes, userRes])
   return (
     <section className="relative p-10 shadow-inner">
       <div className="min-h-[500px]">

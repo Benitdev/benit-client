@@ -15,7 +15,7 @@ export default async function DefaultLayout({
 }: {
   children: React.ReactNode
 }) {
-  const user = await authApi.getUser().catch(() => {})
+  const user = await authApi.getUser()
   return (
     <>
       <Header user={user} />

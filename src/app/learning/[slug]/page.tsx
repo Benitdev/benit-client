@@ -14,11 +14,16 @@ type Props = {
 }
 
 const LearningPage = async ({ params: { slug }, searchParams }: Props) => {
-  const user = await authApi.getUser().catch(() => null)
-  const lesson = await courseApi
-    .getLesson(searchParams.id as string)
-    .catch(() => notFound())
-  const course = await courseApi.getCourseDetail(slug)
+  const userRes = authApi.getUser()
+  const lessonRes = courseApi.getLesson(searchParams.id as string)
+  const courseRes = courseApi.getCourseDetail(slug)
+
+  const [user, lesson, course] = await Promise.all([
+    userRes,
+    lessonRes,
+    courseRes,
+  ])
+  if (!lesson) notFound()
 
   const isLessonExist = user?.courseLearned
     .find((courseLearn) => courseLearn.course === course._id)

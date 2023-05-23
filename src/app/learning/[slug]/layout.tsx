@@ -1,11 +1,12 @@
-import courseApi from "@/api/client-side/courseApi"
-import authApi from "@/api/server-side/authApi"
-import Header from "../_components/Header"
-import CourseTrack from "../_components/CourseTrack"
 import {
   IconArrowBigLeftFilled,
   IconArrowBigRightFilled,
 } from "@tabler/icons-react"
+
+import authApi from "@/api/server-side/authApi"
+import Header from "../_components/Header"
+import CourseTrack from "../_components/CourseTrack"
+import courseApi from "@/api/server-side/courseApi"
 
 type Props = {
   params: { slug: string }
@@ -13,8 +14,8 @@ type Props = {
 }
 
 const LearningLayout = async ({ params: { slug }, children }: Props) => {
-  const user = await authApi.getUser().catch(() => null)
   const course = await courseApi.getCourseDetail(slug)
+  const user = await authApi.getUser()
 
   return (
     <div>
