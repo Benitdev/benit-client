@@ -1,6 +1,6 @@
 // import { LoginForm } from 'types';
 import axiosClient from "@/lib/axiosClient"
-import axiosServer from "@/lib/axiosServer"
+import { ResSuccess } from "@/types"
 
 const authApi = {
   //   login: (body: LoginForm) => axiosClient.post('auth/login', body),
@@ -25,6 +25,8 @@ const authApi = {
   //       },
   //     );
   //   },
+  updateProgress: (data: any): Promise<ResSuccess> =>
+    axiosClient.post("/user/update-progress", data),
 }
 
 export default authApi

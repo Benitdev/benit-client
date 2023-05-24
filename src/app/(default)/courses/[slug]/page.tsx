@@ -4,11 +4,11 @@ import { RedirectType } from "next/dist/client/components/redirect"
 
 import { IconBrandDrops } from "@tabler/icons-react"
 
-import courseApi from "@/api/server-side/courseApi"
 import CourseAccording from "@/components/common/According/CourseAccording"
 import Button from "@/components/common/Button"
 import Heading from "@/components/common/Heading"
 import { IconAlarmFilled, IconAngle, IconMovie } from "@tabler/icons-react"
+import courseApi from "@/api/server-side/courseApi"
 import authApi from "@/api/server-side/authApi"
 import { IMAGE_DEFAULT } from "@/constants/imagePath"
 
@@ -21,8 +21,10 @@ type Props = {
 }
 
 const CourseDetailPage = async ({ params: { slug } }: Props) => {
-  const course = await courseApi.getCourseDetail(slug)
-  const user = await authApi.getUser().catch(() => null)
+  const courseRes = courseApi.getCourseDetail(slug)
+  const userRes = authApi.getUser()
+  const [course, user] = await Promise.all([courseRes, userRes])
+
   const lessonTotal = course?.courseChapters
     .map((chapter) => chapter.lessons.length)
     .reduce((prev, lessonLength) => prev + lessonLength, 0)

@@ -1,11 +1,12 @@
+import { notFound } from "next/navigation"
 import {
   IconArrowBigLeftFilled,
   IconArrowBigRightFilled,
 } from "@tabler/icons-react"
 
-import authApi from "@/api/server-side/authApi"
 import Header from "../_components/Header"
 import CourseTrack from "../_components/CourseTrack"
+import authApi from "@/api/server-side/authApi"
 import courseApi from "@/api/server-side/courseApi"
 
 type Props = {
@@ -14,12 +15,26 @@ type Props = {
 }
 
 const LearningLayout = async ({ params: { slug }, children }: Props) => {
-  const course = await courseApi.getCourseDetail(slug)
-  const user = await authApi.getUser()
+  const courseRes = courseApi.getCourseDetail(slug)
+  const userRes = authApi.getUser()
+
+  const [course, user] = await Promise.all([courseRes, userRes])
+
+  if (!course) notFound()
+
+  // const courseLearned = user?.courseLearned.find(
+  //   (courseLearn) => courseLearn.course === course._id
+  // )
+
+  // course.courseChapters.forEach((course) => {
+  //   course.lessons.forEach((lesson) => {
+  //     lesson
+  //   })
+  // })
 
   return (
     <div>
-      <Header title={course.title} />
+      <Header title={course.title} user={user} />
       <div className="flex">
         <div className="flex-[0.8]">{children}</div>
         <CourseTrack

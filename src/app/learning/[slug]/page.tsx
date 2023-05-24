@@ -14,15 +14,16 @@ type Props = {
 }
 
 const LearningPage = async ({ params: { slug }, searchParams }: Props) => {
-  const userRes = authApi.getUser()
   const lessonRes = courseApi.getLesson(searchParams.id as string)
   const courseRes = courseApi.getCourseDetail(slug)
+  const userRes = authApi.getUser()
 
   const [user, lesson, course] = await Promise.all([
     userRes,
     lessonRes,
     courseRes,
   ])
+
   if (!lesson) notFound()
 
   const isLessonExist = user?.courseLearned
@@ -32,7 +33,11 @@ const LearningPage = async ({ params: { slug }, searchParams }: Props) => {
 
   return (
     <div>
-      <Video videoID={lesson.videoID} />
+      <Video
+        videoID={lesson.videoID}
+        lessonID={lesson._id}
+        courseID={course._id}
+      />
       <div className="space-y-10 p-10 px-14">
         <div className="flex justify-between gap-4">
           <div>

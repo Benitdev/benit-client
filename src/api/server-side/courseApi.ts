@@ -1,10 +1,14 @@
-import { BASE_API_URL } from "@/configs/env"
 import httpRequest from "@/lib/httpRequest"
 import { ResSuccess, TLesson } from "@/types"
 import { TCourse } from "@/types"
 
 const courseApi = {
-  getCourses: async (): Promise<TCourse[]> => httpRequest(`/courses`),
+  getCourses: async (): Promise<TCourse[]> =>
+    httpRequest(`/courses`, {
+      next: {
+        revalidate: 60,
+      },
+    }),
 
   getCourseDetail: async (slug: string): Promise<TCourse> =>
     httpRequest(`/courses/${slug}`),

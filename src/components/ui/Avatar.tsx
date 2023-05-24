@@ -9,7 +9,7 @@ function getRandomColor() {
   const index = Math.floor(Math.random() * colors.length)
   return colors[index]
 }
-const Avatar = ({ className = "", user }: any) => {
+const Avatar = ({ className = "", avatar }: any) => {
   // const color = getRandomColor()
   return (
     <div
@@ -22,7 +22,7 @@ const Avatar = ({ className = "", user }: any) => {
       }} */
     >
       <div className="relative h-[40px] w-[40px] overflow-hidden rounded-full">
-        <Image src={user.avatar} alt="avatar" width={40} height={40} />
+        <Image src={avatar} alt="avatar" width={40} height={40} />
       </div>
     </div>
   )

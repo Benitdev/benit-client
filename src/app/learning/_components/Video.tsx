@@ -1,12 +1,18 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+
+import authApi from "@/api/client-side/authApi"
 import YouTube, { YouTubeEvent } from "react-youtube"
 
 type Props = {
   videoID: string
+  lessonID?: string
+  courseID?: string
 }
 
-const Video = ({ videoID }: Props) => {
+const Video = ({ videoID, lessonID, courseID }: Props) => {
+  const router = useRouter()
   const onPause = (e: YouTubeEvent<number>) => {
     // console.log(e)
   }
@@ -14,7 +20,12 @@ const Video = ({ videoID }: Props) => {
     console.log(e.target.playVideoAt(100))
   }
   const onEnd = (e: YouTubeEvent<number>) => {
-    console.log(e)
+    authApi
+      .updateProgress({ course: courseID, currentLesson: lessonID })
+      .then(() => {
+        router.refresh()
+      })
+      .catch((e) => console.log(e))
   }
   const onError = (e: YouTubeEvent<number>) => {
     console.log(e)
