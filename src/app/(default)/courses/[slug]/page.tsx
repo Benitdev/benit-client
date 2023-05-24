@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { RedirectType } from "next/dist/client/components/redirect"
 
 import { IconBrandDrops } from "@tabler/icons-react"
@@ -11,6 +11,8 @@ import { IconAlarmFilled, IconAngle, IconMovie } from "@tabler/icons-react"
 import courseApi from "@/api/server-side/courseApi"
 import authApi from "@/api/server-side/authApi"
 import { IMAGE_DEFAULT } from "@/constants/imagePath"
+import { calcTimeCourse } from "@/utils/calcTimeCourse"
+import { secondToString } from "@/utils/durationify"
 
 export const metadata = {
   title: "Blogs",
@@ -25,6 +27,8 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
   const userRes = authApi.getUser()
   const [course, user] = await Promise.all([courseRes, userRes])
 
+  if (!course) notFound()
+
   const lessonTotal = course?.courseChapters
     .map((chapter) => chapter.lessons.length)
     .reduce((prev, lessonLength) => prev + lessonLength, 0)
@@ -32,6 +36,8 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
   const lessonID = course?.courseChapters[0]?.lessons[0]._id
   const courseID = course._id
   const courseSlug = course.slug
+
+  const timeCourseTotal = calcTimeCourse(course.courseChapters)
 
   async function registerCourse() {
     "use server"
@@ -49,7 +55,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
 
   return (
     <div className="mt-5 flex w-full gap-4 p-2 lg:p-5">
-      <div className="flex-[0.6] space-y-4">
+      <div className="flex-[0.6] space-y-6">
         <Heading className="capitalize">{course.title}</Heading>
         <p className="text-slate-400">{course.description}</p>
         <div className="py-4">
@@ -79,6 +85,41 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
         </div>
         <div>
           <h3 className="text-large font-bold">Nội dung khoá học</h3>
+          <div className="flex justify-between">
+            <p className="mt-3 text-xs text-slate-400">
+              <span>
+                <span className="font-bold">
+                  {course.courseChapters.length}
+                </span>{" "}
+                chương
+              </span>
+              <span className="px-2">•</span>
+              <span>
+                <span className="font-bold">{lessonTotal}</span> bài học
+              </span>
+              <span className="px-2">•</span>
+              <span>
+                <span>Thời lượng </span>
+                <span className="font-bold">
+                  {secondToString(timeCourseTotal).map((amount, index) =>
+                    amount !== 0 ? (
+                      <span key={index}>
+                        {amount}
+                        {index === 0
+                          ? " giờ "
+                          : index === 1
+                          ? " phút "
+                          : " giây"}
+                      </span>
+                    ) : null
+                  )}
+                </span>
+              </span>
+            </p>
+            <button className="text-sm font-bold text-pink-700">
+              Mở rộng tất cả
+            </button>
+          </div>
           <CourseAccording chapters={course.courseChapters} />
         </div>
       </div>
@@ -119,7 +160,23 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
             </li>
             <li className="flex items-center gap-2">
               <IconAlarmFilled className="h-6 w-6" />
-              <span>Học mọi lúc, mọi nơi</span>
+              <span>
+                Thời lượng{" "}
+                <span className="font-bold">
+                  {secondToString(timeCourseTotal).map((amount, index) =>
+                    amount !== 0 ? (
+                      <span key={index}>
+                        {amount}
+                        {index === 0
+                          ? " giờ "
+                          : index === 1
+                          ? " phút "
+                          : " giây"}
+                      </span>
+                    ) : null
+                  )}
+                </span>
+              </span>
             </li>
             <li className="flex items-center gap-2">
               <IconBrandDrops className="h-6 w-6" />

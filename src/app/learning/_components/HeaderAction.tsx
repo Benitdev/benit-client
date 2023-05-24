@@ -7,7 +7,7 @@ type Props = {
 
 const HeaderAction = ({ user }: Props) => {
   return (
-    <div className="flex flex-1 items-center justify-end gap-4 text-xs">
+    <div className="flex flex-1 items-center justify-end gap-4 text-sm">
       <div></div>
       <button> Ghi chú</button>
       <button> Hướng dẫn</button>

@@ -11,7 +11,7 @@ const courseApi = {
     }),
 
   getCourseDetail: async (slug: string): Promise<TCourse> =>
-    httpRequest(`/courses/${slug}`),
+    httpRequest(`/courses/${slug}`, { cache: "no-store" }),
 
   getLesson: async (id: string): Promise<TLesson> =>
     httpRequest(`/courses/lessons/${id}`),

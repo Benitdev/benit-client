@@ -1,6 +1,5 @@
 export const durationToSecond = (value: string) => {
   const numbers = value.match(/\d+/g)
-  console.log(numbers)
   const totalSecond = numbers?.reduce((second, amount, index) => {
     let times = 1
     switch (index - numbers?.length) {

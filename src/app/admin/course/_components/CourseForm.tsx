@@ -39,6 +39,7 @@ const schema = yup
     ),
     level: yup.string().required("Trình độ khóa học là bắt buộc!"),
     description: yup.string().required("Mô tả khoá học là bắt buộc!"),
+    image: yup.string().required("Ảnh bìa là bắt buộc!"),
   })
   .required()
 
@@ -54,15 +55,14 @@ const CourseForm = forwardRef(function CourseForm(
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const [openLessonModal, setOpenLessonModal] = useState<number | null>(null)
-  const [imagePath, setImagePath] = useState<string>(
-    action === TAction.Edit ? selectedRow.image : ""
-  )
+
   const {
     register,
     handleSubmit,
     control,
     setValue,
     reset,
+    watch,
     formState: { errors, isDirty },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -71,6 +71,7 @@ const CourseForm = forwardRef(function CourseForm(
         ? { ...selectedRow, categoryID: selectedRow.categoryID._id }
         : {},
   })
+
   const {
     fields: goalsFields,
     append: appendGoal,
@@ -79,6 +80,8 @@ const CourseForm = forwardRef(function CourseForm(
     control,
     name: "goals" as never,
   })
+
+  const imagePath = watch("image")
 
   const {
     fields: chaptersFields,
@@ -103,8 +106,9 @@ const CourseForm = forwardRef(function CourseForm(
       toast.error(error.data.message as string)
     },
   })
+
   const onSubmit = (data: FormData) => {
-    mutation.mutate({ ...data, image: imagePath })
+    mutation.mutate(data)
   }
 
   const { data: categories } = useCategory("code-categories", "course")
@@ -112,7 +116,7 @@ const CourseForm = forwardRef(function CourseForm(
   const uploadMutation = useMutation({
     mutationFn: courseApi.uploadImage,
     onSuccess: (data) => {
-      setImagePath(data.imagePath)
+      setValue("image", data.imagePath, { shouldDirty: true })
     },
     onError: (error: any) => {
       toast.error(error.data.message as string)
@@ -294,7 +298,11 @@ const CourseForm = forwardRef(function CourseForm(
             </div>
             <button
               onClick={() =>
-                appendChapter({ title: "", description: "", index: "" })
+                appendChapter({
+                  index: `${chaptersFields.length + 1}`,
+                  title: "",
+                  description: "",
+                })
               }
               className="mx-auto mt-2 block rounded-full bg-pink-700 p-1"
               type="button"
@@ -327,6 +335,7 @@ const CourseForm = forwardRef(function CourseForm(
             >
               Ảnh bìa khoá học
             </label>
+            <input {...register("image")} hidden />
             <input
               type="file"
               accept="image/png, image/jpeg"

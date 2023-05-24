@@ -8,6 +8,7 @@ import Header from "../_components/Header"
 import CourseTrack from "../_components/CourseTrack"
 import authApi from "@/api/server-side/authApi"
 import courseApi from "@/api/server-side/courseApi"
+import { calcTimeCourse } from "@/utils/calcTimeCourse"
 
 type Props = {
   params: { slug: string }
@@ -22,16 +23,18 @@ const LearningLayout = async ({ params: { slug }, children }: Props) => {
 
   if (!course) notFound()
 
-  // const courseLearned = user?.courseLearned.find(
-  //   (courseLearn) => courseLearn.course === course._id
-  // )
+  /*   const courseLearned = user?.courseLearned.find(
+    (courseLearn) => courseLearn.course === course._id
+  )
 
-  // course.courseChapters.forEach((course) => {
-  //   course.lessons.forEach((lesson) => {
-  //     lesson
-  //   })
-  // })
+  course.courseChapters.forEach((course) => {
+    course.lessons.forEach((lesson) => {
+      lesson
+    })
+  }) */
+  const timeCourseTotal = calcTimeCourse(course.courseChapters)
 
+  console.log(timeCourseTotal)
   return (
     <div>
       <Header title={course.title} user={user} />

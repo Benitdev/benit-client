@@ -14,7 +14,7 @@ const CourseTrack = ({ chapters, lessonsLearned }: Props) => {
         <div className="px-2">
           <CourseAccording
             chapters={chapters}
-            type={"tracker"}
+            type="tracker"
             lessonsLearned={lessonsLearned}
           />
         </div>

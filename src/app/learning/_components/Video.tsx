@@ -7,11 +7,17 @@ import YouTube, { YouTubeEvent } from "react-youtube"
 
 type Props = {
   videoID: string
-  lessonID?: string
+  nextLessonID?: string
   courseID?: string
+  isLearnedNextLesson?: boolean
 }
 
-const Video = ({ videoID, lessonID, courseID }: Props) => {
+const Video = ({
+  videoID,
+  nextLessonID,
+  courseID,
+  isLearnedNextLesson,
+}: Props) => {
   const router = useRouter()
   const onPause = (e: YouTubeEvent<number>) => {
     // console.log(e)
@@ -20,12 +26,13 @@ const Video = ({ videoID, lessonID, courseID }: Props) => {
     console.log(e.target.playVideoAt(100))
   }
   const onEnd = (e: YouTubeEvent<number>) => {
-    authApi
-      .updateProgress({ course: courseID, currentLesson: lessonID })
-      .then(() => {
-        router.refresh()
-      })
-      .catch((e) => console.log(e))
+    if (nextLessonID && !isLearnedNextLesson)
+      authApi
+        .updateProgress({ course: courseID, nextLessonID: nextLessonID })
+        .then(() => {
+          router.refresh()
+        })
+        .catch((e) => console.log(e))
   }
   const onError = (e: YouTubeEvent<number>) => {
     console.log(e)
@@ -39,6 +46,11 @@ const Video = ({ videoID, lessonID, courseID }: Props) => {
       onStateChange={onStateChange}
       onEnd={onEnd}
       onError={onError}
+      opts={{
+        playerVars: {
+          autoplay: 1,
+        },
+      }}
     />
   )
 }

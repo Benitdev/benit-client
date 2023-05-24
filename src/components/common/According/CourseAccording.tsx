@@ -22,8 +22,24 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
   const lessonID = searchParams.get("id")
   const pathname = usePathname()
 
-  const [expand, setExpand] = useState<string[]>([chapters[0]?._id])
-
+  const [expand, setExpand] = useState<string[]>(
+    type === "tracker"
+      ? chapters.map((chapter) => {
+          let isExpand = false
+          for (let i = 0; i < (lessonsLearned?.length ?? 0); i++) {
+            if (
+              chapter.lessons.findIndex(
+                (lesson) => lesson._id === lessonsLearned?.[i]
+              ) !== -1
+            ) {
+              isExpand = true
+              break
+            }
+          }
+          return isExpand ? chapter._id : ""
+        })
+      : [chapters[0]?._id]
+  )
   return (
     <div className="mt-2 space-y-4">
       {chapters.map((chapter) => (
@@ -33,18 +49,20 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
           Heading={AccordingHeading}
           expand={expand.includes(chapter._id)}
           setExpand={setExpand}
-          type="tracker"
+          type={type}
         >
           {chapter.lessons.map((lesson, index) => (
             <Link
-              href={`${pathname}?id=${lesson._id}`}
               key={lesson._id}
+              href={`${pathname}?id=${lesson._id}`}
               className={cn(
                 "flex cursor-pointer items-center gap-2 rounded-xl p-4 px-7 ",
                 lessonID === lesson._id && "bg-pink-700/30",
-                lessonsLearned?.includes(lesson._id)
-                  ? "hover:bg-pink-700/30"
-                  : "pointer-events-none bg-black/20 opacity-70"
+                type === "tracker"
+                  ? lessonsLearned?.includes(lesson._id)
+                    ? "hover:bg-pink-700/30"
+                    : "pointer-events-none bg-black/20 opacity-70"
+                  : "pointer-events-none"
               )}
             >
               <IconVideo className="h-4 w-4 text-red-500" />
