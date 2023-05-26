@@ -83,7 +83,6 @@ const AccountForm = forwardRef(function CourseForm(
     },
   })
 
-  console.log(content)
   return (
     <div
       ref={ref}

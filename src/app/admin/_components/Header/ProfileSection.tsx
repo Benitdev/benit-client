@@ -17,7 +17,7 @@ const ProfileSection = ({ user }: Props) => {
       <div className="rounded-full bg-slate-200/20 p-2">
         <IconBell />
       </div>
-      <Avatar user={user} />
+      <Avatar avatar={user.avatar} />
     </div>
   )
 }

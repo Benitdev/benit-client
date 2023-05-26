@@ -136,3 +136,7 @@
     opacity: 1;
   }
 }
+
+.quill p {
+  line-height: 1.5;
+}
