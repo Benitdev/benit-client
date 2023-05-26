@@ -26,7 +26,7 @@ const Video = ({
     console.log(e.target.playVideoAt(100))
   }
   const onEnd = (e: YouTubeEvent<number>) => {
-    if (nextLessonID && !isLearnedNextLesson)
+    if (!isLearnedNextLesson)
       authApi
         .updateProgress({ course: courseID, nextLessonID: nextLessonID })
         .then(() => {

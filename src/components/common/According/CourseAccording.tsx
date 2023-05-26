@@ -4,7 +4,14 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 
-import { IconAlarm, IconPlus, IconVideo, IconMinus } from "@tabler/icons-react"
+import {
+  IconAlarm,
+  IconPlus,
+  IconVideo,
+  IconMinus,
+  IconLock,
+  IconDiscountCheckFilled,
+} from "@tabler/icons-react"
 
 import According from "./According"
 import { TCourseChapter } from "@/types"
@@ -14,7 +21,7 @@ import { durationToSecond, secondToString } from "@/utils/durationify"
 type Props = {
   chapters: TCourseChapter[]
   type?: "tracker"
-  lessonsLearned?: string[]
+  lessonsLearned?: { lessonID: string; status: "done" | "learning" }[]
 }
 
 const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
@@ -29,7 +36,7 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
           for (let i = 0; i < (lessonsLearned?.length ?? 0); i++) {
             if (
               chapter.lessons.findIndex(
-                (lesson) => lesson._id === lessonsLearned?.[i]
+                (lesson) => lesson._id === lessonsLearned?.[i].lessonID
               ) !== -1
             ) {
               isExpand = true
@@ -56,12 +63,14 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
               key={lesson._id}
               href={`${pathname}?id=${lesson._id}`}
               className={cn(
-                "flex cursor-pointer items-center gap-2 rounded-xl p-4 px-7 ",
+                "relative flex cursor-pointer items-center gap-2 rounded-xl p-4 px-7",
                 lessonID === lesson._id && "bg-pink-700/30",
                 type === "tracker"
-                  ? lessonsLearned?.includes(lesson._id)
-                    ? "hover:bg-pink-700/30"
-                    : "pointer-events-none bg-black/20 opacity-70"
+                  ? lessonsLearned?.some(
+                      (lessonLearned) => lessonLearned.lessonID === lesson._id
+                    )
+                    ? "px-10 hover:bg-pink-700/30"
+                    : "pointer-events-none bg-black/20 px-10 opacity-70"
                   : "pointer-events-none"
               )}
             >
@@ -85,6 +94,17 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
                 )}
                 <IconAlarm className="ml-2 h-5 w-5" />
               </small>
+              {type === "tracker" &&
+                !lessonsLearned?.some(
+                  (lessonLearned) => lessonLearned.lessonID === lesson._id
+                ) && (
+                  <IconLock className="absolute right-3 ml-2 h-5 w-5 text-slate-400" />
+                )}
+              {lessonsLearned?.find(
+                (lessonLearned) => lessonLearned.lessonID === lesson._id
+              )?.status === "done" && (
+                <IconDiscountCheckFilled className="absolute right-3 ml-2 h-5 w-5 text-green-400" />
+              )}
             </Link>
           ))}
         </According>

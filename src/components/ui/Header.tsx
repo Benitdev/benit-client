@@ -22,7 +22,7 @@ const Header = ({ user }: Props) => {
         </div>
         <div className="flex flex-1 justify-end">
           {user ? (
-            <Avatar user={user} />
+            <Avatar avatar={user.avatar} />
           ) : (
             <Link href={"/login"}>
               <ButtonAction className="bg-cyan-600">Đăng nhập</ButtonAction>

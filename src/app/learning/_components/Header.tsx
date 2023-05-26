@@ -7,9 +7,10 @@ import HeaderAction from "./HeaderAction"
 type Props = {
   title: string
   user: TUser
+  progressPercent: number
 }
 
-const Header = ({ title, user }: Props) => {
+const Header = ({ title, user, progressPercent }: Props) => {
   return (
     <header className="sticky top-0 z-[999] h-[60px] border-b border-slate-100/10 bg-slate-900 px-7 shadow-md">
       <div className="mx-auto flex h-full items-center">
@@ -27,7 +28,7 @@ const Header = ({ title, user }: Props) => {
         {/* <div className="flex-1">
           <Searchbar />
         </div> */}
-        <HeaderAction user={user} />
+        <HeaderAction user={user} progressPercent={progressPercent} />
       </div>
     </header>
   )

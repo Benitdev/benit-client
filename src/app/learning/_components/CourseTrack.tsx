@@ -1,9 +1,9 @@
 import CourseAccording from "@/components/common/According/CourseAccording"
-import { TCourseChapter } from "@/types"
+import { TCourseChapter, TLesson } from "@/types"
 
 type Props = {
   chapters: TCourseChapter[]
-  lessonsLearned?: string[]
+  lessonsLearned?: { lessonID: string; status: "done" | "learning" }[]
 }
 
 const CourseTrack = ({ chapters, lessonsLearned }: Props) => {

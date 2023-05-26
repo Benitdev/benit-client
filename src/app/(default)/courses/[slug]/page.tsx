@@ -37,7 +37,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
   const courseID = course._id
   const courseSlug = course.slug
 
-  const timeCourseTotal = calcTimeCourse(course.courseChapters)
+  const courseTimeTotal = calcTimeCourse(course.courseChapters)
 
   async function registerCourse() {
     "use server"
@@ -101,7 +101,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
               <span>
                 <span>Thời lượng </span>
                 <span className="font-bold">
-                  {secondToString(timeCourseTotal).map((amount, index) =>
+                  {secondToString(courseTimeTotal).map((amount, index) =>
                     amount !== 0 ? (
                       <span key={index}>
                         {amount}
@@ -163,7 +163,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
               <span>
                 Thời lượng{" "}
                 <span className="font-bold">
-                  {secondToString(timeCourseTotal).map((amount, index) =>
+                  {secondToString(courseTimeTotal).map((amount, index) =>
                     amount !== 0 ? (
                       <span key={index}>
                         {amount}

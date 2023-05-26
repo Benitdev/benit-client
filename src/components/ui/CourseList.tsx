@@ -28,7 +28,7 @@ const CourseList = async (props: Props) => {
                 key={course._id}
                 course={course}
                 isLearning={isLearning}
-                lessonID={lessonID}
+                lessonID={lessonID?.lessonID}
               />
             )
           })}
