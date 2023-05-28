@@ -8,7 +8,6 @@ import type {
   GridColumnHeaderParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid"
-import dayjs from "dayjs"
 import { toast } from "react-toastify"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
@@ -20,6 +19,9 @@ import { usePosts } from "@/hooks/usePosts"
 import Image from "next/image"
 import { toastErrorUtil } from "@/utils/toastErrorUtil"
 import postApi from "@/api/client-side/postApi"
+import { cn } from "@/utils/cn"
+import { STATUS } from "@/constants/status"
+import { formatDateTime } from "@/utils/dayUtil"
 
 type Props = {}
 
@@ -66,7 +68,7 @@ const BlogPage = ({}: Props) => {
         flex: 0.5,
         minWidth: 150,
         renderCell: (params) => (
-          <span className="rounded-xl bg-pink-500 px-4 py-2 font-bold capitalize text-slate-900">
+          <span className="rounded-xl bg-red-500 px-4 py-2 font-bold capitalize text-slate-900">
             {params.row.authorId.fullName}
           </span>
         ),
@@ -75,10 +77,15 @@ const BlogPage = ({}: Props) => {
         field: "status",
         headerName: "Trạng thái",
         flex: 0.5,
-        minWidth: 120,
+        minWidth: 150,
         renderCell: (params) => (
-          <span className="rounded-xl bg-green-500 px-4 py-2 font-bold capitalize text-slate-900">
-            {params.row.status}
+          <span
+            className={cn(
+              "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+              STATUS[params.row.status as string].color
+            )}
+          >
+            {STATUS[params.row.status as string].label}
           </span>
         ),
       },
@@ -89,7 +96,7 @@ const BlogPage = ({}: Props) => {
         flex: 1,
         minWidth: 200,
         valueGetter: (params: GridValueGetterParams) =>
-          dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
+          formatDateTime(params.row.createdAt),
       },
       {
         field: "action",

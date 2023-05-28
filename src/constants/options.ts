@@ -55,4 +55,8 @@ export const POST_STATUS_OPTIONS = [
     label: "Từ chối",
     value: "rejects",
   },
+  {
+    label: "Chờ duyệt",
+    value: "pending",
+  },
 ]

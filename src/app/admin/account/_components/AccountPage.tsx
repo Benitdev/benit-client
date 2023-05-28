@@ -11,7 +11,6 @@ import type {
 
 import Table from "../../_components/Table/Table"
 import AccountForm from "./AccountForm"
-import dayjs from "dayjs"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -20,6 +19,10 @@ import { toast } from "react-toastify"
 import { useAccount } from "@/hooks"
 
 import { cookies } from "next/headers"
+import Avatar from "@/components/ui/Avatar"
+import { ACCOUNT_ROLES, ACCOUNT_STATUS } from "@/constants/status"
+import { cn } from "@/utils/cn"
+import { formatDateTime } from "@/utils/dayUtil"
 
 type Props = {}
 
@@ -31,6 +34,13 @@ const AccountPage = ({}: Props) => {
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "_id", headerName: "ID", width: 100 },
+      {
+        field: "avatar",
+        headerName: "Ảnh",
+        flex: 0.3,
+        minWidth: 60,
+        renderCell: (params) => <Avatar avatar={params.row.avatar} />,
+      },
       {
         field: "fullName",
         headerName: "Họ và tên",
@@ -47,26 +57,17 @@ const AccountPage = ({}: Props) => {
         field: "role",
         headerName: "Vai trò",
         flex: 0.3,
-        minWidth: 140,
-        renderCell: (params) => {
-          let role: string = ""
-          switch (params.row.role) {
-            case "user":
-              role = "người dùng"
-              break
-            case "admin":
-              role = "quản trị"
-              break
-            case "staff":
-              role = "nhân viên"
-              break
-          }
-          return (
-            <span className="rounded-xl bg-pink-700 px-2 py-1 text-sm font-bold capitalize text-slate-900">
-              {role}
-            </span>
-          )
-        },
+        minWidth: 150,
+        renderCell: (params) => (
+          <span
+            className={cn(
+              "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+              ACCOUNT_ROLES[params.row.role as string].color
+            )}
+          >
+            {ACCOUNT_ROLES[params.row.role as string].label}
+          </span>
+        ),
       },
       {
         field: "status",
@@ -74,8 +75,13 @@ const AccountPage = ({}: Props) => {
         flex: 0.5,
         minWidth: 100,
         renderCell: (params) => (
-          <span className="rounded-xl bg-green-500 px-4 py-2 font-bold capitalize text-slate-900">
-            {params.row.status}
+          <span
+            className={cn(
+              "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+              ACCOUNT_STATUS[params.row.status as string].color
+            )}
+          >
+            {ACCOUNT_STATUS[params.row.status as string].label}
           </span>
         ),
       },
@@ -85,7 +91,7 @@ const AccountPage = ({}: Props) => {
         flex: 0.8,
         minWidth: 200,
         valueGetter: (params: GridValueGetterParams) =>
-          dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
+          formatDateTime(params.row.createdAt),
       },
       {
         field: "action",
@@ -117,7 +123,7 @@ const AccountPage = ({}: Props) => {
                 setIsOpenForm(true)
               }}
             >
-              Xoá
+              Khoá
             </button>
           </div>
         ),

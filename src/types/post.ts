@@ -5,7 +5,12 @@ export type TPost = {
   content: string
   image: string
   tags: string[]
-  authorId: string
+  readingTime: number
+  authorId: {
+    _id: string
+    fullName: string
+    avatar: string
+  }
   likes: any[]
   comments: any[]
   views: number

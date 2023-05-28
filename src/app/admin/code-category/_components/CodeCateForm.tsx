@@ -32,7 +32,7 @@ const CodeCateForm = forwardRef(function CourseForm(
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -114,11 +114,11 @@ const CodeCateForm = forwardRef(function CourseForm(
           </div>
         </div>
         <Button
-          className="mx-auto mt-8 bg-pink-700"
+          className="sticky bottom-2 mx-auto mt-8 bg-pink-700"
           classStroke="stroke-pink-600"
           small
           type="submit"
-          disabled={mutation.isLoading}
+          disabled={mutation.isLoading || !isDirty}
         >
           {action === TAction.Add ? (
             <>

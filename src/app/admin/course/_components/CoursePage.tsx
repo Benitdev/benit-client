@@ -4,13 +4,13 @@ import { useMemo, useState } from "react"
 
 import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid"
 import { Modal } from "@mui/material"
-import dayjs from "dayjs"
 
 import Button from "@/components/common/Button"
 import Table from "../../_components/Table/Table"
 import CourseForm from "./CourseForm"
 import { TAction } from "@/types"
 import { useCourse } from "@/hooks/useCourse"
+import { formatDateTime } from "@/utils/dayUtil"
 
 type Props = {}
 
@@ -79,7 +79,7 @@ const CoursePage = ({}: Props) => {
         flex: 1,
         minWidth: 150,
         valueGetter: (params: GridValueGetterParams) =>
-          dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
+          formatDateTime(params.row.createdAt),
       },
       {
         field: "action",

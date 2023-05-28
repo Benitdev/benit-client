@@ -11,7 +11,6 @@ import type {
 
 import Table from "../../_components/Table/Table"
 import CodeCateForm from "./CodeCateForm"
-import dayjs from "dayjs"
 import { TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCategory } from "@/hooks/useCategory"
@@ -19,6 +18,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import categoryApi from "@/api/client-side/categoryApi"
 import { toast } from "react-toastify"
 import { toastErrorUtil } from "@/utils/toastErrorUtil"
+import { formatDateTime } from "@/utils/dayUtil"
 
 type Props = {}
 
@@ -56,7 +56,7 @@ const CodeCatePage = ({}: Props) => {
         minWidth: 200,
 
         valueGetter: (params: GridValueGetterParams) =>
-          dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
+          formatDateTime(params.row.createdAt),
       },
       {
         field: "action",

@@ -30,9 +30,11 @@ export default function PostItem({ post }: Props) {
             kanban board, calendar, and pre-order
           </p>
           <div className="flex items-center gap-4">
-            <span className="font-bold text-pink-600">Thien Phan</span>
+            <span className="font-bold text-pink-600">
+              {post.authorId.fullName}
+            </span>
             <span className="h-1 w-1 rounded-full bg-pink-600"></span>
-            <span className="text-gray-400">4 phút đọc</span>
+            <span className="text-gray-400">{post.readingTime} phút đọc</span>
           </div>
           <Link href={`/blogs/${post.slug}`} className="mt-auto">
             <ButtonAuth className="bg-black/50 px-6 py-2">

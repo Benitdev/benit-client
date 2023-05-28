@@ -176,7 +176,7 @@ const AccountForm = forwardRef(function CourseForm(
           </div>
         </div>
         <Button
-          className="mx-auto mt-8 bg-pink-700"
+          className="sticky bottom-2 mx-auto mt-8 bg-pink-700"
           classStroke="stroke-pink-600"
           small
           type="submit"

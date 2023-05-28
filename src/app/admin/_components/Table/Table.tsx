@@ -1,6 +1,5 @@
 "use client"
 
-import { TCategory } from "@/types"
 import { LinearProgress } from "@mui/material"
 import {
   DataGrid,

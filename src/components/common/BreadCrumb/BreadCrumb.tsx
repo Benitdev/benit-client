@@ -20,7 +20,8 @@ export default function BreadCrumb({ segments }: Props) {
                 href={segment.url ?? pathname}
                 className={cn(
                   "inline-flex items-center text-sm font-medium text-gray-400 dark:hover:text-pink-600",
-                  index === segments.length - 1 && "text-pink-600 underline"
+                  index === segments.length - 1 &&
+                    "text-pink-600 underline underline-offset-2"
                 )}
               >
                 {index === 0 ? (

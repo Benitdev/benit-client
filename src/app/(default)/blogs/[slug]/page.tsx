@@ -18,7 +18,7 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!post) notFound()
 
   return (
-    <div className="relative grid grid-cols-1 gap-4 p-2 lg:grid-cols-11 lg:p-5">
+    <div className="relative grid grid-cols-1 gap-4 p-2 lg:grid-cols-11 lg:p-8">
       <div className="ck col-span-8 space-y-6">
         <BreadCrumb
           segments={[
@@ -35,7 +35,7 @@ export default async function BlogDetailPage({ params }: Props) {
             },
           ]}
         />
-        <Heading className="capitalize">{post.title}</Heading>
+        <Heading className="py-4 capitalize">{post.title}</Heading>
         <div className="relative h-[500px]">
           <Image
             src={post.image}

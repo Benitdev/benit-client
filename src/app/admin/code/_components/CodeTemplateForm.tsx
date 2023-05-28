@@ -9,21 +9,21 @@ import { toast } from "react-toastify"
 import { motion } from "framer-motion"
 
 import Button from "@/components/common/Button"
-import categoryApi from "@/api/client-side/categoryApi"
-import { TAction, TCategory } from "@/types"
+import { TAction } from "@/types"
 import CodeEditorBlock from "@/components/ui/CodeBlock"
 import CodeCard from "@/components/ui/CodeCard"
 import CodePreview from "@/components/ui/CodePreview"
 import Select from "@/components/common/Select"
 import { useCategory } from "@/hooks/useCategory"
 import codeTemplateApi from "@/api/client-side/codeTemplateApi"
+import { POST_STATUS_OPTIONS } from "@/constants/options"
 
 const schema = yup
   .object({
     title: yup.string().required(),
     categoryID: yup.string().required(),
     description: yup.string().required(),
-    authorId: yup.string(),
+    status: yup.string().required(),
   })
   .required()
 
@@ -41,12 +41,16 @@ const CodeCateForm = forwardRef(function CourseForm(
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: selectedRow,
   })
+
+  const title = watch("title")
+
   const [isCodingLayout, setIsCodingLayout] = useState<boolean>(false)
   const [codeValues, setCodeValues] = useState(
     !selectedRow.htmlCode
@@ -80,7 +84,7 @@ const CodeCateForm = forwardRef(function CourseForm(
   })
 
   const onSubmit = (data: FormData) => {
-    mutation.mutate({ ...data, ...codeValues, status: "approved" })
+    mutation.mutate({ ...data, ...codeValues })
   }
 
   const { data: categories } = useCategory("code-categories", "code")
@@ -160,7 +164,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                 htmlFor="title"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
-                Title
+                Tên
               </label>
               <input
                 {...register("title")}
@@ -179,7 +183,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                 htmlFor="categoryID"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
-                Category
+                Danh mục
               </label>
               <Select
                 label="categoryID"
@@ -204,7 +208,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                 code={codeValues.htmlCode ?? ""}
                 language="html"
                 placeholder="Enter your html code"
-              ></CodeEditorBlock>
+              />
             </div>
             <div className="col-span-2">
               <label
@@ -219,7 +223,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                 code={codeValues.cssCode ?? ""}
                 language="css"
                 placeholder="Enter your css code"
-              ></CodeEditorBlock>
+              />
             </div>
             <div className="col-span-2">
               <label
@@ -234,14 +238,14 @@ const CodeCateForm = forwardRef(function CourseForm(
                 code={codeValues.jsCode ?? ""}
                 language="javascript"
                 placeholder="Enter your javascript code"
-              ></CodeEditorBlock>
+              />
             </div>
             <div className="col-span-2">
               <label
                 htmlFor="description"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
-                Description
+                Mô tả đoạn code
               </label>
               <textarea
                 {...register("description")}
@@ -255,8 +259,25 @@ const CodeCateForm = forwardRef(function CourseForm(
               </small>
             </div>
           </div>
+          <div>
+            <label
+              htmlFor="status"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Trạng thái
+            </label>
+            <Select
+              label="status"
+              register={register}
+              required
+              options={POST_STATUS_OPTIONS}
+            />
+            <small className="font-bold capitalize text-pink-600">
+              {errors.status?.message}
+            </small>
+          </div>
           <Button
-            className="mx-auto mt-8 bg-pink-700"
+            className="sticky bottom-2 mx-auto mt-8 bg-pink-700"
             classStroke="stroke-pink-600"
             small
             type="submit"
@@ -277,11 +298,11 @@ const CodeCateForm = forwardRef(function CourseForm(
         </div>
         <div className="pt-8 lg:sticky lg:top-0 lg:col-span-2">
           <CodeCard
-            title={"ahihi"}
+            title={title}
             htmlCode={codeValues.htmlCode}
             cssCode={codeValues.cssCode}
             jsCode={codeValues.jsCode}
-            author={"ahaihiai"}
+            author={selectedRow?.authorId?.fullName ?? ""}
             preview
           />
         </div>

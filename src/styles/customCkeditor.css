@@ -119,8 +119,10 @@
 }
 
 .ck .ck-content pre {
+  position: relative;
   margin: 1.5rem 0 !important;
   border: none;
+  color: rgb(192, 192, 192);
   background-color: rgb(29, 29, 29);
 }
 
@@ -130,6 +132,18 @@
   padding: 5px 10px !important;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+}
+
+.ck article.ck-content pre::after {
+  position: absolute;
+  content: "Html";
+  padding: 5px 10px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  right: 10px;
+  top: 0;
+  transform: translateY(-90%);
+  background-color: #23241f !important;
 }
 
 .ck p {

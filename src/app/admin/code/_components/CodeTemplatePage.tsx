@@ -10,7 +10,6 @@ import type {
 } from "@mui/x-data-grid"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
-import dayjs from "dayjs"
 
 import Table from "../../_components/Table/Table"
 import CodeCateForm from "./CodeTemplateForm"
@@ -19,6 +18,9 @@ import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCodeTemplate } from "@/hooks"
 import CodePreview from "@/components/ui/CodePreview"
 import codeTemplateApi from "@/api/client-side/codeTemplateApi"
+import { STATUS } from "@/constants/status"
+import { cn } from "@/utils/cn"
+import { formatDateTime } from "@/utils/dayUtil"
 
 type Props = {}
 
@@ -34,16 +36,19 @@ const CodeTemplatePage = ({}: Props) => {
         field: "title",
         headerName: "Tiêu đề",
         flex: 0.5,
+        minWidth: 150,
       },
       {
         field: "description",
         headerName: "Mô tả",
         flex: 1,
+        minWidth: 150,
       },
       {
         field: "Preview",
         headerName: "Preview",
         sortable: false,
+        minWidth: 150,
         flex: 1,
         renderCell: (params) => (
           <div className="h-[150px] py-4">
@@ -58,21 +63,39 @@ const CodeTemplatePage = ({}: Props) => {
         ),
       },
       {
+        field: "authorId",
+        headerName: "Tác giả",
+        flex: 0.5,
+        minWidth: 150,
+        renderCell: (params) => (
+          <span className="rounded-xl bg-red-500 px-4 py-2 font-bold capitalize text-slate-900">
+            {params.row.authorId.fullName}
+          </span>
+        ),
+      },
+      {
         field: "createdAt",
         headerName: "Ngày tạo",
         sortable: false,
+        minWidth: 150,
         flex: 1,
         valueGetter: (params: GridValueGetterParams) =>
-          dayjs(params.row.createdAt).format("DD-MM-YYYY HH:mm"),
+          formatDateTime(params.row.createdAt),
       },
       {
         field: "status",
         headerName: "Trạng thái",
         sortable: false,
+        minWidth: 150,
         flex: 1,
         renderCell: (params) => (
-          <span className="rounded-xl bg-green-500 px-4 py-2 font-bold capitalize text-slate-900">
-            {params.row.status}
+          <span
+            className={cn(
+              "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+              STATUS[params.row.status as string].color
+            )}
+          >
+            {STATUS[params.row.status as string].label}
           </span>
         ),
       },
@@ -80,6 +103,7 @@ const CodeTemplatePage = ({}: Props) => {
         field: "action",
         headerName: "",
         flex: 1,
+        minWidth: 250,
         align: "center",
         headerAlign: "center",
         renderCell: (params) => (
