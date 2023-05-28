@@ -1,7 +1,7 @@
 "use client"
 
 import authApi from "@/api/client-side/authApi"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useRouter } from "next/navigation"
 
 type Props = {
@@ -45,7 +45,7 @@ const ButtonAuth = ({ className, onClick, url, children }: Props) => {
 
   return (
     <button
-      className={clsx(
+      className={cn(
         "button-effect flex items-center rounded-lg px-3 py-1 font-bold tracking-wider drop-shadow-xl transition-transform duration-200",
         className
       )}

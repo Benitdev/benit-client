@@ -22,6 +22,7 @@ const schema = yup
     title: yup.string(),
     // tags: yup.string(),
     authorId: yup.string(),
+    image: yup.string().required("Ảnh bìa là bắt buộc!"),
     status: yup.string().required("Trạng thái là bắt buộc"),
   })
   .required()
@@ -40,16 +41,20 @@ const AccountForm = forwardRef(function CourseForm(
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    watch,
+    setValue,
+    formState: { errors, isDirty },
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    defaultValues: selectedRow,
+    defaultValues:
+      action === TAction.Edit
+        ? { ...selectedRow, authorId: selectedRow.authorId._id }
+        : {},
   })
 
-  const [imagePath, setImagePath] = useState<string>(
-    action === TAction.Edit ? selectedRow.image : ""
-  )
+  const imagePath = watch("image")
+
   const [content, setContent] = useState<string>(
     action === TAction.Edit ? selectedRow.content : ""
   )
@@ -70,16 +75,16 @@ const AccountForm = forwardRef(function CourseForm(
   })
 
   const onSubmit = (data: FormData) => {
-    mutation.mutate({ ...data, content, image: imagePath })
+    mutation.mutate({ ...data, content })
   }
 
   const uploadMutation = useMutation({
     mutationFn: courseApi.uploadImage,
     onSuccess: (data) => {
-      setImagePath(data.imagePath)
+      setValue("image", data.imagePath, { shouldDirty: true })
     },
     onError: (error: any) => {
-      toast.error(error.data.message as string)
+      toast.error(error.error as string)
     },
   })
 
@@ -175,7 +180,7 @@ const AccountForm = forwardRef(function CourseForm(
           classStroke="stroke-pink-600"
           small
           type="submit"
-          disabled={mutation.isLoading}
+          disabled={mutation.isLoading || !isDirty}
         >
           {action === TAction.Add ? (
             <>

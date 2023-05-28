@@ -8,6 +8,7 @@ export default function HomePage() {
       <Banner />
       {/* @ts-expect-error Async Server Component */}
       <CourseList />
+      {/* @ts-expect-error Async Server Component */}
       <PostList />
     </main>
   )

@@ -14,7 +14,7 @@ const CourseList = async (props: Props) => {
       <div className="min-h-[500px]">
         <Heading flag="Free">Khoá Học Miễn Phí</Heading>
         <div className="mt-8 grid grid-cols-list gap-8">
-          {courses.map((course) => {
+          {courses?.map((course) => {
             let isLearning = true
             const courseLearned = user?.courseLearned.find(
               (courseLearned) => courseLearned.course === course._id

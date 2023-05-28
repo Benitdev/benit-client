@@ -1,11 +1,13 @@
 import Link from "next/link"
+
 import ButtonAction from "../common/Button/ButtonAuth"
 import SmallLogo from "../common/Logo/SmallLogo"
 import Avatar from "./Avatar"
 import SearchBar from "./Searchbar"
+import { TUser } from "@/types"
 
 type Props = {
-  user: any
+  user: TUser
 }
 
 const Header = ({ user }: Props) => {

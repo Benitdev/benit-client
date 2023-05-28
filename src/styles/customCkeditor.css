@@ -105,6 +105,10 @@
   --ck-color-link-default: hsl(190, 100%, 75%);
 }
 
+.ck.ck-toolbar__separator {
+  @apply !mx-2 !bg-slate-600;
+}
+
 .ck-editor__main {
   margin-top: 20px;
   color: white;
@@ -112,4 +116,39 @@
 
 .ck-content a:any-link {
   color: rgb(124, 133, 255);
+}
+
+.ck .ck-content pre {
+  margin: 1.5rem 0 !important;
+  border: none;
+  background-color: rgb(29, 29, 29);
+}
+
+.ck .ck-content pre::after {
+  background-color: rgb(29, 29, 29) !important;
+  transform: translateY(-90%);
+  padding: 5px 10px !important;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.ck p {
+  @apply py-2 text-slate-400;
+}
+
+.ck strong {
+  @apply text-slate-300;
+}
+
+.ck h1,
+.ck h2,
+.ck h3,
+.ck h4,
+.ck h5,
+.ck h6 {
+  @apply mb-4 mt-12;
+}
+
+.ck img {
+  width: 100%;
 }

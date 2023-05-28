@@ -13,6 +13,7 @@ import authApi from "@/api/server-side/authApi"
 import { IMAGE_DEFAULT } from "@/constants/imagePath"
 import { calcTimeCourse } from "@/utils/calcTimeCourse"
 import { secondToString } from "@/utils/durationify"
+import BreadCrumb from "@/components/common/BreadCrumb/BreadCrumb"
 
 export const metadata = {
   title: "Blogs",
@@ -56,6 +57,21 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
   return (
     <div className="mt-5 flex w-full gap-4 p-2 lg:p-5">
       <div className="flex-[0.6] space-y-6">
+        <BreadCrumb
+          segments={[
+            {
+              title: "Trang chủ",
+              url: "/",
+            },
+            {
+              title: "Khoá học",
+              url: "/courses",
+            },
+            {
+              title: course.title,
+            },
+          ]}
+        />
         <Heading className="capitalize">{course.title}</Heading>
         <p className="text-slate-400">{course.description}</p>
         <div className="py-4">

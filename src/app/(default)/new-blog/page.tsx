@@ -1,5 +1,5 @@
 "use client"
-import Editor from "@/components/common/Editor/Editor"
+import Editor from "@/components/ui/Editor"
 import { motion } from "framer-motion"
 import { useState } from "react"
 
@@ -21,8 +21,7 @@ const NewBlog = (props: Props) => {
           className="absolute bottom-0 left-0 h-1 rounded-full bg-gradient-to-r from-pink-700 to-red-400"
         ></motion.span>
       </h1>
-      {/* <Editor setContent={setContent} data={content} /> */}
-      <Editor />
+      <Editor setContent={setContent} data={content} />
     </section>
   )
 }

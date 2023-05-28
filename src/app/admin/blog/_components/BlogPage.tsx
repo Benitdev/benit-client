@@ -61,6 +61,17 @@ const BlogPage = ({}: Props) => {
         ),
       },
       {
+        field: "authorId",
+        headerName: "Tác giả",
+        flex: 0.5,
+        minWidth: 150,
+        renderCell: (params) => (
+          <span className="rounded-xl bg-pink-500 px-4 py-2 font-bold capitalize text-slate-900">
+            {params.row.authorId.fullName}
+          </span>
+        ),
+      },
+      {
         field: "status",
         headerName: "Trạng thái",
         flex: 0.5,

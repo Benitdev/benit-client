@@ -20,7 +20,7 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const user = await authApi.getUser().catch(() => {})
-  if (!user) notFound()
+  if (!user || user.role !== "admin") notFound()
 
   return (
     <div className="relative h-screen text-slate-200">
