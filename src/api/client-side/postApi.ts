@@ -1,10 +1,18 @@
 // import { LoginForm } from 'types';
 import axiosClient from "@/lib/axiosClient"
 
-import type { ResSuccess, TPost } from "@/types"
+import type { TFilter, ResSuccess, TPost } from "@/types"
 
 const postApi = {
-  getPost: (): Promise<TPost[]> => axiosClient.get("/posts"),
+  getPost: (filter?: TFilter): Promise<TPost[]> => {
+    const filteredObj = Object.fromEntries(
+      Object.entries(filter!).filter(([key, value]) => value !== "")
+    )
+
+    return axiosClient.get("/posts", {
+      params: filteredObj,
+    })
+  },
   createPost: (formData: any): Promise<ResSuccess> => {
     return axiosClient.post(`/posts`, formData)
   },

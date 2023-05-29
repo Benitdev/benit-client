@@ -16,5 +16,5 @@ export default function PostContent({ content }: Props) {
     highlight.highlightAll()
   }, [])
 
-  return <article className=" ck-content break-all">{parse(content)}</article>
+  return <article className="ck-content break-all">{parse(content)}</article>
 }

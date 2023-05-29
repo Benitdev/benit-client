@@ -6,6 +6,9 @@ import Heading from "@/components/common/Heading"
 import Image from "next/image"
 import "@/styles/customCkeditor.css"
 import PostContent from "../_components/PostContent"
+import Avatar from "@/components/ui/Avatar"
+import { formatDateTime } from "@/utils/dayUtil"
+import ButtonBack from "@/components/common/Button/ButtonBack"
 
 type Props = {
   params: {
@@ -20,6 +23,7 @@ export default async function BlogDetailPage({ params }: Props) {
   return (
     <div className="relative grid grid-cols-1 gap-4 p-2 lg:grid-cols-11 lg:p-8">
       <div className="ck col-span-8 space-y-6">
+        <ButtonBack />
         <BreadCrumb
           segments={[
             {
@@ -35,7 +39,20 @@ export default async function BlogDetailPage({ params }: Props) {
             },
           ]}
         />
-        <Heading className="py-4 capitalize">{post.title}</Heading>
+        <Heading className="my-4 capitalize">{post.title}</Heading>
+        <div className="flex w-fit items-center gap-2">
+          <Avatar avatar={post.authorId.avatar} />
+          <div className="flex flex-col justify-between">
+            <span className="font-bold text-slate-400">
+              {post.authorId.fullName}
+            </span>
+            <div className="space-x-2 text-sm">
+              <time>{formatDateTime(post.createdAt)}</time>
+              <span>🎉</span>
+              <span>{post.readingTime} phút đọc</span>
+            </div>
+          </div>
+        </div>
         <div className="relative h-[500px]">
           <Image
             src={post.image}

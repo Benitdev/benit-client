@@ -13,7 +13,7 @@ import { toast } from "react-toastify"
 
 import Table from "../../_components/Table/Table"
 import CodeCateForm from "./CodeTemplateForm"
-import { TAction, TCategory } from "@/types"
+import { TAction, TCategory, TFilter } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useCodeTemplate } from "@/hooks"
 import CodePreview from "@/components/ui/CodePreview"
@@ -21,6 +21,8 @@ import codeTemplateApi from "@/api/client-side/codeTemplateApi"
 import { STATUS } from "@/constants/status"
 import { cn } from "@/utils/cn"
 import { formatDateTime } from "@/utils/dayUtil"
+import CodeViewer from "./CodeViewer"
+import Filter from "../../_components/Filter/Filter"
 
 type Props = {}
 
@@ -28,6 +30,7 @@ const CodeTemplatePage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
+  const [filter, setFilter] = useState<TFilter>({})
 
   const columns: GridColDef[] = useMemo(
     () => [
@@ -108,7 +111,14 @@ const CodeTemplatePage = ({}: Props) => {
         headerAlign: "center",
         renderCell: (params) => (
           <div className="flex items-center gap-4">
-            <button className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150">
+            <button
+              className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
+              onClick={() => {
+                setSelectedRow(params.row)
+                setAction(TAction.View)
+                setIsOpenForm(true)
+              }}
+            >
               Xem
             </button>
             <button
@@ -137,7 +147,7 @@ const CodeTemplatePage = ({}: Props) => {
     ],
     []
   )
-  const { data, isLoading } = useCodeTemplate()
+  const { data, isLoading } = useCodeTemplate(filter)
 
   const queryClient = useQueryClient()
   const deleteMutation = useMutation({
@@ -171,6 +181,12 @@ const CodeTemplatePage = ({}: Props) => {
         </Button>
       </div>
       <div className="mt-5 px-10">
+        <Filter
+          page="code"
+          value={filter}
+          setValue={setFilter}
+          isLoading={isLoading}
+        />
         <Table
           columns={columns}
           rows={data ?? []}
@@ -185,18 +201,23 @@ const CodeTemplatePage = ({}: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        {action !== TAction.Delete ? (
-          <CodeCateForm
-            toggleForm={handleClose}
-            action={action}
-            selectedRow={selectedRow ?? {}}
-          />
-        ) : (
+        {action === TAction.Delete ? (
           <DeleteForm
             toggleForm={handleClose}
             selectedRowId={selectedRow?._id as string}
             handleDelete={deleteMutation.mutate}
             type="Code Template"
+          />
+        ) : action === TAction.View ? (
+          <CodeViewer
+            toggleForm={handleClose}
+            selectedRow={selectedRow ?? {}}
+          />
+        ) : (
+          <CodeCateForm
+            toggleForm={handleClose}
+            action={action}
+            selectedRow={selectedRow ?? {}}
           />
         )}
       </Modal>

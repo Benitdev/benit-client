@@ -10,12 +10,17 @@ import { toast } from "react-toastify"
 import Button from "@/components/common/Button"
 import { TAction } from "@/types"
 import Select from "@/components/common/Select"
-import { POST_STATUS_OPTIONS, STATUS_OPTIONS } from "@/constants/options"
+import {
+  FEATURE_OPTIONS,
+  POST_STATUS_OPTIONS,
+  STATUS_OPTIONS,
+} from "@/constants/options"
 import courseApi from "@/api/client-side/courseApi"
 import Image from "next/image"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
 import Editor from "@/components/ui/Editor"
 import postApi from "@/api/client-side/postApi"
+import addIdHeadingTags from "@/utils/addIdHeadingTags"
 
 const schema = yup
   .object({
@@ -23,6 +28,7 @@ const schema = yup
     // tags: yup.string(),
     authorId: yup.string(),
     image: yup.string().required("Ảnh bìa là bắt buộc!"),
+    feature: yup.string().required("Tính chất là bắt buộc"),
     status: yup.string().required("Trạng thái là bắt buộc"),
   })
   .required()
@@ -75,7 +81,8 @@ const AccountForm = forwardRef(function CourseForm(
   })
 
   const onSubmit = (data: FormData) => {
-    mutation.mutate({ ...data, content })
+    const cc = addIdHeadingTags(content)
+    // mutation.mutate({ ...data, content })
   }
 
   const uploadMutation = useMutation({
@@ -156,6 +163,23 @@ const AccountForm = forwardRef(function CourseForm(
                 className="mx-auto mt-2 object-cover"
               />
             )}
+          </div>
+          <div>
+            <label
+              htmlFor="feature"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Đặc trưng
+            </label>
+            <Select
+              label="feature"
+              register={register}
+              required
+              options={FEATURE_OPTIONS}
+            />
+            <small className="font-bold capitalize text-pink-600">
+              {errors.status?.message}
+            </small>
           </div>
           <div>
             <label

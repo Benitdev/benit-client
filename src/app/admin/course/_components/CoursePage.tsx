@@ -8,9 +8,10 @@ import { Modal } from "@mui/material"
 import Button from "@/components/common/Button"
 import Table from "../../_components/Table/Table"
 import CourseForm from "./CourseForm"
-import { TAction } from "@/types"
+import { TAction, TFilter } from "@/types"
 import { useCourse } from "@/hooks/useCourse"
 import { formatDateTime } from "@/utils/dayUtil"
+import Filter from "../../_components/Filter/Filter"
 
 type Props = {}
 
@@ -18,6 +19,7 @@ const CoursePage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<any | null>(null)
+  const [filter, setFilter] = useState<TFilter>({})
 
   const handleClose = () => setIsOpenForm((prev) => !prev)
 
@@ -120,7 +122,7 @@ const CoursePage = ({}: Props) => {
     []
   )
 
-  const { data, isLoading } = useCourse()
+  const { data, isLoading } = useCourse(filter)
 
   return (
     <div>
@@ -140,6 +142,12 @@ const CoursePage = ({}: Props) => {
         </Button>
       </div>
       <div className="mt-5 px-10">
+        <Filter
+          page="course"
+          value={filter}
+          setValue={setFilter}
+          isLoading={isLoading}
+        />
         <Table
           columns={columns}
           rows={data ?? []}

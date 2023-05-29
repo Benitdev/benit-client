@@ -6,4 +6,5 @@ export enum TAction {
   Add,
   Edit,
   Delete,
+  View,
 }

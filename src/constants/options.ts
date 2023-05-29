@@ -60,3 +60,14 @@ export const POST_STATUS_OPTIONS = [
     value: "pending",
   },
 ]
+
+export const FEATURE_OPTIONS = [
+  {
+    label: "Nổi bật",
+    value: "featured",
+  },
+  {
+    label: "Bình thường",
+    value: "common",
+  },
+]

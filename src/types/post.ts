@@ -14,6 +14,13 @@ export type TPost = {
   likes: any[]
   comments: any[]
   views: number
-  createAt: string
-  updateAt: string
+  createdAt: string
+  updatedAt: string
+}
+
+export type TFilter = {
+  feature?: string
+  categoryId?: string
+  title?: string
+  status?: string
 }

@@ -1,12 +1,20 @@
 import axiosClient from "@/lib/axiosClient"
-import { ResSuccess } from "@/types"
+import { ResSuccess, TFilter } from "@/types"
 import { TCourse } from "@/types"
 
 const courseApi = {
   addCourse: (data: any): Promise<ResSuccess> =>
     axiosClient.post(`/courses`, data),
 
-  getCourses: (): Promise<TCourse[]> => axiosClient.get("/courses"),
+  getCourses: (filter?: TFilter): Promise<TCourse[]> => {
+    const filteredObj = Object.fromEntries(
+      Object.entries(filter!).filter(([key, value]) => value !== "")
+    )
+
+    return axiosClient.get("/courses", {
+      params: filteredObj,
+    })
+  },
 
   getCourseDetail: (slug: string): Promise<TCourse> =>
     axiosClient.get(`/courses/${slug}`),

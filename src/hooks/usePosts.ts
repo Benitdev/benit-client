@@ -1,8 +1,10 @@
-import postApi from "@/api/client-side/postApi"
 import { useQuery } from "@tanstack/react-query"
 
-export const usePosts = () =>
+import postApi from "@/api/client-side/postApi"
+import { TFilter } from "@/types"
+
+export const usePosts = (filter?: TFilter) =>
   useQuery({
-    queryKey: ["posts"],
-    queryFn: postApi.getPost,
+    queryKey: ["posts", filter],
+    queryFn: () => postApi.getPost(filter),
   })

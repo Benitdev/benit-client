@@ -1,9 +1,17 @@
 // import { LoginForm } from 'types';
 import axiosClient from "@/lib/axiosClient"
-import type { ResSuccess } from "@/types"
+import type { ResSuccess, TFilter } from "@/types"
 
 const codeTemplateApi = {
-  getTemplate: (): Promise<any> => axiosClient.get("/code-template"),
+  getTemplate: (filter?: TFilter): Promise<any> => {
+    const filteredObj = Object.fromEntries(
+      Object.entries(filter!).filter(([key, value]) => value !== "")
+    )
+
+    return axiosClient.get("/code-template", {
+      params: filteredObj,
+    })
+  },
   addTemplate: (data: any): Promise<ResSuccess> =>
     axiosClient.post(`/code-template`, data),
   updateTemplate: (formData: any): Promise<ResSuccess> => {

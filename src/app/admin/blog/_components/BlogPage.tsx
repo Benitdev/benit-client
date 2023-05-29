@@ -12,8 +12,8 @@ import { toast } from "react-toastify"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import Table from "../../_components/Table/Table"
-import AccountForm from "./BlogForm"
-import { TAction, TCategory } from "@/types"
+import BlogForm from "./BlogForm"
+import { TFilter, TAction, TCategory } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { usePosts } from "@/hooks/usePosts"
 import Image from "next/image"
@@ -22,6 +22,8 @@ import postApi from "@/api/client-side/postApi"
 import { cn } from "@/utils/cn"
 import { STATUS } from "@/constants/status"
 import { formatDateTime } from "@/utils/dayUtil"
+import BlogViewer from "./BlogViewer"
+import Filter from "../../_components/Filter/Filter"
 
 type Props = {}
 
@@ -29,6 +31,8 @@ const BlogPage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
+  const [filter, setFilter] = useState<TFilter>({})
+
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "_id", headerName: "ID", width: 100 },
@@ -107,7 +111,14 @@ const BlogPage = ({}: Props) => {
         headerAlign: "center",
         renderCell: (params) => (
           <div className="flex items-center gap-4">
-            <button className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150">
+            <button
+              className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
+              onClick={() => {
+                setSelectedRow(params.row)
+                setAction(TAction.View)
+                setIsOpenForm(true)
+              }}
+            >
               Xem
             </button>
             <button
@@ -138,8 +149,7 @@ const BlogPage = ({}: Props) => {
   )
   const queryClient = useQueryClient()
 
-  const { data, isLoading } = usePosts()
-
+  const { data, isLoading } = usePosts(filter)
   const deleteMutation = useMutation({
     mutationFn: postApi.deletePost,
     onSuccess: (data) => {
@@ -171,6 +181,13 @@ const BlogPage = ({}: Props) => {
         </Button>
       </div>
       <div className="mt-5 px-10">
+        <Filter
+          page="blog"
+          value={filter}
+          setValue={setFilter}
+          isLoading={isLoading}
+          hasFeature
+        />
         <Table
           columns={columns}
           rows={data ?? []}
@@ -185,18 +202,23 @@ const BlogPage = ({}: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        {action !== TAction.Delete ? (
-          <AccountForm
-            toggleForm={handleClose}
-            action={action}
-            selectedRow={selectedRow ?? {}}
-          />
-        ) : (
+        {action === TAction.Delete ? (
           <DeleteForm
             toggleForm={handleClose}
             selectedRowId={selectedRow?._id as string}
             handleDelete={deleteMutation.mutate}
-            type="bài viết"
+            type="Xoá bài viếT"
+          />
+        ) : action === TAction.View ? (
+          <BlogViewer
+            toggleForm={handleClose}
+            selectedRow={selectedRow ?? {}}
+          />
+        ) : (
+          <BlogForm
+            toggleForm={handleClose}
+            action={action}
+            selectedRow={selectedRow ?? {}}
           />
         )}
       </Modal>
