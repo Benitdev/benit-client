@@ -81,8 +81,7 @@ const AccountForm = forwardRef(function CourseForm(
   })
 
   const onSubmit = (data: FormData) => {
-    const cc = addIdHeadingTags(content)
-    // mutation.mutate({ ...data, content })
+    mutation.mutate({ ...data, content })
   }
 
   const uploadMutation = useMutation({

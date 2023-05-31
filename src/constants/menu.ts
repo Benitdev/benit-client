@@ -13,7 +13,7 @@ export const MENU_ITEMS = [
     icon: IconHomeStar,
   },
   {
-    url: "/a",
+    url: "/road-map",
     title: "Lộ trình",
     icon: IconRoad,
   },
@@ -28,7 +28,7 @@ export const MENU_ITEMS = [
     icon: IconNews,
   },
   {
-    url: "/d",
+    url: "/code-template",
     title: "Template",
     icon: IconBrandCodesandbox,
   },

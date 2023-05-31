@@ -11,6 +11,13 @@ const postApi = {
         revalidate: 0,
       },
     }),
+
+  getPostCategories: (): Promise<TPost[]> =>
+    httpRequest(`/categories?type=blog`, {
+      next: {
+        revalidate: 60,
+      },
+    }),
 }
 
 export default postApi

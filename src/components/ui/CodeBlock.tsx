@@ -15,6 +15,7 @@ type Props = {
   height?: string
   showTitle?: boolean
   placeholder?: string
+  format?: boolean
 }
 function CodeEditorBlock(props: Props) {
   const {
@@ -25,6 +26,7 @@ function CodeEditorBlock(props: Props) {
     height,
     showTitle,
     placeholder,
+    format = true,
   } = props
 
   const onChange = (code: string) => {
@@ -101,13 +103,16 @@ function CodeEditorBlock(props: Props) {
         extensions={[setLanguage()]}
         onChange={onChange}
         placeholder={placeholder}
+        editable={format}
       />
-      <div
-        className="absolute bottom-1 right-1 cursor-pointer rounded-lg bg-slate-700 p-2 text-[10px] text-white"
-        onClick={handleFormat}
-      >
-        Format
-      </div>
+      {format && (
+        <div
+          className="absolute bottom-1 right-1 cursor-pointer rounded-lg bg-slate-700 p-2 text-[10px] text-white"
+          onClick={handleFormat}
+        >
+          Format
+        </div>
+      )}
     </div>
   )
 }

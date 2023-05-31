@@ -1,12 +1,19 @@
+import codeTemplateApi from "@/api/server-side/codeTemplateApi"
+import Banner from "./_components/Banner"
+import CodeFilter from "./_components/CodeFilter"
+import CardList from "./_components/CardList"
 import BreadCrumb from "@/components/common/BreadCrumb/BreadCrumb"
-import Heading from "@/components/common/Heading"
-import PostList from "@/components/ui/PostList"
-import React from "react"
-import PostFilter from "./_components/PostFilter"
 
-type Props = {}
+type Props = {
+  searchParams: {
+    type: string
+    cateId: string
+  }
+}
 
-const BlogPage = (props: Props) => {
+export default async function page({ searchParams }: Props) {
+  const categories = await codeTemplateApi.getCodeCategories()
+
   return (
     <div className="relative p-8">
       <BreadCrumb
@@ -16,22 +23,15 @@ const BlogPage = (props: Props) => {
             url: "/",
           },
           {
-            title: "Bài viết",
+            title: "Code Template",
           },
         ]}
       />
-      <div className="space-y-6">
-        <div className="space-y-4 py-6 lg:pr-5">
-          <Heading className="text-center">Bài viết nổi bật</Heading>
-          <p className="text-center">
-            Các khóa học được thiết kế phù hợp cho cả người mới, nhiều khóa học
-            miễn phí, chất lượng, nội dung dễ hiểu.
-          </p>
-        </div>
+      <Banner />
+      <div className="rounded-xl bg-black/40 p-4 backdrop-blur-sm">
+        <CodeFilter categories={categories} />
         {/* @ts-expect-error Async Server Component */}
-        <PostFilter />
-        {/* @ts-expect-error Async Server Component */}
-        <PostList />
+        <CardList categoryId={searchParams.cateId} />
       </div>
       {/* background grid  */}
       <div className="absolute left-11 top-[15%] -z-10 h-32 w-[50rem] -rotate-45 bg-pink-600/70 bg-gradient-to-tr blur-[200px]"></div>
@@ -41,5 +41,3 @@ const BlogPage = (props: Props) => {
     </div>
   )
 }
-
-export default BlogPage

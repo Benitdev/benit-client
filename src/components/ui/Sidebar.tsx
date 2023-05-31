@@ -9,7 +9,6 @@ import { cn } from "@/utils/cn"
 
 const Sidebar = () => {
   const segments = useSelectedLayoutSegments() ?? ""
-  console.log(segments)
 
   return (
     <div className="sticky top-[60px] h-[calc(100vh-60px)] w-[250px] shrink-0 py-3 text-slate-200">

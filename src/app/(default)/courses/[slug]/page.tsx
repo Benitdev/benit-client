@@ -55,7 +55,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
   }
 
   return (
-    <div className="mt-5 flex w-full gap-4 p-2 lg:p-5">
+    <div className="flex w-full gap-4 p-2 lg:p-6">
       <div className="flex-[0.6] space-y-6">
         <BreadCrumb
           segments={[

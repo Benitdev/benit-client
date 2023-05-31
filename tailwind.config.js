@@ -6,6 +6,9 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    container: {
+      padding: "2rem",
+    },
     extend: {
       fontSize: {
         base: "clamp(14px, 1.25vw, 16px)",
@@ -16,6 +19,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         list: "repeat(auto-fit, minmax(300px, 1fr))",
+        codeList: "repeat(auto-fit, minmax(400px, 1fr))",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

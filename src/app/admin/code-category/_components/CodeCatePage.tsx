@@ -27,6 +27,8 @@ const CodeCatePage = ({}: Props) => {
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
 
+  const { data, isLoading } = useCategory("code-categories", "code")
+
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "_id", headerName: "ID", width: 100 },
@@ -95,7 +97,6 @@ const CodeCatePage = ({}: Props) => {
   )
   const queryClient = useQueryClient()
 
-  const { data, isLoading } = useCategory("code-categories", "code")
   const deleteMutation = useMutation({
     mutationFn: categoryApi.delete,
     onSuccess: (data) => {

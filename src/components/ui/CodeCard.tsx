@@ -6,9 +6,10 @@ import pretty from "pretty"
 import cssbeautify from "cssbeautify"
 
 import CodePreview from "./CodePreview"
-// import ModalViewCode from "../common/modal/ModalViewCode"
 import jsBeautify from "js-beautify"
 import { IconEye } from "@tabler/icons-react"
+import ModalViewCode from "../common/Modal/ModalViewCode"
+import { Modal } from "@mui/material"
 
 type Props = {
   title: string
@@ -28,13 +29,15 @@ const CodeCard = (props: Props) => {
     author = null,
     preview = false,
   } = props
-  const [isShowCode, setIsShowCode] = useState(false)
+  const [isShowCode, setIsShowCode] = useState<boolean>(false)
+
+  const handleClose = () => setIsShowCode(false)
 
   return (
     <>
       <div className="card relative flex h-[400px] flex-col rounded border border-slate-800 p-5 drop-shadow-2xl transition-all hover:border-slate-600">
         <div className="flex items-center justify-between">
-          <h4 className="text-sm relative z-10 flex items-center gap-x-2 font-normal text-slate-500">
+          <h4 className="relative z-10 flex items-center gap-x-2 text-sm font-normal text-slate-500">
             {author && (
               <>
                 <span>Credit: </span>
@@ -47,7 +50,7 @@ const CodeCard = (props: Props) => {
           {!preview && (
             <div className="flex items-center gap-x-2">
               <ButtonAction onClick={() => setIsShowCode(true)}>
-                <IconEye></IconEye>
+                <IconEye />
               </ButtonAction>
             </div>
           )}
@@ -56,7 +59,7 @@ const CodeCard = (props: Props) => {
           <CodePreview htmlCode={htmlCode} cssCode={cssCode} jsCode={jsCode} />
         </div>
         <div className="card-footer relative z-10 mt-auto flex items-center justify-between gap-x-2">
-          <h3 className="card-title text-sm max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-white lg:max-w-[150px]">
+          <h3 className="card-title max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-white lg:max-w-[150px]">
             {title}
           </h3>
           {!preview && (
@@ -99,7 +102,12 @@ const CodeCard = (props: Props) => {
           )}
         </div>
       </div>
-      {/*   {isShowCode && (
+      <Modal
+        open={isShowCode}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <ModalViewCode
           htmlCode={pretty(htmlCode ?? "", {
             ocd: true,
@@ -109,9 +117,8 @@ const CodeCard = (props: Props) => {
             autosemicolon: true,
           })}
           jsCode={jsCode}
-          setIsShowCode={setIsShowCode}
         />
-      )} */}
+      </Modal>
     </>
   )
 }
@@ -141,7 +148,7 @@ export function ButtonCopy({
 
   return (
     <button
-      className={`text-sm inline-flex items-center gap-x-2 rounded-lg px-3 py-2 font-medium text-slate-500 transition-all hover:text-white ${bgClassName}`}
+      className={`inline-flex items-center gap-x-2 rounded-lg px-2 py-1 text-sm font-medium text-slate-500 transition-all hover:text-black ${bgClassName}`}
       onClick={onClick}
     >
       <svg

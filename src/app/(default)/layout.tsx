@@ -1,5 +1,6 @@
 import authApi from "@/api/server-side/authApi"
 import BreadCrumb from "@/components/common/BreadCrumb/BreadCrumb"
+import Footer from "@/components/ui/Footer"
 import Header from "@/components/ui/Header"
 import Sidebar from "@/components/ui/Sidebar"
 
@@ -22,8 +23,11 @@ export default async function DefaultLayout({
       <Header user={user} />
       <div className="flex">
         <Sidebar />
-        {children}
+        <div className="min-h-screen flex-1 overflow-hidden pb-28">
+          {children}
+        </div>
       </div>
+      <Footer />
     </>
   )
 }
