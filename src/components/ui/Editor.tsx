@@ -9,7 +9,7 @@ import { cn } from "@/utils/cn"
 type Props = {
   data?: string
   className?: string
-  setContent: Dispatch<SetStateAction<string>>
+  setContent: any
 }
 
 const Editor = ({ data, className, setContent }: Props) => {
@@ -78,7 +78,7 @@ const Editor = ({ data, className, setContent }: Props) => {
             }}
             onChange={(_: any, editor: any) => {
               const data = editor.getData()
-              setContent(data)
+              setContent("content", data, { shouldDirty: true })
             }}
             onReady={(editor: any) => {
               editorRef.current.editor = editor

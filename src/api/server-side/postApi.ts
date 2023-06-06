@@ -7,6 +7,8 @@ type Filter = {
   categoryId?: string
   feature?: string
   authorId?: string
+  status?: string
+  likes?: string
 }
 
 const postApi = {

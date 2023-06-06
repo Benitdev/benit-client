@@ -1,4 +1,5 @@
 import CircleProgress from "@/components/common/Progress/CircleProgress"
+import AvatarTippy from "@/components/common/Tippy/AvatarTippy"
 import Avatar from "@/components/ui/Avatar"
 import { TUser } from "@/types"
 
@@ -15,7 +16,9 @@ const HeaderAction = ({ user, progressPercent }: Props) => {
       </div>
       <button> Ghi chú</button>
       <button> Hướng dẫn</button>
-      <Avatar avatar={user.avatar} />
+      <AvatarTippy user={user}>
+        <Avatar avatar={user.avatar} />
+      </AvatarTippy>
     </div>
   )
 }

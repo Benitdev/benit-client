@@ -6,7 +6,7 @@ import { IconBrandDrops } from "@tabler/icons-react"
 
 import CourseAccording from "@/components/common/According/CourseAccording"
 import Button from "@/components/common/Button"
-import Heading from "@/components/common/Heading"
+import Heading from "@/components/common/Heading/Heading"
 import { IconAlarmFilled, IconAngle, IconMovie } from "@tabler/icons-react"
 import courseApi from "@/api/server-side/courseApi"
 import authApi from "@/api/server-side/authApi"

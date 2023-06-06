@@ -4,7 +4,7 @@ import authApi from "@/api/server-side/authApi"
 import courseApi from "@/api/server-side/courseApi"
 import Video from "../_components/Video"
 import Button from "@/components/common/Button"
-import Heading from "@/components/common/Heading"
+import Heading from "@/components/common/Heading/Heading"
 import { TLesson } from "@/types"
 import {
   IconArrowBigLeftFilled,
@@ -43,9 +43,9 @@ const LearningPage = async ({ params: { slug }, searchParams }: Props) => {
       courseLearned.lessons[index + 1]?.lessonId === searchParams.id
   )
 
-  const isLessonExist = user?.courseLearned
-    .find((courseLearn) => courseLearn.course === course._id)
-    ?.lessons.find((lesson) => lesson.lessonId === searchParams.id)
+  const isLessonExist = courseLearned?.lessons.find(
+    (lesson) => lesson.lessonId === searchParams.id
+  )
   if (!isLessonExist) notFound()
 
   let nextLesson: TLesson | undefined
@@ -72,6 +72,12 @@ const LearningPage = async ({ params: { slug }, searchParams }: Props) => {
           nextLessonID={nextLesson?._id}
           isLearnedNextLesson={!!isLearnedNextLesson}
           courseID={course._id}
+          learned={
+            !!courseLearned?.lessons.find(
+              ({ status, lessonId }) =>
+                status === "done" && lessonId === lesson._id
+            )
+          }
         />
         <div className="space-y-10 p-10 px-14">
           <div className="flex justify-between gap-4">

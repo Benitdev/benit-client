@@ -10,6 +10,7 @@ import jsBeautify from "js-beautify"
 import { IconEye } from "@tabler/icons-react"
 import ModalViewCode from "../common/Modal/ModalViewCode"
 import { Modal } from "@mui/material"
+import { cn } from "@/utils/cn"
 
 type Props = {
   title: string
@@ -18,6 +19,7 @@ type Props = {
   jsCode?: string
   author?: string
   preview?: boolean
+  className?: string
 }
 
 const CodeCard = (props: Props) => {
@@ -28,6 +30,7 @@ const CodeCard = (props: Props) => {
     jsCode = "",
     author = null,
     preview = false,
+    className,
   } = props
   const [isShowCode, setIsShowCode] = useState<boolean>(false)
 
@@ -35,7 +38,12 @@ const CodeCard = (props: Props) => {
 
   return (
     <>
-      <div className="card relative flex h-[400px] flex-col rounded border border-slate-800 p-5 drop-shadow-2xl transition-all hover:border-slate-600">
+      <div
+        className={cn(
+          "card relative flex h-[400px] flex-col rounded border border-slate-800 p-5 drop-shadow-2xl transition-all hover:border-slate-600",
+          className
+        )}
+      >
         <div className="flex items-center justify-between">
           <h4 className="relative z-10 flex items-center gap-x-2 text-sm font-normal text-slate-500">
             {author && (

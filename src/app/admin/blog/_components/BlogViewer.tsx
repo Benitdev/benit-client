@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef } from "react"
 
 import { IconX } from "@tabler/icons-react"
-import Heading from "@/components/common/Heading"
+import Heading from "@/components/common/Heading/Heading"
 import Image from "next/image"
 import PostContent from "@/app/(default)/blogs/_components/PostContent"
 

@@ -21,12 +21,12 @@ const Button = ({
     <button
       className={cn(
         "glow-effect relative flex max-w-[300px] items-center justify-center gap-2 rounded-xl  font-bold tracking-wider drop-shadow-xl transition-transform duration-200",
-        className,
         {
           "px-5 py-2 text-base": small,
           "px-10 py-3 text-xl": !small,
           "hover:scale-110": scale,
-        }
+        },
+        className
       )}
       {...props}
     >

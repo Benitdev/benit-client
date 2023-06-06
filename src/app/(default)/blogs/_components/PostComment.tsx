@@ -1,4 +1,4 @@
-import Heading from "@/components/common/Heading"
+import Heading from "@/components/common/Heading/Heading"
 import CommentInput from "./CommentInput"
 import CommentList from "./CommentList"
 import authApi from "@/api/server-side/authApi"

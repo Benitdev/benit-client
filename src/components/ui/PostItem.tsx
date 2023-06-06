@@ -5,23 +5,26 @@ import Link from "next/link"
 import ButtonAuth from "../common/Button/ButtonAuth"
 import { IconArrowRight } from "@tabler/icons-react"
 import { formatDateTime } from "@/utils/dayUtil"
+import Tag from "../common/Tag/Tag"
+import PostFavorite from "@/app/(default)/blogs/_components/PostFavorite"
 
 type Props = {
   post: TPost
+  userId?: string
 }
 
-export default function PostItem({ post }: Props) {
+export default function PostItem({ post, userId }: Props) {
   return (
     <li className="mb-10 ml-4 space-y-4">
       <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-gray-500 bg-gray-500 " />
       <time className="mb-1 -translate-x-full text-sm font-normal leading-none text-gray-400 ">
         {formatDateTime(post.createdAt)}
       </time>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4 lg:flex-row">
         <div className="relative max-h-[300px] min-h-[200px] w-[250px] shrink-0 overflow-hidden rounded-xl">
           <Image src={post.image} alt="" fill className="object-cover" />
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-1 flex-col gap-3">
           <h3 className="line-clamp-2 text-lg font-semibold text-gray-900 dark:text-white">
             {post.title}
           </h3>
@@ -35,12 +38,22 @@ export default function PostItem({ post }: Props) {
             <span className="h-1 w-1 rounded-full bg-pink-600"></span>
             <span className="text-gray-400">{post.readingTime} phút đọc</span>
           </div>
-          <Link href={`/blogs/${post.slug}`} className="mt-auto w-fit">
-            <ButtonAuth className="bg-black/50 px-6 py-2">
-              Đọc thêm
-              <IconArrowRight className="ml-2 h-4 w-4" />
-            </ButtonAuth>
-          </Link>
+          <div className="mt-auto flex w-full flex-col items-start justify-between gap-2 lg:flex-row lg:items-end">
+            <div className="flex w-fit shrink-0 items-center gap-2">
+              <Link href={`/blogs/${post.slug}`}>
+                <ButtonAuth className="bg-black/50 px-6 py-2">
+                  Đọc thêm
+                  <IconArrowRight className="ml-2 h-4 w-4" />
+                </ButtonAuth>
+              </Link>
+              <PostFavorite postId={post._id} />
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {post.tags.map((tag) => (
+                <Tag key={tag._id} tag={tag} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </li>

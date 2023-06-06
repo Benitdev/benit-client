@@ -15,7 +15,7 @@ const Heading = ({ flag, className, underline, children }: Props) => {
   return (
     <h1
       className={clsx(
-        "relative line-clamp-2 bg-gradient-to-b from-pink-700 to-red-400 bg-clip-text text-heading font-bold leading-tight text-transparent",
+        "relative bg-gradient-to-b from-pink-700 to-red-400 bg-clip-text text-heading font-bold leading-tight text-transparent",
         className
       )}
     >

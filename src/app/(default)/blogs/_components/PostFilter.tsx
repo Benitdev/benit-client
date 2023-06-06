@@ -14,7 +14,7 @@ export default async function PostFilter({
 }: Props) {
   const categories = await postApi.getPostCategories()
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex flex-wrap items-center justify-center gap-4">
       <Link href={`/${type}`}>
         <ButtonAuth
           className={cn(

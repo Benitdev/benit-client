@@ -12,7 +12,7 @@ const authApi = {
     }),
   getUser: () => axiosClient.get("/user"),
   //   register: (body: any) => axiosClient.post('auth/register', body),
-  //   logout: () => axiosClient.post('auth/logout'),
+  logout: () => axiosClient.post("auth/logout"),
   //   verifyToken: (token: string) => {
   //     return axios.post(
   //       'http://localhost:8000/api/auth/verify-token',

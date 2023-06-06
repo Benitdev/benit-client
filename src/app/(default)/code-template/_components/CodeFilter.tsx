@@ -7,9 +7,13 @@ import { useSearchParams } from "next/navigation"
 
 type Props = {
   categories: TCategory[]
+  page?: "my-code" | "code-template"
 }
 
-export default function CodeFilter({ categories }: Props) {
+export default function CodeFilter({
+  categories,
+  page = "code-template",
+}: Props) {
   const searchParams = useSearchParams()
   const type = searchParams.get("type")
   return (
@@ -22,7 +26,7 @@ export default function CodeFilter({ categories }: Props) {
           item={{
             title: "all",
           }}
-          href={`/code-template`}
+          href={`/${page}`}
           activeCard={type === null}
         ></FilterItem>
         {categories.map((item) => (
@@ -30,7 +34,7 @@ export default function CodeFilter({ categories }: Props) {
             key={item._id}
             activeCard={type === item.slug}
             item={item}
-            href={`/code-template?type=${item.slug}&cateId=${item._id}`}
+            href={`/${page}?type=${item.slug}&cateId=${item._id}`}
           />
         ))}
       </div>

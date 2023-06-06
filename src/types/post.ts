@@ -5,7 +5,7 @@ export type TPost = {
   description: string
   content: string
   image: string
-  tags: string[]
+  tags: { _id: string; title: string }[]
   readingTime: number
   authorId: {
     _id: string

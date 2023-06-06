@@ -120,7 +120,7 @@ const AccordingHeading = ({
   type,
 }: {
   chapter: TCourseChapter
-  lessonsLearned: { lessonId: string; status: "done" | "learning" }[]
+  lessonsLearned?: { lessonId: string; status: "done" | "learning" }[]
   isOpen: boolean
   type?: "tracker"
 }) => {
@@ -130,18 +130,19 @@ const AccordingHeading = ({
   )
 
   let totalLessonLearned = 0
-
-  chapter.lessons.forEach((lesson) => {
-    if (
-      lessonsLearned.find(
-        (lessonLearned) =>
-          lessonLearned.lessonId === lesson._id &&
-          lessonLearned.status === "done"
-      )
-    ) {
-      totalLessonLearned = totalLessonLearned + 1
-    }
-  })
+  if (lessonsLearned) {
+    chapter.lessons.forEach((lesson) => {
+      if (
+        lessonsLearned.find(
+          (lessonLearned) =>
+            lessonLearned.lessonId === lesson._id &&
+            lessonLearned.status === "done"
+        )
+      ) {
+        totalLessonLearned = totalLessonLearned + 1
+      }
+    })
+  }
 
   return (
     <div className="flex items-center gap-2">
@@ -152,7 +153,7 @@ const AccordingHeading = ({
       )}
       <div className="text-left">
         <span>{`${chapter.index}. ${chapter.title}`}</span>
-        {type === "tracker" && (
+        {type === "tracker" ? (
           <p className="mt-1 flex gap-1 text-xs font-bold text-pink-600 ">
             <span>
               {totalLessonLearned}/{chapter.lessons.length}
@@ -171,6 +172,10 @@ const AccordingHeading = ({
                 ) : null
               )}
             </span>
+          </p>
+        ) : (
+          <p className="line-clamp-2 text-sm italic text-slate-300">
+            {chapter.description}
           </p>
         )}
       </div>

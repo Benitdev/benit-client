@@ -43,20 +43,25 @@ export const MENU_ACCOUNT = [
     label: "Viết Blog",
     href: "/new-blog",
   },
-  {
-    label: "Bài viết của tôi",
-    href: "/my-blogs",
-  },
+
   {
     label: "Khoá học của tôi",
     href: "/my-courses",
   },
   {
-    label: "Đã lưu",
-    href: "/saved",
+    label: "Bài viết của tôi",
+    href: "/my-blogs",
   },
   {
-    label: "Đăng xuất",
-    href: "/logout",
+    label: "UI của tôi",
+    href: "/my-code",
+  },
+  {
+    label: "Yêu thích",
+    href: "/my-favorite",
+  },
+  {
+    label: "Đã lưu",
+    href: "/saved",
   },
 ]

@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import Heading from "@/components/common/Heading"
+import Heading from "@/components/common/Heading/Heading"
 import SmallLogo from "@/components/common/Logo/SmallLogo"
 import Particles from "@/components/ui/Particles"
 import LoginForm from "@/components/common/Form/LoginForm"
@@ -18,7 +18,7 @@ const Login = (props: Props) => {
           </Link>
           <Heading>Chào mừng đến với Benit</Heading>
           <LoginForm />
-          <div className="text-sm absolute bottom-0 px-10 pb-2 text-center text-slate-400">
+          <div className="absolute bottom-0 px-10 pb-2 text-center text-sm text-slate-400">
             Việc bạn tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với{" "}
             <a href="">Điều khoản sử dụng</a> của chúng tôi.
           </div>

@@ -31,7 +31,9 @@ const LearningLayout = async ({ params: { slug }, children }: Props) => {
       <Header
         title={course.title}
         user={user}
-        progressPercent={(lessonLearnedTimeTotal / courseTimeTotal) * 100}
+        progressPercent={Math.floor(
+          (lessonLearnedTimeTotal / courseTimeTotal) * 100
+        )}
       />
       <div className="flex">
         <div className="flex-[0.8]">{children}</div>
@@ -44,7 +46,6 @@ const LearningLayout = async ({ params: { slug }, children }: Props) => {
           }
         />
       </div>
-     
     </div>
   )
 }

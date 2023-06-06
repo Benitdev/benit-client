@@ -23,6 +23,20 @@ const postApi = {
   deletePost: (id: string): Promise<ResSuccess> => {
     return axiosClient.delete(`/posts/${id}`)
   },
+
+  favoritePost: ({
+    id,
+    action,
+  }: {
+    id: string
+    action?: string
+  }): Promise<ResSuccess> => {
+    return axiosClient.post(`/posts/favorite/${id}?action=${action}`)
+  },
+
+  getFavoritePost: (id: string): Promise<any> => {
+    return axiosClient.get(`/posts/favorite/${id}`)
+  },
 }
 
 export default postApi

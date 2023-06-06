@@ -27,7 +27,7 @@ const schema = yup
   .object({
     title: yup.string().required(),
     categoryId: yup.string().required(),
-    description: yup.string().required(),
+    description: yup.string(),
     status: yup.string().required(),
   })
   .required()
@@ -267,9 +267,6 @@ const CodeCateForm = forwardRef(function CourseForm(
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
                     placeholder="Write code template description here"
                   ></textarea>
-                  <small className="font-bold capitalize text-pink-600">
-                    {errors.title?.message}
-                  </small>
                 </div>
               </div>
               <div>

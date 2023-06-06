@@ -16,6 +16,7 @@ import { EnvelopeIcon, CodeBracketIcon } from "@heroicons/react/24/solid"
 import { useEffect, useState } from "react"
 import clsx from "clsx"
 import Button from "../common/Button"
+import Link from "next/link"
 
 const desc =
   "Nơi học tập, chia sẻ kiến thức về lập trình, công nghệ, xây dựng UI Website."
@@ -31,10 +32,10 @@ const Banner = () => {
   }, [slideActive])
 
   return (
-    <section className="relative h-[calc(100vh-60px)]">
+    <section className="relative h-[calc(100vh-60px)] overflow-hidden">
       <Particles />
       <div className="p-10">
-        <h1 className="text-2xl relative bg-gradient-to-b from-pink-700 to-red-400 bg-clip-text pb-4 font-bold text-transparent">
+        <h1 className="relative bg-gradient-to-b from-pink-700 to-red-400 bg-clip-text pb-4 text-2xl font-bold text-transparent">
           {"<Trang chủ />"}
           <motion.span
             initial={{ width: 0 }}
@@ -69,10 +70,15 @@ const Banner = () => {
               })}
             </div>
             <div className="!mt-8 flex flex-col gap-x-8 gap-y-4 xl:flex-row">
-              <Button classStroke="stroke-pink-600" className=" bg-pink-600/90">
-                <CodeBracketIcon className="h-6 w-6" />
-                UI Components
-              </Button>
+              <Link href={"/code-template"}>
+                <Button
+                  classStroke="stroke-pink-600"
+                  className=" bg-pink-600/90"
+                >
+                  <CodeBracketIcon className="h-6 w-6" />
+                  UI Components
+                </Button>
+              </Link>
               <Button classStroke="stroke-cyan-600" className="bg-cyan-600">
                 <EnvelopeIcon className="h-6 w-6" />
                 Nhắn tin cho tôi

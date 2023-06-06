@@ -1,10 +1,15 @@
 "use client"
 
-import { MENU_ACCOUNT } from "@/constants/menu"
-import { TUser } from "@/types"
-import Tippy from "@tippyjs/react/headless"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+
+import Tippy from "@tippyjs/react/headless"
+import Cookies from "js-cookie"
+
+import { MENU_ACCOUNT } from "@/constants/menu"
+import { useLogout } from "@/hooks"
+import { TUser } from "@/types"
 
 type Props = {
   user: TUser
@@ -12,9 +17,17 @@ type Props = {
 }
 
 export default function AvatarTippy({ user, children }: Props) {
+  const router = useRouter()
   const [visible, setVisible] = useState<boolean>(false)
 
   const togglePopup = () => setVisible((prev) => !prev)
+
+  const logout = useLogout({
+    onSuccess: () => {
+      Cookies.remove("x-auth-cookies")
+      router.refresh()
+    },
+  })
 
   return (
     <Tippy
@@ -42,6 +55,12 @@ export default function AvatarTippy({ user, children }: Props) {
                 </Link>
               </li>
             ))}
+            <li
+              className="cursor-pointer hover:text-pink-600"
+              onClick={() => logout.mutate()}
+            >
+              Đăng xuất
+            </li>
           </ul>
         </div>
       )}
