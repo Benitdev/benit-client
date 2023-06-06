@@ -7,7 +7,7 @@ const SearchBar = (props: Props) => {
     <form className="w-[35%] min-w-[300px]">
       <label
         htmlFor="default-search"
-        className="text-sm sr-only mb-2 font-medium text-gray-900 dark:text-white"
+        className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
         Search
       </label>
@@ -32,15 +32,15 @@ const SearchBar = (props: Props) => {
         <input
           type="search"
           id="default-search"
-          className="text-sm block w-full rounded-lg bg-slate-700 p-3 pl-10 pr-[95px] outline-none focus:ring-1 focus:ring-pink-600"
-          placeholder="Search Mockups, Logos..."
+          className="block w-full rounded-lg bg-slate-700 p-3 pl-10 pr-[95px] text-sm outline-none focus:ring-1 focus:ring-pink-600"
+          placeholder="Tìm kiếm khoá học, bài viết, ..."
           required
         />
         <button
           type="submit"
-          className="text-sm absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg bg-pink-700/50 px-4 py-2 font-medium text-white hover:bg-pink-700 focus:outline-none"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg bg-pink-800 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 focus:outline-none"
         >
-          Search
+          Tìm
         </button>
       </div>
     </form>

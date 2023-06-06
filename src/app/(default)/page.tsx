@@ -3,6 +3,8 @@ import PostListSkeleton from "@/components/common/Skeleton/PostListSkeleton"
 import Banner from "@/components/ui/Banner"
 import CourseList from "@/components/ui/CourseList"
 import PostList from "@/components/ui/PostList"
+import { IconChevronRight } from "@tabler/icons-react"
+import Link from "next/link"
 import { Suspense } from "react"
 
 export default function HomePage() {
@@ -10,7 +12,7 @@ export default function HomePage() {
     <main>
       <Banner />
       <section className="relative p-10 shadow-inner">
-        <div className="min-h-[500px]">
+        <div className="min-h-[500px] space-y-4">
           <Heading flag="Free">Khoá Học Miễn Phí</Heading>
           {/* @ts-expect-error Async Server Component */}
           <CourseList />
@@ -22,10 +24,19 @@ export default function HomePage() {
       </section>
 
       <section className="relative p-10">
-        <Heading>Bài viết nổi bật</Heading>
+        <div className="flex items-end justify-between pr-10">
+          <Heading>Bài viết nổi bật</Heading>
+          <Link
+            href={"/blogs"}
+            className="group flex items-center gap-1 font-bold text-red-500 hover:underline"
+          >
+            Xem tất cả{" "}
+            <IconChevronRight className="h-5 w-5 transition group-hover:translate-x-2" />
+          </Link>
+        </div>
         <Suspense fallback={<PostListSkeleton />}>
           {/* @ts-expect-error Async Server Component */}
-          <PostList />
+          <PostList feature="featured" />
         </Suspense>
 
         <div className="absolute left-11 top-[50%] -z-10 h-32 w-[50rem] -rotate-45 bg-pink-600/70 bg-gradient-to-tr blur-[200px]"></div>

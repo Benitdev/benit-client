@@ -1,9 +1,13 @@
+import Image from "next/image"
 import { ForwardedRef, forwardRef, useState } from "react"
 
 import { IconEdit, IconMinus, IconPlus, IconX } from "@tabler/icons-react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "react-toastify"
 import * as yup from "yup"
+import { ErrorMessage } from "@hookform/error-message"
 
 import Button from "@/components/common/Button"
 import { TAction } from "@/types"
@@ -11,16 +15,13 @@ import { useCategory } from "@/hooks"
 import Select from "@/components/common/Select"
 import { COURSE_TYPE, LEVEL_OPTIONS } from "@/constants/options"
 import LessonForm from "./LessonForm"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import courseApi from "@/api/client-side/courseApi"
-import { toast } from "react-toastify"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
-import Image from "next/image"
 
 const schema = yup
   .object({
     title: yup.string().required("Tên khóa học là bắt buộc!"),
-    categoryID: yup.string().required(),
+    categoryId: yup.string().required(),
     type: yup.string().required(),
     goals: yup.array().of(yup.string().required()),
     courseChapters: yup.array().of(
@@ -68,7 +69,7 @@ const CourseForm = forwardRef(function CourseForm(
     resolver: yupResolver(schema),
     defaultValues:
       action === TAction.Edit
-        ? { ...selectedRow, categoryID: selectedRow.categoryID._id }
+        ? { ...selectedRow, categoryId: selectedRow.categoryId._id }
         : {},
   })
 
@@ -156,9 +157,15 @@ const CourseForm = forwardRef(function CourseForm(
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Type product name"
             />
-            <small className="font-bold text-pink-600">
-              {errors.title?.message}
-            </small>
+            <ErrorMessage
+              errors={errors}
+              name="title"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
+            />
           </div>
           <div>
             <label
@@ -176,19 +183,28 @@ const CourseForm = forwardRef(function CourseForm(
           </div>
           <div>
             <label
-              htmlFor="categoryID"
+              htmlFor="categoryId"
               className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
               Danh mục
             </label>
             <Select
-              label="categoryID"
+              label="categoryId"
               register={register}
               required
               options={categories?.map((category) => ({
                 value: category._id,
                 label: category.title,
               }))}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="categoryId"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
             />
           </div>
           <div className="col-span-2">
@@ -315,7 +331,7 @@ const CourseForm = forwardRef(function CourseForm(
               htmlFor="description"
               className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
-              Description
+              Mô tả khoá học
             </label>
             <textarea
               {...register("description")}
@@ -324,18 +340,20 @@ const CourseForm = forwardRef(function CourseForm(
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Viết mô tả khoá học tại đây"
             ></textarea>
-            <small className="font-bold capitalize text-pink-600">
-              {errors.title?.message}
-            </small>
+            <ErrorMessage
+              errors={errors}
+              name="description"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
+            />
           </div>
           <div className="col-span-2">
-            <label
-              htmlFor="description"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
               Ảnh bìa khoá học
             </label>
-            <input {...register("image")} hidden />
             <input
               type="file"
               accept="image/png, image/jpeg"

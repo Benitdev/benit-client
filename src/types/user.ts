@@ -13,6 +13,6 @@ export type TUser = {
   status: string
   courseLearned: {
     course: string
-    lessons: { lessonID: string; status: "done" | "learning" }[]
+    lessons: { lessonId: string; status: "done" | "learning" }[]
   }[]
 }

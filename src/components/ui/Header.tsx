@@ -5,6 +5,7 @@ import SmallLogo from "../common/Logo/SmallLogo"
 import Avatar from "./Avatar"
 import SearchBar from "./Searchbar"
 import { TUser } from "@/types"
+import AvatarTippy from "../common/Tippy/AvatarTippy"
 
 type Props = {
   user: TUser
@@ -24,7 +25,9 @@ const Header = ({ user }: Props) => {
         </div>
         <div className="flex flex-1 justify-end">
           {user ? (
-            <Avatar avatar={user.avatar} />
+            <AvatarTippy user={user}>
+              <Avatar avatar={user.avatar} />
+            </AvatarTippy>
           ) : (
             <Link href={"/login"}>
               <ButtonAction className="bg-cyan-600">Đăng nhập</ButtonAction>

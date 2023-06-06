@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <div className="sticky top-[60px] h-[calc(100vh-60px)] w-[250px] shrink-0 py-3 text-slate-200">
-      <ul className="flex flex-col gap-1">
+      <ul className="flex flex-col gap-3 pr-2">
         {MENU_ITEMS.map((item) => (
           <li key={item.url} className="relative flex">
             {(segments[0] === item.url.slice(1) ||

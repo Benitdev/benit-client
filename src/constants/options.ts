@@ -37,7 +37,7 @@ export const LEVEL_OPTIONS = [
 
 export const STATUS_OPTIONS = [
   {
-    label: "Kích hoạt",
+    label: "Bình thường",
     value: "active",
   },
   {

@@ -2,6 +2,7 @@ export type TPost = {
   _id: string
   title: string
   slug: string
+  description: string
   content: string
   image: string
   tags: string[]
@@ -12,7 +13,7 @@ export type TPost = {
     avatar: string
   }
   likes: any[]
-  comments: any[]
+  totalComment: number
   views: number
   createdAt: string
   updatedAt: string
@@ -23,4 +24,5 @@ export type TFilter = {
   categoryId?: string
   title?: string
   status?: string
+  role?: string
 }

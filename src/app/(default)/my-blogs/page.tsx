@@ -1,9 +1,10 @@
 import BreadCrumb from "@/components/common/BreadCrumb/BreadCrumb"
 import Heading from "@/components/common/Heading"
-import PostList from "@/components/ui/PostList"
-import React, { Suspense } from "react"
-import PostFilter from "./_components/PostFilter"
+import PostFilter from "../blogs/_components/PostFilter"
+import { Suspense } from "react"
 import PostListSkeleton from "@/components/common/Skeleton/PostListSkeleton"
+import PostList from "@/components/ui/PostList"
+import authApi from "@/api/server-side/authApi"
 
 type Props = {
   searchParams: {
@@ -11,7 +12,9 @@ type Props = {
   }
 }
 
-const BlogPage = ({ searchParams }: Props) => {
+export default async function MyBlogsPage({ searchParams }: Props) {
+  const user = await authApi.getUser()
+
   return (
     <div className="relative p-8">
       <BreadCrumb
@@ -21,23 +24,23 @@ const BlogPage = ({ searchParams }: Props) => {
             url: "/",
           },
           {
-            title: "Bài viết",
+            title: "Bài viết của tôi",
           },
         ]}
       />
       <div className="space-y-6">
         <div className="space-y-4 py-6 lg:pr-5">
-          <Heading className="text-center">Bài viết nổi bật</Heading>
+          <Heading className="text-center">Bài viết của tôi</Heading>
           <p className="text-center">
-            Các khóa học được thiết kế phù hợp cho cả người mới, nhiều khóa học
-            miễn phí, chất lượng, nội dung dễ hiểu.
+            Nơi chia sẽ những kiến thức bổ ích về IT và các lĩnh vực công nghệ
+            khác ...
           </p>
         </div>
         {/* @ts-expect-error Async Server Component */}
-        <PostFilter categoryId={searchParams.id} />
+        <PostFilter categoryId={searchParams.id} type="my-blogs" />
         <Suspense fallback={<PostListSkeleton />}>
           {/* @ts-expect-error Async Server Component */}
-          <PostList categoryId={searchParams.id} />
+          <PostList categoryId={searchParams.id} type="my-blogs" user={user} />
         </Suspense>
       </div>
       {/* background grid  */}
@@ -48,5 +51,3 @@ const BlogPage = ({ searchParams }: Props) => {
     </div>
   )
 }
-
-export default BlogPage

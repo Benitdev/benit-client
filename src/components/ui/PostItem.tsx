@@ -4,6 +4,7 @@ import { TPost } from "@/types"
 import Link from "next/link"
 import ButtonAuth from "../common/Button/ButtonAuth"
 import { IconArrowRight } from "@tabler/icons-react"
+import { formatDateTime } from "@/utils/dayUtil"
 
 type Props = {
   post: TPost
@@ -14,7 +15,7 @@ export default function PostItem({ post }: Props) {
     <li className="mb-10 ml-4 space-y-4">
       <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-gray-500 bg-gray-500 " />
       <time className="mb-1 -translate-x-full text-sm font-normal leading-none text-gray-400 ">
-        February 2022
+        {formatDateTime(post.createdAt)}
       </time>
       <div className="flex gap-4">
         <div className="relative max-h-[300px] min-h-[200px] w-[250px] shrink-0 overflow-hidden rounded-xl">
@@ -25,9 +26,7 @@ export default function PostItem({ post }: Props) {
             {post.title}
           </h3>
           <p className="mb-4 line-clamp-3 text-base font-normal text-gray-500 dark:text-gray-400">
-            Get access to over 20+ pages including a dashboard layout, charts,
-            kanban board, calendar, and pre-order E-commerce & Marketing pages.
-            kanban board, calendar, and pre-order
+            {post.description}
           </p>
           <div className="flex items-center gap-4">
             <span className="font-bold text-pink-600">

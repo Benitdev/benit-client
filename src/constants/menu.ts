@@ -24,12 +24,39 @@ export const MENU_ITEMS = [
   },
   {
     url: "/blogs",
-    title: "Blog",
+    title: "Bài viết",
     icon: IconNews,
   },
   {
     url: "/code-template",
     title: "Template",
     icon: IconBrandCodesandbox,
+  },
+]
+
+export const MENU_ACCOUNT = [
+  {
+    label: "Trang cá nhân",
+    href: "/",
+  },
+  {
+    label: "Viết Blog",
+    href: "/new-blog",
+  },
+  {
+    label: "Bài viết của tôi",
+    href: "/my-blogs",
+  },
+  {
+    label: "Khoá học của tôi",
+    href: "/my-courses",
+  },
+  {
+    label: "Đã lưu",
+    href: "/saved",
+  },
+  {
+    label: "Đăng xuất",
+    href: "/logout",
   },
 ]

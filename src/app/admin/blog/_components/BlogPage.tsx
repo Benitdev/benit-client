@@ -35,7 +35,7 @@ const BlogPage = ({}: Props) => {
 
   const columns: GridColDef[] = useMemo(
     () => [
-      { field: "_id", headerName: "ID", width: 100 },
+      { field: "_id", headerName: "ID", width: 80 },
       {
         field: "title",
         headerName: "Tiêu đề",
@@ -43,10 +43,28 @@ const BlogPage = ({}: Props) => {
         minWidth: 200,
       },
       {
-        field: "slug",
-        headerName: "Slug",
+        field: "description",
+        headerName: "Mô tả",
         flex: 1,
-        minWidth: 200,
+        minWidth: 250,
+      },
+      {
+        field: "tags",
+        headerName: "Tags",
+        flex: 0.5,
+        minWidth: 250,
+        renderCell: (params) => (
+          <div className="flex flex-wrap gap-2">
+            {params.row.tags.map((tag: any) => (
+              <span
+                key={tag._id}
+                className="rounded-xl bg-red-500 px-2 py-1 text-sm text-slate-900"
+              >
+                {tag.title}
+              </span>
+            ))}
+          </div>
+        ),
       },
       {
         field: "image",
@@ -82,16 +100,34 @@ const BlogPage = ({}: Props) => {
         headerName: "Trạng thái",
         flex: 0.5,
         minWidth: 150,
-        renderCell: (params) => (
-          <span
-            className={cn(
-              "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
-              STATUS[params.row.status as string].color
-            )}
-          >
-            {STATUS[params.row.status as string].label}
-          </span>
-        ),
+        renderCell: (params) => {
+          let bg: string = ""
+          switch (params.row.status) {
+            case "approved": {
+              bg = "bg-green-500"
+              break
+            }
+            case "rejects": {
+              bg = "bg-red-500"
+              break
+            }
+            case "pending": {
+              bg = "bg-orange-500"
+              break
+            }
+          }
+
+          return (
+            <span
+              className={cn(
+                "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+                bg
+              )}
+            >
+              {STATUS[params.row.status as string].label}
+            </span>
+          )
+        },
       },
       {
         field: "createdAt",
@@ -191,7 +227,7 @@ const BlogPage = ({}: Props) => {
         <Table
           columns={columns}
           rows={data ?? []}
-          pageSize={8}
+          pageSize={10}
           isLoading={isLoading}
           autoRowHeight
         />

@@ -13,7 +13,7 @@ const Avatar = ({ className = "", avatar }: any) => {
         backgroundColor: color,
       }} */
     >
-      <div className="relative h-[40px] w-[40px] overflow-hidden rounded-full">
+      <div className="relative flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full">
         {avatar ? (
           <Image src={avatar} alt="avatar" width={40} height={40} />
         ) : (

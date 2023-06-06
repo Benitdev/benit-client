@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef, useState } from "react"
 
-import { IconEdit, IconPlus, IconX } from "@tabler/icons-react"
-import { useForm } from "react-hook-form"
+import { IconEdit, IconMinus, IconPlus, IconX } from "@tabler/icons-react"
+import { useForm, useFieldArray } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -20,14 +20,19 @@ import Image from "next/image"
 import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
 import Editor from "@/components/ui/Editor"
 import postApi from "@/api/client-side/postApi"
-import addIdHeadingTags from "@/utils/addIdHeadingTags"
+import { ErrorMessage } from "@hookform/error-message"
+import { useCategory } from "@/hooks"
 
 const schema = yup
   .object({
-    title: yup.string(),
-    // tags: yup.string(),
+    title: yup.string().required("Tiêu đề là bắt buộc!"),
+    tags: yup
+      .array()
+      .of(yup.string().required("Tags là bắt buộc!"))
+      .required("Tags là bắt buộc!"),
     authorId: yup.string(),
     image: yup.string().required("Ảnh bìa là bắt buộc!"),
+    description: yup.string().required("Mô tả bài viết là bắt buộc!"),
     feature: yup.string().required("Tính chất là bắt buộc"),
     status: yup.string().required("Trạng thái là bắt buộc"),
   })
@@ -45,6 +50,7 @@ const AccountForm = forwardRef(function CourseForm(
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const {
+    control,
     register,
     handleSubmit,
     watch,
@@ -56,10 +62,25 @@ const AccountForm = forwardRef(function CourseForm(
     defaultValues:
       action === TAction.Edit
         ? { ...selectedRow, authorId: selectedRow.authorId._id }
-        : {},
+        : { tags: ["a"], feature: "featured" },
+  })
+  const {
+    fields: tagsFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: "tags" as never,
   })
 
+  const { data: categoryOptions, isLoading } = useCategory(
+    "blog-categories",
+    "blog"
+  )
+
   const imagePath = watch("image")
+  const tags = watch("tags")
+  console.log(tags)
 
   const [content, setContent] = useState<string>(
     action === TAction.Edit ? selectedRow.content : ""
@@ -125,21 +146,92 @@ const AccountForm = forwardRef(function CourseForm(
               type="text"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
               placeholder="Điền tiêu đề bài viết"
-              required
             />
-            <small className="font-bold capitalize text-pink-600">
-              {errors.title?.message}
-            </small>
+            <ErrorMessage
+              errors={errors}
+              name="title"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
+            />
+          </div>
+          <div className="col-span-2">
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              Tags
+            </label>
+            <div className="flex flex-wrap items-center gap-4">
+              {tagsFields.map((field, index) => (
+                <div key={field.id} className="relative">
+                  <Select
+                    label={`tags.${index}`}
+                    register={register}
+                    required
+                    options={categoryOptions?.map((option) => ({
+                      label: option.title,
+                      value: option._id,
+                      disabled: tags.includes(option._id),
+                    }))}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name={`tags.${index}`}
+                    render={({ message }) => (
+                      <small className="absolute bottom-0 translate-y-full font-bold capitalize text-pink-600">
+                        {message}
+                      </small>
+                    )}
+                  />
+                  <button
+                    onClick={() => removeTag(index)}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-pink-700 p-1"
+                    type="button"
+                  >
+                    <IconMinus className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+
+              <button
+                onClick={() => appendTag("")}
+                className="rounded-full bg-pink-700 p-1"
+                type="button"
+              >
+                <IconPlus className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="col-span-2">
+            <label
+              htmlFor="description"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Mô tả
+            </label>
+            <textarea
+              {...register("description")}
+              id="description"
+              rows={3}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
+              placeholder="Viết mô tả khoá học tại đây"
+            ></textarea>
+            <ErrorMessage
+              errors={errors}
+              name="description"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
+            />
           </div>
           <div className="col-span-2">
             <Editor data={content} setContent={setContent} />
           </div>
 
           <div className="col-span-2">
-            <label
-              htmlFor="description"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
               Ảnh bìa
             </label>
             <input
@@ -176,9 +268,15 @@ const AccountForm = forwardRef(function CourseForm(
               required
               options={FEATURE_OPTIONS}
             />
-            <small className="font-bold capitalize text-pink-600">
-              {errors.status?.message}
-            </small>
+            <ErrorMessage
+              errors={errors}
+              name="feature"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
+            />
           </div>
           <div>
             <label
@@ -193,9 +291,15 @@ const AccountForm = forwardRef(function CourseForm(
               required
               options={POST_STATUS_OPTIONS}
             />
-            <small className="font-bold capitalize text-pink-600">
-              {errors.status?.message}
-            </small>
+            <ErrorMessage
+              errors={errors}
+              name="status"
+              render={({ message }) => (
+                <small className="font-bold capitalize text-pink-600">
+                  {message}
+                </small>
+              )}
+            />
           </div>
         </div>
         <Button

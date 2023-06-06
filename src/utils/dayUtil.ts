@@ -1,7 +1,9 @@
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import "dayjs/locale/vi"
 
 dayjs.extend(relativeTime)
+dayjs.locale("vi")
 export function formatDateTime(dateTime: string) {
   const currentDateTime = dayjs()
   const eventDateTime = dayjs(dateTime)

@@ -19,7 +19,7 @@ export const calcTimeLearned = (
   lessonsLearned: {
     course: string
     lessons: {
-      lessonID: string
+      lessonId: string
       status: "done" | "learning"
     }[]
   }[]
@@ -36,7 +36,7 @@ export const calcTimeLearned = (
     (total, lesson) =>
       allLessonLearned?.some(
         (lessonLearned) =>
-          lessonLearned.lessonID === lesson._id &&
+          lessonLearned.lessonId === lesson._id &&
           lessonLearned.status === "done"
       )
         ? total + Number(lesson.duration)

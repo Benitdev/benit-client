@@ -34,7 +34,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
     .map((chapter) => chapter.lessons.length)
     .reduce((prev, lessonLength) => prev + lessonLength, 0)
 
-  const lessonID = course?.courseChapters[0]?.lessons[0]._id
+  const lessonId = course?.courseChapters[0]?.lessons[0]._id
   const courseID = course._id
   const courseSlug = course.slug
 
@@ -46,9 +46,9 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
     try {
       await authApi.registerCourse({
         course: courseID,
-        lesson: lessonID,
+        lesson: lessonId,
       })
-      redirect(`/learning/${courseSlug}?id=${lessonID}`, RedirectType.push)
+      redirect(`/learning/${courseSlug}?id=${lessonId}`, RedirectType.push)
     } catch (e) {
       throw e
     }
@@ -150,7 +150,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
           />
         </div>
         <div className="space-y-4">
-          <h3 className="text-2xl font-bold capitalize text-pink-700">
+          <h3 className="text-center text-2xl font-bold capitalize text-pink-700">
             khóa học {course.type === "free" ? "miễn phí" : "có phí"}
           </h3>
           <form action={registerCourse}>

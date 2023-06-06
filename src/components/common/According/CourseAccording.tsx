@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 
@@ -14,19 +14,19 @@ import {
 } from "@tabler/icons-react"
 
 import According from "./According"
-import { TCourseChapter } from "@/types"
+import { TCourseChapter, TLesson } from "@/types"
 import { cn } from "@/utils/cn"
 import { durationToSecond, secondToString } from "@/utils/durationify"
 
 type Props = {
   chapters: TCourseChapter[]
   type?: "tracker"
-  lessonsLearned?: { lessonID: string; status: "done" | "learning" }[]
+  lessonsLearned?: { lessonId: string; status: "done" | "learning" }[]
 }
 
 const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
   const searchParams = useSearchParams()
-  const lessonID = searchParams.get("id")
+  const lessonId = searchParams.get("id")
   const pathname = usePathname()
 
   const [expand, setExpand] = useState<string[]>(
@@ -36,7 +36,7 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
           for (let i = 0; i < (lessonsLearned?.length ?? 0); i++) {
             if (
               chapter.lessons.findIndex(
-                (lesson) => lesson._id === lessonsLearned?.[i].lessonID
+                (lesson) => lesson._id === lessonsLearned?.[i].lessonId
               ) !== -1
             ) {
               isExpand = true
@@ -47,15 +47,15 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
         })
       : [chapters[0]?._id]
   )
+
   return (
     <div className="mt-2 space-y-4">
       {chapters.map((chapter) => (
         <According
           key={chapter._id}
-          item={chapter}
+          item={{ chapter, lessonsLearned }}
           Heading={AccordingHeading}
           expand={expand.includes(chapter._id)}
-          setExpand={setExpand}
           type={type}
         >
           {chapter.lessons.map((lesson, index) => (
@@ -64,10 +64,10 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
               href={`${pathname}?id=${lesson._id}`}
               className={cn(
                 "relative flex cursor-pointer items-center gap-2 rounded-xl p-4 px-7",
-                lessonID === lesson._id && "bg-pink-700/30",
+                lessonId === lesson._id && "bg-pink-700/30",
                 type === "tracker"
                   ? lessonsLearned?.some(
-                      (lessonLearned) => lessonLearned.lessonID === lesson._id
+                      (lessonLearned) => lessonLearned.lessonId === lesson._id
                     )
                     ? "px-10 hover:bg-pink-700/30"
                     : "pointer-events-none bg-black/20 px-10 opacity-70"
@@ -96,12 +96,12 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
               </small>
               {type === "tracker" &&
                 !lessonsLearned?.some(
-                  (lessonLearned) => lessonLearned.lessonID === lesson._id
+                  (lessonLearned) => lessonLearned.lessonId === lesson._id
                 ) && (
                   <IconLock className="absolute right-3 ml-2 h-5 w-5 text-slate-400" />
                 )}
               {lessonsLearned?.find(
-                (lessonLearned) => lessonLearned.lessonID === lesson._id
+                (lessonLearned) => lessonLearned.lessonId === lesson._id
               )?.status === "done" && (
                 <IconDiscountCheckFilled className="absolute right-3 ml-2 h-5 w-5 text-green-400" />
               )}
@@ -115,10 +115,12 @@ const CourseAccording = ({ chapters, type, lessonsLearned }: Props) => {
 
 const AccordingHeading = ({
   chapter,
+  lessonsLearned,
   isOpen,
   type,
 }: {
   chapter: TCourseChapter
+  lessonsLearned: { lessonId: string; status: "done" | "learning" }[]
   isOpen: boolean
   type?: "tracker"
 }) => {
@@ -126,6 +128,21 @@ const AccordingHeading = ({
     (total, lesson) => total + Number(lesson.duration),
     0
   )
+
+  let totalLessonLearned = 0
+
+  chapter.lessons.forEach((lesson) => {
+    if (
+      lessonsLearned.find(
+        (lessonLearned) =>
+          lessonLearned.lessonId === lesson._id &&
+          lessonLearned.status === "done"
+      )
+    ) {
+      totalLessonLearned = totalLessonLearned + 1
+    }
+  })
+
   return (
     <div className="flex items-center gap-2">
       {isOpen ? (
@@ -137,7 +154,9 @@ const AccordingHeading = ({
         <span>{`${chapter.index}. ${chapter.title}`}</span>
         {type === "tracker" && (
           <p className="mt-1 flex gap-1 text-xs font-bold text-pink-600 ">
-            <span>6/10</span>
+            <span>
+              {totalLessonLearned}/{chapter.lessons.length}
+            </span>
             <span>|</span>
             <span className="flex items-center">
               <IconAlarm className="mr-1 h-4 w-4" />

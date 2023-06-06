@@ -13,7 +13,7 @@ module.exports = {
       fontSize: {
         base: "clamp(14px, 1.25vw, 16px)",
         large: "clamp(14px, 1.5vw, 18px)",
-        xl: "clamp(14px, 1.5vw, 20px)",
+        xl: "clamp(16px, 1.5vw, 20px)",
         heading: "clamp(24px, 2.8vw, 36px)",
         headingLarge: "clamp(32px, 3.75vw, 48px)",
       },

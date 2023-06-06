@@ -9,6 +9,7 @@ import PostContent from "../_components/PostContent"
 import Avatar from "@/components/ui/Avatar"
 import { formatDateTime } from "@/utils/dayUtil"
 import ButtonBack from "@/components/common/Button/ButtonBack"
+import PostComment from "../_components/PostComment"
 
 type Props = {
   params: {
@@ -40,17 +41,23 @@ export default async function BlogDetailPage({ params }: Props) {
           ]}
         />
         <Heading className="my-4 capitalize">{post.title}</Heading>
-        <div className="flex w-fit items-center gap-2">
-          <Avatar avatar={post.authorId.avatar} />
-          <div className="flex flex-col justify-between">
-            <span className="font-bold text-slate-400">
-              {post.authorId.fullName}
-            </span>
-            <div className="space-x-2 text-sm">
-              <time>{formatDateTime(post.createdAt)}</time>
-              <span>🎉</span>
-              <span>{post.readingTime} phút đọc</span>
+        <div className="flex items-end justify-between">
+          <div className="flex w-fit items-center gap-2">
+            <Avatar avatar={post.authorId.avatar} />
+            <div className="flex flex-col justify-between">
+              <span className="font-bold text-slate-400">
+                {post.authorId.fullName}
+              </span>
+              <div className="space-x-2 text-sm">
+                <time>{formatDateTime(post.createdAt)}</time>
+                <span>🎉</span>
+                <span>{post.readingTime} phút đọc</span>
+              </div>
             </div>
+          </div>
+
+          <div className="text-slate-400">
+            <span>{post.totalComment} bình luận</span>
           </div>
         </div>
         <div className="relative h-[500px]">
@@ -62,12 +69,13 @@ export default async function BlogDetailPage({ params }: Props) {
           />
         </div>
         <PostContent content={post.content} />
+        {/* @ts-expect-error Async Server Component */}
+        <PostComment postId={post._id} />
       </div>
       <div className="sticky top-0 col-span-3">cc</div>
 
       <div className="fixed left-11 top-[15%] -z-10 h-32 w-[50rem] -rotate-45 bg-pink-600/50 bg-gradient-to-tr blur-[200px]"></div>
       <div className="fixed bottom-[15%] right-11 -z-10 h-24 w-[40rem] rotate-45 bg-purple-600/60 bg-gradient-to-tr blur-[120px]"></div>
-
       <div className="bg-grid absolute inset-0 -z-10"></div>
     </div>
   )

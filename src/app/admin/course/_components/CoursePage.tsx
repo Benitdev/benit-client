@@ -38,7 +38,7 @@ const CoursePage = ({}: Props) => {
         flex: 0.5,
         minWidth: 150,
         valueGetter: (params: GridValueGetterParams) =>
-          params.row.categoryID.title,
+          params.row.categoryId.title,
       },
       {
         field: "slug",

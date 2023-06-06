@@ -1,6 +1,8 @@
 import "@/styles/globals.css"
 
 import { Inter, Open_Sans } from "next/font/google"
+import ReactQueryProvider from "@/contexts/ReactQueryProvider"
+import ToastContainer from "@/components/common/Toast/ToastContainer"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,6 +15,7 @@ const openSans = Open_Sans({
   subsets: ["vietnamese"],
   display: "swap",
 })
+
 export default async function RootLayout({
   children,
 }: {
@@ -21,7 +24,10 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
       <body className="bg-slate-900 text-base text-slate-200">
-        <div id="root">{children}</div>
+        <ReactQueryProvider>
+          <div id="root">{children}</div>
+        </ReactQueryProvider>
+        <ToastContainer />
       </body>
     </html>
   )

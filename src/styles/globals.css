@@ -137,6 +137,15 @@
   @apply !text-slate-200;
 }
 
+.MuiDataGrid-overlay {
+  background-color: unset !important;
+}
+
+.cm-theme {
+  flex: 1;
+  overflow-y: auto;
+}
+
 @keyframes glow-visibility {
   0%,
   100% {

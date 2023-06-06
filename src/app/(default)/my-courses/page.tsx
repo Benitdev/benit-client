@@ -5,7 +5,7 @@ import React from "react"
 
 type Props = {}
 
-export default function CoursesPage({}: Props) {
+export default function MyCoursesPage({}: Props) {
   return (
     <div className="relative p-8">
       <BreadCrumb
@@ -15,19 +15,31 @@ export default function CoursesPage({}: Props) {
             url: "/",
           },
           {
-            title: "Khoá học",
+            title: "Khoá học của tôi",
           },
         ]}
       />
       <div className="mt-6 space-y-4">
-        <Heading>Khoá học</Heading>
+        <Heading>Khoá học của tôi</Heading>
         <p>
           Các khóa học được thiết kế phù hợp cho cả người mới, nhiều khóa học
           miễn phí, chất lượng, nội dung dễ hiểu.
         </p>
       </div>
-      {/* @ts-expect-error Async Server Component */}
-      <CourseList />
+      <div className="mt-8 space-y-2">
+        <h2 className="text-xl text-slate-400 underline underline-offset-4">
+          Chưa hoàn thành
+        </h2>
+        {/* @ts-expect-error Async Server Component */}
+        <CourseList progress="learning" />
+      </div>
+      <div className="mt-8 space-y-2">
+        <h2 className="text-xl text-slate-400 underline underline-offset-4">
+          Đã hoàn thành
+        </h2>
+        {/* @ts-expect-error Async Server Component */}
+        <CourseList progress="done" />
+      </div>
       {/* background grid  */}
       <div className="absolute left-11 top-[15%] -z-10 h-32 w-[50rem] -rotate-45 bg-pink-600/70 bg-gradient-to-tr blur-[200px]" />
       <div className="absolute bottom-[15%] right-11 -z-10 h-24 w-[40rem] rotate-45 bg-purple-600/60 bg-gradient-to-tr blur-[120px]"></div>

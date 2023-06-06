@@ -7,7 +7,11 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 import Button from "@/components/common/Button"
 import Select from "@/components/common/Select"
-import { FEATURE_OPTIONS, POST_STATUS_OPTIONS } from "@/constants/options"
+import {
+  FEATURE_OPTIONS,
+  POST_STATUS_OPTIONS,
+  STATUS_OPTIONS,
+} from "@/constants/options"
 import { useCategory } from "@/hooks"
 import { TFilter } from "@/types"
 
@@ -45,7 +49,11 @@ export default function Filter({
     defaultValues: value,
   })
 
-  const { data: categories } = useCategory("code-categories", page)
+  const { data: categories } = useCategory(
+    "categories",
+    page,
+    page !== "account"
+  )
 
   const onSubmit = (data: FormData) => {
     setValue({ ...data })
@@ -62,26 +70,26 @@ export default function Filter({
           {...register("title")}
           type="text"
           className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-          placeholder="Điền tiêu đề bài viết"
+          placeholder="Điền tên cần tìm"
         />
       </div>
-      <div>
-        <Select
-          label="categoryId"
-          register={register}
-          required
-          options={categories?.map((category) => ({
-            value: category._id,
-            label: category.title,
-          }))}
-        />
-      </div>
+      {page !== "account" && (
+        <div>
+          <Select
+            label="categoryId"
+            register={register}
+            options={categories?.map((category) => ({
+              value: category._id,
+              label: category.title,
+            }))}
+          />
+        </div>
+      )}
       <div>
         <Select
           label="status"
           register={register}
-          required
-          options={POST_STATUS_OPTIONS}
+          options={page === "account" ? STATUS_OPTIONS : POST_STATUS_OPTIONS}
         />
       </div>
       {hasFeature && (
@@ -89,7 +97,6 @@ export default function Filter({
           <Select
             label="feature"
             register={register}
-            required
             options={FEATURE_OPTIONS}
           />
         </div>

@@ -3,7 +3,7 @@ import { TCourseChapter, TLesson } from "@/types"
 
 type Props = {
   chapters: TCourseChapter[]
-  lessonsLearned?: { lessonID: string; status: "done" | "learning" }[]
+  lessonsLearned?: { lessonId: string; status: "done" | "learning" }[]
 }
 
 const CourseTrack = ({ chapters, lessonsLearned }: Props) => {

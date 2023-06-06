@@ -4,13 +4,15 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 
 import courseApi from "@/api/client-side/courseApi"
 import "@/styles/customCkeditor.css"
+import { cn } from "@/utils/cn"
 
 type Props = {
   data?: string
+  className?: string
   setContent: Dispatch<SetStateAction<string>>
 }
 
-const Editor = ({ data, setContent }: Props) => {
+const Editor = ({ data, className, setContent }: Props) => {
   const editorRef = useRef<any>()
   const [editorLoaded, setEditorLoaded] = useState<boolean>(false)
   const [isEditorReady, setIsEditorReady] = useState<boolean>(false)
@@ -64,7 +66,7 @@ const Editor = ({ data, setContent }: Props) => {
   return (
     <>
       {editorLoaded ? (
-        <div className="ck-body-wrapper">
+        <div className={cn("ck-body-wrapper", className)}>
           <CKEditor
             data={data}
             className="wrap-ckeditor mt-3"

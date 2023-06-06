@@ -154,6 +154,10 @@
   @apply text-slate-300;
 }
 
+article.ck code strong {
+  @apply rounded bg-slate-600 p-2 text-yellow-500;
+}
+
 .ck h1,
 .ck h2,
 .ck h3,

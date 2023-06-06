@@ -1,10 +1,20 @@
-// import { LoginForm } from 'types';
 import httpRequest from "@/lib/httpRequest"
 
 import type { ResSuccess, TPost } from "@/types"
+import filterObj from "@/utils/filterObj"
+
+type Filter = {
+  categoryId?: string
+  feature?: string
+  authorId?: string
+}
 
 const postApi = {
-  getPost: (): Promise<TPost[]> => httpRequest("/posts"),
+  getPost: (filter: Filter): Promise<TPost[]> => {
+    const filteredObj = filterObj(filter)
+    const queryString = new URLSearchParams(filteredObj).toString()
+    return httpRequest(`/posts?${queryString}`)
+  },
   getPostDetail: (slug: string): Promise<TPost> =>
     httpRequest(`/posts/${slug}`, {
       next: {

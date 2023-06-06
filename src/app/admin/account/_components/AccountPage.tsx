@@ -11,18 +11,18 @@ import type {
 
 import Table from "../../_components/Table/Table"
 import AccountForm from "./AccountForm"
-import { TAction, TCategory } from "@/types"
+import { TAction, TCategory, TFilter } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import categoryApi from "@/api/client-side/categoryApi"
 import { toast } from "react-toastify"
 import { useAccount } from "@/hooks"
 
-import { cookies } from "next/headers"
 import Avatar from "@/components/ui/Avatar"
 import { ACCOUNT_ROLES, ACCOUNT_STATUS } from "@/constants/status"
 import { cn } from "@/utils/cn"
 import { formatDateTime } from "@/utils/dayUtil"
+import Filter from "../../_components/Filter/Filter"
 
 type Props = {}
 
@@ -30,6 +30,7 @@ const AccountPage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
   const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
+  const [filter, setFilter] = useState<TFilter>({})
 
   const columns: GridColDef[] = useMemo(
     () => [
@@ -73,17 +74,35 @@ const AccountPage = ({}: Props) => {
         field: "status",
         headerName: "Trạng thái",
         flex: 0.5,
-        minWidth: 100,
-        renderCell: (params) => (
-          <span
-            className={cn(
-              "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
-              ACCOUNT_STATUS[params.row.status as string].color
-            )}
-          >
-            {ACCOUNT_STATUS[params.row.status as string].label}
-          </span>
-        ),
+        minWidth: 150,
+        renderCell: (params) => {
+          let bg
+          switch (params.row.status) {
+            case "active": {
+              bg = "bg-green-500"
+              break
+            }
+            case "banned": {
+              bg = "bg-orange-600"
+              break
+            }
+            case "deleted": {
+              bg = "bg-red-600"
+              break
+            }
+          }
+
+          return (
+            <span
+              className={cn(
+                "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+                bg
+              )}
+            >
+              {ACCOUNT_STATUS[params.row.status as string].label}
+            </span>
+          )
+        },
       },
       {
         field: "createdAt",
@@ -166,6 +185,12 @@ const AccountPage = ({}: Props) => {
         </Button>
       </div>
       <div className="mt-5 px-10">
+        <Filter
+          page="account"
+          value={filter}
+          setValue={setFilter}
+          isLoading={isLoading}
+        />
         <Table
           columns={columns}
           rows={data ?? []}
