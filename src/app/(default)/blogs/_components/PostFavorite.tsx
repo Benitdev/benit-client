@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import { useFavoritePost, useLikedPost } from "@/hooks"
 import { cn } from "@/utils/cn"
@@ -12,12 +12,15 @@ type Props = {
 }
 
 export default function PostFavorite({ postId, refetch = true }: Props) {
+  const pathname = usePathname()
   const router = useRouter()
+
   const { data } = useLikedPost(postId)
+
   const mutation = useFavoritePost({
     postId,
     onSuccess: () => {
-      if (refetch) router.refresh()
+      if (refetch && pathname !== "/") router.refresh()
     },
   })
 

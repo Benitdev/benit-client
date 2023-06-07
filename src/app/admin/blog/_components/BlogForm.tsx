@@ -110,8 +110,8 @@ const AccountForm = forwardRef(function CourseForm(
     onSuccess: (data) => {
       setValue("image", data.imagePath, { shouldDirty: true })
     },
-    onError: (error: any) => {
-      toast.error(error.error as string)
+    onError: () => {
+      toast.error("Tải ảnh không thành công!")
     },
   })
 

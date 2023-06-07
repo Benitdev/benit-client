@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import courseApi from "@/api/client-side/courseApi"
 import "@/styles/customCkeditor.css"
 import { cn } from "@/utils/cn"
+import { toast } from "react-toastify"
 
 type Props = {
   data?: string
@@ -54,6 +55,7 @@ const Editor = ({ data, className, setContent }: Props) => {
           })
           .catch((error) => {
             reject(error)
+            toast.error("Tải ảnh không thành công!")
           })
       })
     }
