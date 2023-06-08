@@ -26,6 +26,7 @@ const Video = ({
 }: Props) => {
   const router = useRouter()
   const currentTime = useRef<number>(0)
+  const isProgressUpdated = useRef<boolean>(false)
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
@@ -43,11 +44,13 @@ const Video = ({
       target.seekTo(currentTime.current, true)
     } else currentTime.current = time
 
+    console.log(isLearnedNextLesson)
     if (target.getDuration() - currentTime.current < 30) {
-      if (!isLearnedNextLesson && !learned)
+      if (!isLearnedNextLesson && !isProgressUpdated.current)
         authApi
           .updateProgress({ course: courseID, nextLessonID: nextLessonID })
           .then(() => {
+            isProgressUpdated.current = true
             router.refresh()
           })
           .catch((e) => console.log(e))

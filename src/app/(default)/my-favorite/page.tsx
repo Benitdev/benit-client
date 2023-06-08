@@ -45,7 +45,7 @@ export default async function MyFavoritePage({ searchParams }: Props) {
                 "font-bold text-pink-600 underline underline-offset-1"
             )}
           >
-            Bài viết
+            Lộ trình Frontend
           </button>
         </Link>
         <Link href={"/my-favorite?type=ui"}>
@@ -56,7 +56,7 @@ export default async function MyFavoritePage({ searchParams }: Props) {
                 "font-bold text-pink-600 underline underline-offset-1"
             )}
           >
-            UI Template
+            Lộ trình Backend
           </button>
         </Link>
       </div>

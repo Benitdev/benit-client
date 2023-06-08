@@ -60,8 +60,4 @@ export const MENU_ACCOUNT = [
     label: "Yêu thích",
     href: "/my-favorite",
   },
-  {
-    label: "Đã lưu",
-    href: "/saved",
-  },
 ]

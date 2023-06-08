@@ -56,7 +56,7 @@ export default function AvatarTippy({ user, children }: Props) {
               </li>
             ))}
             <li
-              className="cursor-pointer hover:text-pink-600"
+              className="cursor-pointer border-t border-slate-200/30 pt-4 hover:text-pink-600"
               onClick={() => logout.mutate()}
             >
               Đăng xuất

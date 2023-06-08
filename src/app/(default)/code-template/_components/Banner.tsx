@@ -7,7 +7,7 @@ import IconWebsite from "@/assets/icons/IconWebsite"
 
 const Banner = () => {
   return (
-    <div className="select-none pb-20 pr-5 pt-10 text-slate-100">
+    <div className="select-none pb-10 pr-5 pt-10 text-slate-100">
       <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center border-4 border-purple-500 bg-opacity-10 ">
         <div className="animate-ping">
           <IconPointer />
@@ -16,7 +16,7 @@ const Banner = () => {
       <h1 className="bg-gradient-secondary mx-auto mb-10 max-w-xl bg-clip-text text-center text-3xl font-bold leading-snug text-transparent lg:text-4xl lg:leading-relaxed ">
         Get your free UI components with just few click
       </h1>
-      <div className="mb-10 flex flex-col justify-center gap-5 sm:flex-row sm:items-center">
+      {/*   <div className="mb-10 flex flex-col justify-center gap-5 sm:flex-row sm:items-center">
         <a
           href="https://github.com/Benitdev/client_benit_coding_ui"
           target="_blank"
@@ -63,7 +63,7 @@ const Banner = () => {
         <SocialIcon href="#">
           <IconWebsite />
         </SocialIcon>
-      </div>
+      </div> */}
     </div>
   )
 }

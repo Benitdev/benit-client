@@ -5,10 +5,11 @@ import { calcTimeCourse, calcTimeLearned } from "@/utils/calcTimeCourse"
 
 type Props = {
   progress?: "done"
+  categoryId?: string
 }
 
-const CourseList = async ({ progress }: Props) => {
-  const coursesRes = courseApi.getCourses()
+const CourseList = async ({ progress, categoryId }: Props) => {
+  const coursesRes = courseApi.getCourses({ categoryId })
   const userRes = authApi.getUser()
   const [courses, user] = await Promise.all([coursesRes, userRes])
 
