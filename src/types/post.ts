@@ -12,6 +12,7 @@ export type TPost = {
     fullName: string
     avatar: string
   }
+  status: string
   likes: any[]
   totalComment: number
   views: number

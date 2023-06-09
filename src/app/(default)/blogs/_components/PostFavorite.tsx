@@ -9,13 +9,14 @@ import { IconHeartFilled } from "@tabler/icons-react"
 type Props = {
   postId: string
   refetch?: boolean
+  type?: "code"
 }
 
-export default function PostFavorite({ postId, refetch = true }: Props) {
+export default function PostFavorite({ postId, refetch = true, type }: Props) {
   const pathname = usePathname()
   const router = useRouter()
 
-  const { data } = useLikedPost(postId)
+  const { data } = useLikedPost(postId, type)
 
   const mutation = useFavoritePost({
     postId,
@@ -27,7 +28,11 @@ export default function PostFavorite({ postId, refetch = true }: Props) {
   return (
     <button
       onClick={() =>
-        mutation.mutate({ id: postId, action: data?.liked ? "remove" : "add" })
+        mutation.mutate({
+          id: postId,
+          action: data?.liked ? "remove" : "add",
+          type,
+        })
       }
     >
       <IconHeartFilled

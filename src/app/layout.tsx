@@ -22,7 +22,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
+    <html lang="en" className={`${inter.variable} ${openSans.variable} dark`}>
       <body className="bg-slate-900 text-base text-slate-200">
         <ReactQueryProvider>
           <div id="root">{children}</div>

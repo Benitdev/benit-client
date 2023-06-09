@@ -6,42 +6,86 @@ import Link from "next/link"
 type Props = {
   categoryId?: string
   type?: "my-blogs" | "blogs"
+  status?: string
 }
 
 export default async function PostFilter({
   categoryId,
   type = "blogs",
+  status,
 }: Props) {
   const categories = await postApi.getPostCategories()
   return (
-    <div className="flex flex-wrap items-center justify-center gap-4">
-      <Link href={`/${type}`}>
-        <ButtonAuth
-          className={cn(
-            "border border-pink-600/50 bg-pink-600/20",
-            !categoryId && "border-pink-600/50 bg-pink-600 text-slate-900"
-          )}
-        >
-          Tất cả
-        </ButtonAuth>
-      </Link>
-
-      {categories.map((category) => (
-        <Link
-          key={category._id}
-          href={`/${type}?tag=${category.slug}&id=${category._id}`}
-        >
+    <div>
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <Link href={`/${type}`}>
           <ButtonAuth
             className={cn(
               "border border-pink-600/50 bg-pink-600/20",
-              categoryId === category._id &&
+              !categoryId &&
+                !status &&
                 "border-pink-600/50 bg-pink-600 text-slate-900"
             )}
           >
-            {category.title}
+            Tất cả
           </ButtonAuth>
         </Link>
-      ))}
+
+        {categories.map((category) => (
+          <Link
+            key={category._id}
+            href={`/${type}?tag=${category.slug}&id=${category._id}`}
+          >
+            <ButtonAuth
+              className={cn(
+                "border border-pink-600/50 bg-pink-600/20",
+                categoryId === category._id &&
+                  "border-pink-600/50 bg-pink-600 text-slate-900"
+              )}
+            >
+              {category.title}
+            </ButtonAuth>
+          </Link>
+        ))}
+      </div>
+      {type === "my-blogs" && (
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
+          <Link href={`/${type}?status=pending`}>
+            <ButtonAuth
+              className={cn(
+                "border border-pink-600/50 ",
+                status === "pending" &&
+                  "border-pink-600/50 bg-orange-500 text-slate-900"
+              )}
+            >
+              Đang chờ duyệt
+            </ButtonAuth>
+          </Link>
+
+          <Link href={`/${type}?status=approved`}>
+            <ButtonAuth
+              className={cn(
+                "border border-pink-600/50 ",
+                status === "approved" &&
+                  "border-pink-600/50 bg-green-500 text-slate-900"
+              )}
+            >
+              Đã duyệt
+            </ButtonAuth>
+          </Link>
+          <Link href={`/${type}?status=rejected`}>
+            <ButtonAuth
+              className={cn(
+                "0 border border-pink-600/50",
+                status === "rejected" &&
+                  "border-pink-600/50 bg-red-500 text-slate-900"
+              )}
+            >
+              Từ chối
+            </ButtonAuth>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

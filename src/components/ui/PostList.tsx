@@ -28,7 +28,7 @@ const PostList = async ({
   return (
     <ol className="relative mt-8 border-l border-gray-200 pr-10 dark:border-gray-700 md:ml-20 lg:ml-36 lg:pr-16">
       {posts.map((post) => (
-        <PostItem key={post._id} post={post} userId={user?._id} />
+        <PostItem key={post._id} post={post} />
       ))}
     </ol>
   )

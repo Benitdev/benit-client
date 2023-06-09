@@ -6,6 +6,7 @@ import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import React from "react"
+import CardList from "../code-template/_components/CardList"
 
 type Props = {
   searchParams: {
@@ -34,7 +35,7 @@ export default async function MyFavoritePage({ searchParams }: Props) {
       />
       <div className="mt-6 space-y-4">
         <HeadingCloseTag>{"<Danh mục yêu thích />"}</HeadingCloseTag>
-        <p>Những thứ bạn thích nằm đây nha.</p>
+        <p>Những thứ bạn thích nằm đây nha!</p>
       </div>
       <div className="mt-8 flex items-center gap-3">
         <Link href={"/my-favorite?type=blog"}>
@@ -45,7 +46,7 @@ export default async function MyFavoritePage({ searchParams }: Props) {
                 "font-bold text-pink-600 underline underline-offset-1"
             )}
           >
-            Lộ trình Frontend
+            Bài viết
           </button>
         </Link>
         <Link href={"/my-favorite?type=ui"}>
@@ -56,12 +57,18 @@ export default async function MyFavoritePage({ searchParams }: Props) {
                 "font-bold text-pink-600 underline underline-offset-1"
             )}
           >
-            Lộ trình Backend
+            UI Template
           </button>
         </Link>
       </div>
       {/* @ts-expect-error Async Server Component */}
       {type === "blog" && <PostList userFavorite={user._id} />}
+      {type === "ui" && (
+        <div className="mt-2">
+          {/* @ts-expect-error Async Server Component */}
+          <CardList userFavorite={user._id} />
+        </div>
+      )}
     </div>
   )
 }

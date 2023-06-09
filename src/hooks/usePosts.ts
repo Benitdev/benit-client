@@ -36,8 +36,8 @@ export const useFavoritePost = ({
   })
 }
 
-export const useLikedPost = (postId: string) =>
+export const useLikedPost = (postId: string, type?: string) =>
   useQuery({
-    queryKey: ["favorite", postId],
-    queryFn: () => postApi.getFavoritePost(postId),
+    queryKey: ["favorite", postId, type],
+    queryFn: () => postApi.getFavoritePost(postId, type),
   })

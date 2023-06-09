@@ -27,6 +27,7 @@ const ButtonAuth = ({ className, onClick, url, children }: Props) => {
     const checkAuth = async () => {
       try {
         await authApi.getUser()
+        router.refresh()
         router.push("/")
       } catch (err) {
         console.log(err)

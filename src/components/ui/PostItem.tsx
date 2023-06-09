@@ -7,13 +7,32 @@ import { IconArrowRight } from "@tabler/icons-react"
 import { formatDateTime } from "@/utils/dayUtil"
 import Tag from "../common/Tag/Tag"
 import PostFavorite from "@/app/(default)/blogs/_components/PostFavorite"
+import { cn } from "@/utils/cn"
+import { STATUS } from "@/constants/status"
 
 type Props = {
   post: TPost
-  userId?: string
 }
 
-export default function PostItem({ post, userId }: Props) {
+export default function PostItem({ post }: Props) {
+  const getButtonBgColor = (status: string) => {
+    let bg: string = ""
+    switch (status) {
+      case "approved": {
+        bg = "bg-green-500"
+        break
+      }
+      case "rejects": {
+        bg = "bg-red-500"
+        break
+      }
+      case "pending": {
+        bg = "bg-orange-500"
+        break
+      }
+    }
+    return bg
+  }
   return (
     <li className="mb-10 ml-4 space-y-4">
       <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-gray-500 bg-gray-500 " />
@@ -41,10 +60,21 @@ export default function PostItem({ post, userId }: Props) {
           <div className="mt-auto flex w-full flex-col items-start justify-between gap-2 lg:flex-row lg:items-end">
             <div className="flex w-fit shrink-0 items-center gap-2">
               <Link href={`/blogs/${post.slug}`}>
-                <ButtonAuth className="bg-black/50 px-6 py-2">
-                  Đọc thêm
-                  <IconArrowRight className="ml-2 h-4 w-4" />
-                </ButtonAuth>
+                {post.status === "approved" ? (
+                  <ButtonAuth className="bg-black/50 px-6 py-2">
+                    Đọc thêm
+                    <IconArrowRight className="ml-2 h-4 w-4" />
+                  </ButtonAuth>
+                ) : (
+                  <span
+                    className={cn(
+                      "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+                      getButtonBgColor(post.status)
+                    )}
+                  >
+                    {STATUS[post.status as string].label}
+                  </span>
+                )}
               </Link>
               <PostFavorite postId={post._id} />
             </div>

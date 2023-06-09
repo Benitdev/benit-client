@@ -80,7 +80,7 @@ const Editor = ({ data, className, setContent }: Props) => {
             }}
             onChange={(_: any, editor: any) => {
               const data = editor.getData()
-              setContent("content", data, { shouldDirty: true })
+              setContent(data)
             }}
             onReady={(editor: any) => {
               editorRef.current.editor = editor

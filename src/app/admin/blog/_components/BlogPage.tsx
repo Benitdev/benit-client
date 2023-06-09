@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import Table from "../../_components/Table/Table"
 import BlogForm from "./BlogForm"
-import { TFilter, TAction, TCategory } from "@/types"
+import { TFilter, TAction, TPost } from "@/types"
 import DeleteForm from "../../_components/Form/DeleteForm"
 import { usePosts } from "@/hooks/usePosts"
 import Image from "next/image"
@@ -30,7 +30,7 @@ type Props = {}
 const BlogPage = ({}: Props) => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const [action, setAction] = useState<TAction>(TAction.Add)
-  const [selectedRow, setSelectedRow] = useState<TCategory | null>(null)
+  const [selectedRow, setSelectedRow] = useState<TPost | null>(null)
   const [filter, setFilter] = useState<TFilter>({})
 
   const columns: GridColDef[] = useMemo(
@@ -202,7 +202,7 @@ const BlogPage = ({}: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between border-b border-slate-100/20 px-10 py-6">
-        <h1 className="text-heading">Bài viết</h1>
+        <h1 className="text-heading font-bold">Bài viết</h1>
         <Button
           className="bg-pink-700"
           classStroke="stroke-pink-600"
@@ -246,15 +246,12 @@ const BlogPage = ({}: Props) => {
             type="Xoá bài viếT"
           />
         ) : action === TAction.View ? (
-          <BlogViewer
-            toggleForm={handleClose}
-            selectedRow={selectedRow ?? {}}
-          />
+          <BlogViewer toggleForm={handleClose} selectedRow={selectedRow} />
         ) : (
           <BlogForm
             toggleForm={handleClose}
             action={action}
-            selectedRow={selectedRow ?? {}}
+            selectedRow={selectedRow!}
           />
         )}
       </Modal>

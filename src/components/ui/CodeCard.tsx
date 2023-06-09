@@ -11,9 +11,11 @@ import { IconEye } from "@tabler/icons-react"
 import ModalViewCode from "../common/Modal/ModalViewCode"
 import { Modal } from "@mui/material"
 import { cn } from "@/utils/cn"
+import PostFavorite from "@/app/(default)/blogs/_components/PostFavorite"
 
 type Props = {
   title: string
+  cardId?: string
   htmlCode: string
   cssCode: string
   jsCode?: string
@@ -25,6 +27,7 @@ type Props = {
 const CodeCard = (props: Props) => {
   const {
     title,
+    cardId,
     htmlCode,
     cssCode,
     jsCode = "",
@@ -57,6 +60,7 @@ const CodeCard = (props: Props) => {
           </h4>
           {!preview && (
             <div className="flex items-center gap-x-2">
+              <PostFavorite postId={cardId!} type="code" />
               <ButtonAction onClick={() => setIsShowCode(true)}>
                 <IconEye />
               </ButtonAction>

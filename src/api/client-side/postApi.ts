@@ -27,15 +27,26 @@ const postApi = {
   favoritePost: ({
     id,
     action,
+    type,
   }: {
     id: string
     action?: string
+    type?: string
   }): Promise<ResSuccess> => {
-    return axiosClient.post(`/posts/favorite/${id}?action=${action}`)
+    return axiosClient.post(
+      `/posts/favorite/${id}?action=${action}&type=${type}`
+    )
   },
 
-  getFavoritePost: (id: string): Promise<any> => {
-    return axiosClient.get(`/posts/favorite/${id}`)
+  getFavoritePost: (id: string, type?: string): Promise<any> => {
+    return axiosClient.get(`/posts/favorite/${id}`, {
+      params: {
+        type,
+      },
+    })
+  },
+  updateView: (id: string): Promise<ResSuccess> => {
+    return axiosClient.get(`/posts/views/${id}`)
   },
 }
 

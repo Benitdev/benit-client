@@ -74,6 +74,7 @@ const NewBlog = (props: Props) => {
     mutationFn: postApi.createPost,
     onSuccess: (data) => {
       toast.success(data.message)
+      router.refresh()
       router.push("/my-blogs")
     },
     onError: (error: any) => {
@@ -90,6 +91,9 @@ const NewBlog = (props: Props) => {
       toast.error("Tải ảnh không thành công!")
     },
   })
+
+  const setContent = (content: string) =>
+    setValue("content", content, { shouldDirty: true })
 
   const onSubmit = (data: FormData) => {
     mutation.mutate(data)
@@ -178,7 +182,7 @@ const NewBlog = (props: Props) => {
         </div>
       </div>
       <div className="mb-4 grid gap-4 sm:grid-cols-2 [&_input:valid]:border-pink-500 [&_input]:outline-none [&_textarea]:outline-none">
-        <Editor setContent={setValue} data={content} className="col-span-2" />
+        <Editor setContent={setContent} data={content} className="col-span-2" />
         <ErrorMessage
           errors={errors}
           name="content"

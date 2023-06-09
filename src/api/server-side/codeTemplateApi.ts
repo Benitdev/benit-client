@@ -5,6 +5,8 @@ import filterObj from "@/utils/filterObj"
 type Filter = {
   categoryId?: string
   authorId?: string
+  status?: string
+  likes?: string
 }
 
 const codeTemplateApi = {

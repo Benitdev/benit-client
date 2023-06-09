@@ -13,6 +13,7 @@ import Button from "@/components/common/Button"
 type Props = {
   searchParams: {
     id: string
+    status?: string
   }
 }
 
@@ -51,10 +52,18 @@ export default async function MyBlogsPage({ searchParams }: Props) {
           </Button>
         </Link>
         {/* @ts-expect-error Async Server Component */}
-        <PostFilter categoryId={searchParams.id} type="my-blogs" />
+        <PostFilter
+          categoryId={searchParams.id}
+          type="my-blogs"
+          status={searchParams.status}
+        />
         <Suspense fallback={<PostListSkeleton />}>
           {/* @ts-expect-error Async Server Component */}
-          <PostList categoryId={searchParams.id} type="my-blogs" />
+          <PostList
+            categoryId={searchParams.id}
+            type="my-blogs"
+            status={searchParams.status}
+          />
         </Suspense>
       </div>
     </div>

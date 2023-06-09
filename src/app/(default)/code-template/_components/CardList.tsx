@@ -6,12 +6,22 @@ type Props = {
   categoryId: string
   type?: "my-code"
   userId?: string
+  status?: string
+  userFavorite?: string
 }
 
-export default async function CardList({ categoryId, type, userId }: Props) {
+export default async function CardList({
+  categoryId,
+  type,
+  userId,
+  status,
+  userFavorite,
+}: Props) {
   const codeList = await codeTemplateApi.getCodes({
     categoryId,
     authorId: type === "my-code" ? userId : "",
+    status,
+    likes: userFavorite,
   })
 
   if (codeList.length === 0)
@@ -23,6 +33,7 @@ export default async function CardList({ categoryId, type, userId }: Props) {
       {codeList.map((card, i) => (
         <CodeCard
           key={card._id}
+          cardId={card._id}
           title={card.title}
           htmlCode={card.htmlCode}
           cssCode={card.cssCode}

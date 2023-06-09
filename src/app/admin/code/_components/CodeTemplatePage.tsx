@@ -166,7 +166,7 @@ const CodeTemplatePage = ({}: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between border-b border-slate-100/20 px-10 py-6">
-        <h1 className="text-heading tracking-wider">Code Template</h1>
+        <h1 className="text-heading font-bold tracking-wider">Code Template</h1>
         <Button
           className="bg-pink-700"
           classStroke="stroke-pink-600"

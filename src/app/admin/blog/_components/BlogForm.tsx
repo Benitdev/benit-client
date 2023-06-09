@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 
 import Button from "@/components/common/Button"
-import { TAction } from "@/types"
+import { TAction, TPost } from "@/types"
 import Select from "@/components/common/Select"
 import {
   FEATURE_OPTIONS,
@@ -33,6 +33,7 @@ const schema = yup
     authorId: yup.string(),
     image: yup.string().required("Ảnh bìa là bắt buộc!"),
     description: yup.string().required("Mô tả bài viết là bắt buộc!"),
+    content: yup.string().required("Nội dung là bắt buộc!"),
     feature: yup.string().required("Tính chất là bắt buộc"),
     status: yup.string().required("Trạng thái là bắt buộc"),
   })
@@ -41,7 +42,7 @@ const schema = yup
 type Props = {
   toggleForm: () => void
   action: TAction
-  selectedRow: any | {}
+  selectedRow: TPost
 }
 type FormData = yup.InferType<typeof schema>
 
@@ -61,8 +62,12 @@ const AccountForm = forwardRef(function CourseForm(
     resolver: yupResolver(schema),
     defaultValues:
       action === TAction.Edit
-        ? { ...selectedRow, authorId: selectedRow.authorId._id }
-        : { tags: ["a"], feature: "featured" },
+        ? {
+            ...selectedRow,
+            authorId: selectedRow.authorId._id,
+            tags: selectedRow.tags.map((tag) => tag._id),
+          }
+        : { tags: [" "], feature: "featured" },
   })
   const {
     fields: tagsFields,
@@ -79,12 +84,9 @@ const AccountForm = forwardRef(function CourseForm(
   )
 
   const imagePath = watch("image")
+  const content = watch("content")
   const tags = watch("tags")
-  console.log(tags)
-
-  const [content, setContent] = useState<string>(
-    action === TAction.Edit ? selectedRow.content : ""
-  )
+  console.log(content)
 
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -100,6 +102,9 @@ const AccountForm = forwardRef(function CourseForm(
       toast.error(error as string)
     },
   })
+
+  const setContent = (content: string) =>
+    setValue("content", content, { shouldDirty: true })
 
   const onSubmit = (data: FormData) => {
     mutation.mutate({ ...data, content })
