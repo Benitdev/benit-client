@@ -1,6 +1,7 @@
 import postApi from "@/api/server-side/postApi"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/common/avatar"
 import { TPost } from "@/types"
+import Link from "next/link"
 import React from "react"
 
 type Props = {
@@ -13,10 +14,11 @@ export default async function SimilarPosts({ tags }: Props) {
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {similarPosts?.map((post) => (
-        <div
+        <Link
           key={post._id}
+          href={`/blogs/${post.slug}`}
           className="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-slate-900/50"
         >
           <Avatar className="h-9 w-9">
@@ -29,7 +31,7 @@ export default async function SimilarPosts({ tags }: Props) {
               {post.description}
             </p>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )

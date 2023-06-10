@@ -1,10 +1,9 @@
+import { BASE_API_URL } from "@/configs/env"
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const baseUrl = "http://localhost:5000/api/v1"
-
 const axiosClient = axios.create({
-  baseURL: baseUrl,
+  baseURL: BASE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },

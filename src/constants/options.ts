@@ -11,12 +11,16 @@ export const ROLE_OPTIONS = [
 
 export const COURSE_TYPE = [
   {
-    label: "Miễn phí",
-    value: "free",
+    label: "Chung",
+    value: "general",
   },
   {
-    label: "Pro",
-    value: "pro",
+    label: "Front end",
+    value: "frontend",
+  },
+  {
+    label: "Back end",
+    value: "backend",
   },
 ]
 

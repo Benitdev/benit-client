@@ -1,9 +1,9 @@
 // import { LoginForm } from 'types';
 import axiosClient from "@/lib/axiosClient"
-import type { ResSuccess, TFilter } from "@/types"
+import type { Page, ResSuccess, TCodeTemplate, TFilter } from "@/types"
 
 const codeTemplateApi = {
-  getTemplate: (filter?: TFilter): Promise<any> => {
+  getTemplate: (filter?: TFilter): Promise<Page<TCodeTemplate[]>> => {
     const filteredObj = Object.fromEntries(
       Object.entries(filter!).filter(([key, value]) => value !== "")
     )

@@ -35,17 +35,7 @@ const LearningLayout = async ({ params: { slug }, children }: Props) => {
           (lessonLearnedTimeTotal / courseTimeTotal) * 100
         )}
       />
-      <div className="flex">
-        <div className="flex-[0.8]">{children}</div>
-        <CourseTrack
-          chapters={course.courseChapters}
-          lessonsLearned={
-            user?.courseLearned.find(
-              (courseLearned) => courseLearned.course === course._id
-            )?.lessons
-          }
-        />
-      </div>
+      <div className="flex">{children}</div>
     </div>
   )
 }

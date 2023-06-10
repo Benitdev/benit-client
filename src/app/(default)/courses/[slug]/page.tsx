@@ -34,7 +34,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
     .map((chapter) => chapter.lessons.length)
     .reduce((prev, lessonLength) => prev + lessonLength, 0)
 
-  const lessonId = course?.courseChapters[0]?.lessons[0]._id
+  const lessonId = course?.courseChapters[0]?.lessons[0]?._id
   const courseID = course._id
   const courseSlug = course.slug
 
@@ -151,7 +151,7 @@ const CourseDetailPage = async ({ params: { slug } }: Props) => {
         </div>
         <div className="space-y-4">
           <h3 className="text-center text-2xl font-bold capitalize text-pink-700">
-            khóa học {course.type === "free" ? "miễn phí" : "có phí"}
+            khóa học miễn phí
           </h3>
           <form action={registerCourse}>
             <Button

@@ -47,7 +47,7 @@ const CodeCateForm = forwardRef(function CourseForm(
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -96,7 +96,7 @@ const CodeCateForm = forwardRef(function CourseForm(
   const { data: categories } = useCategory("code-categories", "code")
 
   return (
-    <motion.div ref={ref} className="flex h-full items-center justify-center">
+    <div ref={ref} className="flex h-full items-center justify-center">
       {isCodingLayout ? (
         <motion.div
           layoutId="codingLayout"
@@ -149,7 +149,7 @@ const CodeCateForm = forwardRef(function CourseForm(
       ) : (
         <motion.div
           layoutId="codingLayout"
-          className=" min-h-[500px] w-[90%] max-w-[1200px] rounded-xl bg-slate-900 px-10 pb-10 pt-5 shadow-xl"
+          className="min-h-[500px] w-[90%] max-w-[1200px] rounded-xl bg-slate-900 px-10 pb-10 pt-5 shadow-xl"
         >
           <h2 className="relative mb-5 flex items-center gap-4 border-b border-gray-200/20 py-3 pr-5 text-xl font-bold text-slate-200">
             Code Template
@@ -319,7 +319,7 @@ const CodeCateForm = forwardRef(function CourseForm(
           </form>
         </motion.div>
       )}
-    </motion.div>
+    </div>
   )
 })
 

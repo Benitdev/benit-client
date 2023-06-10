@@ -189,7 +189,7 @@ const CodeTemplatePage = ({}: Props) => {
         />
         <Table
           columns={columns}
-          rows={data ?? []}
+          rows={data?.data ?? []}
           pageSize={8}
           autoRowHeight
           isLoading={isLoading}

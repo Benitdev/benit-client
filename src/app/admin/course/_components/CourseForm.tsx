@@ -83,6 +83,7 @@ const CourseForm = forwardRef(function CourseForm(
   })
 
   const imagePath = watch("image")
+  const courseChapters = watch("courseChapters")
 
   const {
     fields: chaptersFields,
@@ -268,7 +269,9 @@ const CourseForm = forwardRef(function CourseForm(
                         control={control}
                         index={index}
                         setValue={setValue}
-                        chapter={`Chương ${index + 1}`}
+                        chapter={`Chương ${index + 1}: ${
+                          courseChapters?.[index].title
+                        }`}
                         register={register}
                         errors={errors}
                         setOpenLessonModal={setOpenLessonModal}

@@ -38,7 +38,7 @@ export default function RoadMapPage({ searchParams }: Props) {
       </div>
       <div className="min-h-[400px] space-y-4">
         <div className="mt-8 flex items-center gap-3">
-          <Link href={"/my-favorite?type=blog"}>
+          <Link href={"/road-map?type=frontend"}>
             <button
               className={cn(
                 "font-bold hover:text-pink-600",
@@ -49,7 +49,7 @@ export default function RoadMapPage({ searchParams }: Props) {
               Lộ trình Frontend
             </button>
           </Link>
-          <Link href={"/my-favorite?type=ui"}>
+          <Link href={"/road-map?type=backend"}>
             <button
               className={cn(
                 "font-bold hover:text-pink-600",

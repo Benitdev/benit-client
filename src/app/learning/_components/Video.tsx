@@ -1,13 +1,14 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import authApi from "@/api/client-side/authApi"
 import YouTube, { YouTubeEvent } from "react-youtube"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Modal } from "@mui/material"
 import { IconX } from "@tabler/icons-react"
 import Button from "@/components/common/Button"
+import { Router } from "next/router"
 
 type Props = {
   videoID: string
@@ -15,6 +16,7 @@ type Props = {
   courseID?: string
   isLearnedNextLesson?: boolean
   learned?: boolean
+  isUpdated: boolean
 }
 
 const Video = ({
@@ -23,12 +25,21 @@ const Video = ({
   courseID,
   isLearnedNextLesson,
   learned,
+  isUpdated,
 }: Props) => {
+  const searchParams = useSearchParams()
+
+  const id = searchParams.get("id")
   const router = useRouter()
   const currentTime = useRef<number>(0)
   const isProgressUpdated = useRef<boolean>(false)
-
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log("cc")
+    isProgressUpdated.current = false
+    currentTime.current = 0
+  }, [id])
 
   const handleClose = () => setIsOpenModal((prev) => !prev)
 
@@ -39,19 +50,21 @@ const Video = ({
   const onStateChange = (e: YouTubeEvent<number>) => {
     const { target } = e
     const time = target.getCurrentTime()
-    if (time - currentTime.current > 10 && !learned) {
+    /*  if (time - currentTime.current > 10 && !learned) {
       setIsOpenModal(true)
       target.seekTo(currentTime.current, true)
-    } else currentTime.current = time
-
-    console.log(isLearnedNextLesson)
-    if (target.getDuration() - currentTime.current < 30) {
+    } else */ currentTime.current = time
+    console.log(!isLearnedNextLesson && !isProgressUpdated.current)
+    if (
+      target.getDuration() - currentTime.current < 30 &&
+      target.getDuration() !== 0
+    ) {
       if (!isLearnedNextLesson && !isProgressUpdated.current)
         authApi
           .updateProgress({ course: courseID, nextLessonID: nextLessonID })
           .then(() => {
-            isProgressUpdated.current = true
             router.refresh()
+            isProgressUpdated.current = true
           })
           .catch((e) => console.log(e))
     }

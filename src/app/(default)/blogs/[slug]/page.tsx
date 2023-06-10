@@ -19,6 +19,7 @@ import PostFavorite from "../_components/PostFavorite"
 import IncrementView from "../_components/IncrementView"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import { CustomMDX } from "@/components/ui/MdxCustom"
+import SimilarPosts from "../_components/SimilarPosts"
 
 type Props = {
   params: {
@@ -102,8 +103,10 @@ export default async function BlogDetailPage({ params }: Props) {
         {/* @ts-expect-error Async Server Component */}
         <PostComment postId={post._id} />
       </div>
-      <div className="sticky top-[100px] col-span-3 h-[100px] rounded-xl bg-slate-900/70 p-4 backdrop-blur-none">
-        Có thể bạn sẽ thích
+      <div className="sticky top-[100px] col-span-3 h-fit space-y-4 rounded-xl bg-slate-700/70 p-4 backdrop-blur-none">
+        <p>Có thể bạn sẽ thích</p>
+        {/* @ts-expect-error Async Server Component */}
+        <SimilarPosts tags={post.tags} />
       </div>
 
       <div className="fixed left-11 top-[15%] -z-10 h-32 w-[50rem] -rotate-45 bg-pink-600/50 bg-gradient-to-tr blur-[200px]"></div>
