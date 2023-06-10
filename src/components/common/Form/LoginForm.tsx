@@ -4,6 +4,8 @@ import { SocialIcon } from "react-social-icons"
 import ButtonAuth from "../Button/ButtonAuth"
 import { UserIcon } from "@heroicons/react/24/solid"
 import { useState } from "react"
+import ButtonBack from "../Button/ButtonBack"
+import AuthForm from "./AuthForm"
 
 type Props = {}
 
@@ -49,7 +51,10 @@ const LoginForm = (props: Props) => {
       ))}
     </div>
   ) : (
-    <div>hello</div>
+    <div className="w-full">
+      <ButtonBack className="absolute left-6 top-6" />
+      <AuthForm />
+    </div>
   )
 }
 

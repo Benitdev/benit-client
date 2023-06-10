@@ -226,7 +226,7 @@ const BlogPage = ({}: Props) => {
         />
         <Table
           columns={columns}
-          rows={data ?? []}
+          rows={data?.data ?? []}
           pageSize={10}
           isLoading={isLoading}
           autoRowHeight

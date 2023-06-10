@@ -43,7 +43,7 @@ export default function HomePage() {
         </div>
         <Suspense fallback={<PostListSkeleton />}>
           {/* @ts-expect-error Async Server Component */}
-          <PostList feature="featured" status="approved" />
+          <PostList feature="featured" status="approved" type="home" />
         </Suspense>
       </section>
     </main>

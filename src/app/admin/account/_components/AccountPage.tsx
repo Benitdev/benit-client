@@ -121,9 +121,9 @@ const AccountPage = ({}: Props) => {
         headerAlign: "center",
         renderCell: (params) => (
           <div className="flex items-center gap-4">
-            <button className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150">
+            {/* <button className="rounded-lg bg-green-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150">
               Xem
-            </button>
+            </button> */}
             <button
               className="rounded-lg bg-yellow-600 px-3 py-2 font-bold text-slate-900 transition hover:scale-110 hover:brightness-150"
               onClick={() => {

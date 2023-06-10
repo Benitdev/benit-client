@@ -27,6 +27,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.dmca.com",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
     ],
   },
 }

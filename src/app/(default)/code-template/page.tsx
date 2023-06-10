@@ -8,6 +8,7 @@ type Props = {
   searchParams: {
     type: string
     cateId: string
+    page: string
   }
 }
 
@@ -31,7 +32,10 @@ export default async function page({ searchParams }: Props) {
       <div className="rounded-xl bg-black/40 p-4 backdrop-blur-sm">
         <CodeFilter categories={categories} />
         {/* @ts-expect-error Async Server Component */}
-        <CardList categoryId={searchParams.cateId} />
+        <CardList
+          categoryId={searchParams.cateId}
+          page={Number(searchParams.page ?? 1)}
+        />
       </div>
     </div>
   )

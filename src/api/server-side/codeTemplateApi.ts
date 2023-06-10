@@ -1,5 +1,5 @@
 import httpRequest from "@/lib/httpRequest"
-import { TCategory, TCodeTemplate } from "@/types"
+import { Page, TCategory, TCodeTemplate } from "@/types"
 import filterObj from "@/utils/filterObj"
 
 type Filter = {
@@ -7,10 +7,11 @@ type Filter = {
   authorId?: string
   status?: string
   likes?: string
+  page?: number
 }
 
 const codeTemplateApi = {
-  getCodes: (filter: Filter): Promise<TCodeTemplate[]> => {
+  getCodes: (filter: Filter): Promise<Page<TCodeTemplate[]>> => {
     const filteredObj = filterObj(filter)
     const queryString = new URLSearchParams(filteredObj).toString()
     return httpRequest(`/code-template?${queryString}`, {

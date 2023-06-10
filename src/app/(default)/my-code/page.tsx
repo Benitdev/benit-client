@@ -15,6 +15,7 @@ type Props = {
   searchParams: {
     cateId: string
     status?: string
+    page?: string
   }
 }
 
@@ -98,6 +99,7 @@ export default async function MyUiPage({ searchParams }: Props) {
           categoryId={searchParams.cateId}
           userId={user._id}
           status={searchParams.status}
+          page={Number(searchParams.page ?? 1)}
         />
       </div>
     </div>

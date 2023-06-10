@@ -1,6 +1,6 @@
 import codeTemplateApi from "@/api/server-side/codeTemplateApi"
 import CodeCard from "@/components/ui/CodeCard"
-import { TUser } from "@/types"
+import Pagination from "@/components/ui/Pagination"
 
 type Props = {
   categoryId: string
@@ -8,6 +8,7 @@ type Props = {
   userId?: string
   status?: string
   userFavorite?: string
+  page?: number
 }
 
 export default async function CardList({
@@ -16,15 +17,17 @@ export default async function CardList({
   userId,
   status,
   userFavorite,
+  page = 1,
 }: Props) {
-  const codeList = await codeTemplateApi.getCodes({
+  const { data: codeList, lastPage } = await codeTemplateApi.getCodes({
     categoryId,
     authorId: type === "my-code" ? userId : "",
     status,
     likes: userFavorite,
+    page,
   })
-
-  if (codeList.length === 0)
+  console.log(page)
+  if (codeList?.length === 0)
     return (
       <h1 className="text-center">Danh mục này hiện tại không có Template</h1>
     )
@@ -41,6 +44,7 @@ export default async function CardList({
           author={card.authorId.fullName}
         />
       ))}
+      <Pagination page={page} totalPage={lastPage} />
     </div>
   )
 }

@@ -3,7 +3,7 @@ import axiosClient from "@/lib/axiosClient"
 import { ResSuccess } from "@/types"
 
 const authApi = {
-  //   login: (body: LoginForm) => axiosClient.post('auth/login', body),
+  login: (body: any) => axiosClient.post("auth/login", body),
   loginSocial: (provider: string, code: string) =>
     axiosClient.get(`/auth/${provider}`, {
       params: {

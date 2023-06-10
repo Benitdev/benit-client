@@ -8,6 +8,7 @@ import PostListSkeleton from "@/components/common/Skeleton/PostListSkeleton"
 type Props = {
   searchParams: {
     id: string
+    page: string
   }
 }
 
@@ -37,7 +38,11 @@ const BlogPage = ({ searchParams }: Props) => {
         <PostFilter categoryId={searchParams.id} />
         <Suspense fallback={<PostListSkeleton />}>
           {/* @ts-expect-error Async Server Component */}
-          <PostList categoryId={searchParams.id} status="approved" />
+          <PostList
+            categoryId={searchParams.id}
+            status="approved"
+            page={Number(searchParams.page ?? 1)}
+          />
         </Suspense>
       </div>
     </div>

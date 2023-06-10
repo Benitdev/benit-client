@@ -17,6 +17,11 @@ export type Statistical = {
   topViewPosts: TPost[]
 }
 
+export type Page<T> = {
+  data: T
+  lastPage: number
+}
+
 export enum TAction {
   Add,
   Edit,

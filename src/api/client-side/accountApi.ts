@@ -14,6 +14,9 @@ const accountApi = {
     const { id, ...data } = formData
     return axiosClient.patch(`/user/${id}`, data)
   },
+  deletePost: (id: string): Promise<ResSuccess> => {
+    return axiosClient.delete(`/user/${id}`)
+  },
 }
 
 export default accountApi

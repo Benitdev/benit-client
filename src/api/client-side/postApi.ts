@@ -1,10 +1,10 @@
 // import { LoginForm } from 'types';
 import axiosClient from "@/lib/axiosClient"
 
-import type { TFilter, ResSuccess, TPost } from "@/types"
+import type { TFilter, ResSuccess, TPost, Page } from "@/types"
 
 const postApi = {
-  getPost: (filter?: TFilter): Promise<TPost[]> => {
+  getPost: (filter?: TFilter): Promise<Page<TPost[]>> => {
     const filteredObj = Object.fromEntries(
       Object.entries(filter!).filter(([key, value]) => value !== "")
     )
