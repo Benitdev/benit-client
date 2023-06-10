@@ -6,6 +6,7 @@ import filterObj from "@/utils/filterObj"
 type Filter = {
   categoryId?: string
   status?: string
+  type?: "frontend" | "backend"
 }
 
 const courseApi = {

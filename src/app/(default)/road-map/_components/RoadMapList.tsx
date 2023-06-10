@@ -43,7 +43,7 @@ export default async function RoadMapList({ type }: Props) {
             </h2>
             <p className="my-4">{category.description}</p>
             {/* @ts-expect-error  */}
-            <RoadMapCourseList categoryId={category._id} />
+            <RoadMapCourseList categoryId={category._id} type={type} />
           </div>
         ))}
       </div>
