@@ -15,6 +15,7 @@ const LABEL: {
   categoryId: "danh mục",
   status: "trạng thái",
   feature: "đặc tính",
+  type: "loại",
 }
 
 export default function Select({ label, options, register, required }: Props) {

@@ -31,14 +31,18 @@ const Video = ({
 
   const id = searchParams.get("id")
   const router = useRouter()
-  const currentTime = useRef<number>(0)
-  const isProgressUpdated = useRef<boolean>(false)
+  /*   const currentTime = useRef<number>(0)
+  const isProgressUpdated = useRef<boolean>(false) */
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
+  const [currentTime, setCurrentTime] = useState<number>(0)
+  const [isProgressUpdated, setIsProgressUpdated] = useState<boolean>(false)
+
   useEffect(() => {
-    console.log("cc")
-    isProgressUpdated.current = false
-    currentTime.current = 0
+    // isProgressUpdated.current = false
+    // currentTime.current = 0
+    setCurrentTime(0)
+    setIsProgressUpdated(false)
   }, [id])
 
   const handleClose = () => setIsOpenModal((prev) => !prev)
@@ -50,21 +54,18 @@ const Video = ({
   const onStateChange = (e: YouTubeEvent<number>) => {
     const { target } = e
     const time = target.getCurrentTime()
-    /*  if (time - currentTime.current > 10 && !learned) {
-      setIsOpenModal(true)
-      target.seekTo(currentTime.current, true)
-    } else */ currentTime.current = time
-    console.log(!isLearnedNextLesson && !isProgressUpdated.current)
-    if (
-      target.getDuration() - currentTime.current < 30 &&
-      target.getDuration() !== 0
-    ) {
-      if (!isLearnedNextLesson && !isProgressUpdated.current)
+    //  if (time - currentTime.current > 10 && !learned) {
+    //   setIsOpenModal(true)
+    //   target.seekTo(currentTime.current, true)
+    // } else currentTime.current = time
+    setCurrentTime(time)
+    if (target.getDuration() - currentTime < 30 && target.getDuration() !== 0) {
+      if (!isLearnedNextLesson && !isProgressUpdated)
         authApi
           .updateProgress({ course: courseID, nextLessonID: nextLessonID })
           .then(() => {
             router.refresh()
-            isProgressUpdated.current = true
+            setIsProgressUpdated(true)
           })
           .catch((e) => console.log(e))
     }

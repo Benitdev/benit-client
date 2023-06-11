@@ -6,21 +6,22 @@ import { UserIcon } from "@heroicons/react/24/solid"
 import { useState } from "react"
 import ButtonBack from "../Button/ButtonBack"
 import AuthForm from "./AuthForm"
+import { BASE_API_URL } from "@/configs/env"
 
 type Props = {}
 
 const providers = [
   {
     name: "Google",
-    url: "http://localhost:5000/api/v1/auth/google",
+    url: `${BASE_API_URL}/auth/google`,
   },
   {
     name: "Facebook",
-    url: "http://localhost:5000/api/v1/auth/facebook",
+    url: `${BASE_API_URL}/auth/facebook`,
   },
   {
     name: "Github",
-    url: "http://localhost:5000/api/v1/auth/github",
+    url: `${BASE_API_URL}/auth/github`,
   },
 ]
 

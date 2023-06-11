@@ -12,6 +12,7 @@ import ModalViewCode from "../common/Modal/ModalViewCode"
 import { Modal } from "@mui/material"
 import { cn } from "@/utils/cn"
 import PostFavorite from "@/app/(default)/blogs/_components/PostFavorite"
+import { STATUS } from "@/constants/status"
 
 type Props = {
   title: string
@@ -22,6 +23,7 @@ type Props = {
   author?: string
   preview?: boolean
   className?: string
+  status?: string
 }
 
 const CodeCard = (props: Props) => {
@@ -34,11 +36,29 @@ const CodeCard = (props: Props) => {
     author = null,
     preview = false,
     className,
+    status,
   } = props
   const [isShowCode, setIsShowCode] = useState<boolean>(false)
 
   const handleClose = () => setIsShowCode(false)
-
+  const getButtonBgColor = (status: string) => {
+    let bg: string = ""
+    switch (status) {
+      case "approved": {
+        bg = "bg-green-500"
+        break
+      }
+      case "rejects": {
+        bg = "bg-red-500"
+        break
+      }
+      case "pending": {
+        bg = "bg-orange-500"
+        break
+      }
+    }
+    return bg
+  }
   return (
     <>
       <div
@@ -113,6 +133,16 @@ const CodeCard = (props: Props) => {
             </div>
           )}
         </div>
+        {status && status !== "approved" && (
+          <span
+            className={cn(
+              "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+              getButtonBgColor(status)
+            )}
+          >
+            {STATUS[status as string].label}
+          </span>
+        )}
       </div>
       <Modal
         open={isShowCode}

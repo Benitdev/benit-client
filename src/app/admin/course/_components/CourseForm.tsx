@@ -21,8 +21,8 @@ import ImageSkeleton from "@/components/common/Skeleton/ImageSkeleton"
 const schema = yup
   .object({
     title: yup.string().required("Tên khóa học là bắt buộc!"),
-    categoryId: yup.string().required(),
-    type: yup.string().required(),
+    categoryId: yup.string().required("Danh mục khoá học là bắt buộc!"),
+    type: yup.string().required("Loại khoá học là bắt buộc!"),
     goals: yup.array().of(yup.string().required()),
     courseChapters: yup.array().of(
       yup.object({
@@ -156,7 +156,7 @@ const CourseForm = forwardRef(function CourseForm(
               type="text"
               id="title"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-              placeholder="Type product name"
+              placeholder="Điền tên khoá học"
             />
             <ErrorMessage
               errors={errors}
@@ -175,12 +175,7 @@ const CourseForm = forwardRef(function CourseForm(
             >
               Loại
             </label>
-            <Select
-              label="type"
-              register={register}
-              required
-              options={COURSE_TYPE}
-            />
+            <Select label="type" register={register} options={COURSE_TYPE} />
           </div>
           <div>
             <label
@@ -192,7 +187,6 @@ const CourseForm = forwardRef(function CourseForm(
             <Select
               label="categoryId"
               register={register}
-              required
               options={categories?.map((category) => ({
                 value: category._id,
                 label: category.title,

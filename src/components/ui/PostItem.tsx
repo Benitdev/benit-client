@@ -57,25 +57,25 @@ export default function PostItem({ post }: Props) {
             <span className="h-1 w-1 rounded-full bg-pink-600"></span>
             <span className="text-gray-400">{post.readingTime} phút đọc</span>
           </div>
-          <div className="mt-auto flex w-full flex-col items-start justify-between gap-2 lg:flex-row lg:items-end">
+          <div className="mt-auto flex w-full flex-col items-start justify-between gap-2 gap-y-4 lg:flex-row lg:items-center">
             <div className="flex w-fit shrink-0 items-center gap-2">
-              <Link href={`/blogs/${post.slug}`}>
-                {post.status === "approved" ? (
+              {post.status === "approved" ? (
+                <Link href={`/blogs/${post.slug}`}>
                   <ButtonAuth className="bg-black/50 px-6 py-2">
                     Đọc thêm
                     <IconArrowRight className="ml-2 h-4 w-4" />
                   </ButtonAuth>
-                ) : (
-                  <span
-                    className={cn(
-                      "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
-                      getButtonBgColor(post.status)
-                    )}
-                  >
-                    {STATUS[post.status as string].label}
-                  </span>
-                )}
-              </Link>
+                </Link>
+              ) : (
+                <span
+                  className={cn(
+                    "rounded-xl px-4 py-2 font-bold capitalize text-slate-900",
+                    getButtonBgColor(post.status)
+                  )}
+                >
+                  {STATUS[post.status as string].label}
+                </span>
+              )}
               <PostFavorite postId={post._id} />
             </div>
             <div className="flex flex-wrap items-center gap-2">

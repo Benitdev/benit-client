@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import {
   IconArrowBigLeftFilled,
   IconArrowBigRightFilled,
@@ -21,7 +21,9 @@ const LearningLayout = async ({ params: { slug }, children }: Props) => {
 
   const [course, user] = await Promise.all([courseRes, userRes])
 
-  if (!course || !user) notFound()
+  if (!user) redirect("/login")
+
+  if (!course) notFound()
 
   const courseTimeTotal = calcTimeCourse(course.courseChapters)
   const lessonLearnedTimeTotal = calcTimeLearned(course, user.courseLearned)

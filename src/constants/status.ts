@@ -16,7 +16,7 @@ export const STATUS: Status = {
   },
   pending: {
     label: "chờ duyệt",
-    color: "bg-orange-300",
+    color: "bg-orange-500",
   },
 }
 

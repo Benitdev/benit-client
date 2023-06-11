@@ -34,6 +34,7 @@ export default async function page({ searchParams }: Props) {
         {/* @ts-expect-error Async Server Component */}
         <CardList
           categoryId={searchParams.cateId}
+          status="approved"
           page={Number(searchParams.page ?? 1)}
         />
       </div>

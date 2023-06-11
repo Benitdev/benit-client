@@ -184,7 +184,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                     type="text"
                     id="title"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-600  focus:ring-pink-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-                    placeholder="Type product name"
+                    placeholder="Điền tên đoạn code"
                     required
                   />
                   <small className="font-bold capitalize text-pink-600">
@@ -220,7 +220,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                     setValue={setCodeValues}
                     code={codeValues.htmlCode ?? ""}
                     language="html"
-                    placeholder="Enter your html code"
+                    placeholder="Gõ code html ở đây nhen"
                   />
                 </div>
                 <div className="col-span-2">
@@ -235,7 +235,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                     setValue={setCodeValues}
                     code={codeValues.cssCode ?? ""}
                     language="css"
-                    placeholder="Enter your css code"
+                    placeholder="Gõ code css ở đây nhen"
                   />
                 </div>
                 <div className="col-span-2">
@@ -250,7 +250,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                     setValue={setCodeValues}
                     code={codeValues.jsCode ?? ""}
                     language="javascript"
-                    placeholder="Enter your javascript code"
+                    placeholder="Gõ code javascript ở đây nhen"
                   />
                 </div>
                 <div className="col-span-2">
@@ -265,7 +265,7 @@ const CodeCateForm = forwardRef(function CourseForm(
                     id="description"
                     rows={3}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-pink-500 dark:focus:ring-pink-500"
-                    placeholder="Write code template description here"
+                    placeholder="Điền mô tả, công dụng"
                   ></textarea>
                 </div>
               </div>
