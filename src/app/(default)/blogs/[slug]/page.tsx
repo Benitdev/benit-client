@@ -92,7 +92,7 @@ export default async function BlogDetailPage({ params }: Props) {
             className="object-cover"
           />
         </div>
-        {/* <PostContent content={post.content} /> */}
+        <PostContent content={post.content} />
         <IncrementView postId={post._id} />
         <div className="flex w-fit flex-wrap justify-start gap-2">
           <p>Tags: </p>
