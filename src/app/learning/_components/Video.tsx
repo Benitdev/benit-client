@@ -78,7 +78,7 @@ const Video = ({
     <>
       <YouTube
         videoId={videoID}
-        iframeClassName="w-full h-[400px] md:h-[550px] xl:h-[700px]"
+        iframeClassName="w-full h-[400px] md:h-[550px] xl:h-[600px]"
         onPause={onPause}
         onStateChange={onStateChange}
         // onEnd={onEnd}
