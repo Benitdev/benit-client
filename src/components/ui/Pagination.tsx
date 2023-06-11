@@ -17,7 +17,7 @@ export default function Pagination({ page, totalPage }: Props) {
   const id = searchParams.get("id")
   const tag = searchParams.get("tag")
   return totalPage ? (
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-xl bg-black/70 px-3 py-1">
+    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-xl bg-black/70 px-3 py-1">
       <div className="flex items-center gap-2 text-gray-400">
         <button disabled={page === 1}>
           {page !== 1 ? (

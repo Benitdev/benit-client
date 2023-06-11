@@ -147,7 +147,7 @@ const CodeTemplatePage = ({}: Props) => {
     ],
     []
   )
-  const { data, isLoading } = useCodeTemplate(filter)
+  const { data, isLoading } = useCodeTemplate({ ...filter, limit: 50 })
 
   const queryClient = useQueryClient()
   const deleteMutation = useMutation({

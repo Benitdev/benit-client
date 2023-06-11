@@ -61,6 +61,7 @@ export default function NewCodePage({ user }: Props) {
       toast.success(data.message)
       reset()
       setCodeValues({ htmlCode: "", cssCode: "", jsCode: "" })
+      router.refresh()
       router.push("/my-code")
     },
     onError: (error: any) => {

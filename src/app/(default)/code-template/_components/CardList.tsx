@@ -33,7 +33,7 @@ export default async function CardList({
       <h1 className="text-center">Danh mục này hiện tại không có Template</h1>
     )
   return (
-    <div className="relative grid grid-cols-1 gap-5 pb-10 md:grid-cols-2 lg:grid-cols-3">
+    <div className="relative grid grid-cols-1 gap-5 pb-10 lg:grid-cols-2 xl:grid-cols-3">
       {codeList.map((card, i) => (
         <CodeCard
           key={card._id}

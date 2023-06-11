@@ -26,4 +26,5 @@ export type TFilter = {
   title?: string
   status?: string
   role?: string
+  limit?: number
 }
