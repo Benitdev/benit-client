@@ -54,11 +54,10 @@ const Video = ({
   const onStateChange = (e: YouTubeEvent<number>) => {
     const { target } = e
     const time = target.getCurrentTime()
-    //  if (time - currentTime.current > 10 && !learned) {
-    //   setIsOpenModal(true)
-    //   target.seekTo(currentTime.current, true)
-    // } else currentTime.current = time
-    setCurrentTime(time)
+    if (time - currentTime > 10 && !learned) {
+      setIsOpenModal(true)
+      target.seekTo(currentTime, true)
+    } else setCurrentTime(time)
     if (target.getDuration() - currentTime < 30 && target.getDuration() !== 0) {
       if (!isLearnedNextLesson && !isProgressUpdated)
         authApi
@@ -79,7 +78,7 @@ const Video = ({
     <>
       <YouTube
         videoId={videoID}
-        iframeClassName="w-full h-[500px] lg:h-[700px]"
+        iframeClassName="w-full h-[400px] md:h-[550px] xl:h-[700px]"
         onPause={onPause}
         onStateChange={onStateChange}
         // onEnd={onEnd}
